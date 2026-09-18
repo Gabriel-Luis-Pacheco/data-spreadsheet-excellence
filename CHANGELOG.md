@@ -20,7 +20,7 @@ Deep audit/reliability release focused on gaps that were not adequately enforced
 - `evals/README.md` with telemetry/comparison methodology;
 - accessibility details including A1/table structure/alt-text checks;
 - locale-aware delivery guidance and Excel size/precision/date-system safeguards;
-- hardened GitHub Actions: least-privilege token permissions, immutable action SHAs, stale-run cancellation, and Dependabot monitoring.
+- hardened GitHub Actions: least-privilege token permissions, immutable current-major action SHAs, non-persistent checkout credentials, stale-run cancellation, exact CI dependency locks, and Dependabot monitoring.
 
 ### Improved
 - `SKILL.md` now separates execution depth from evidence strength;
