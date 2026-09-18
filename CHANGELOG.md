@@ -11,7 +11,7 @@ Deep audit/reliability release focused on gaps that were not adequately enforced
 - `SECURITY.md`;
 - canonical `VERSION` file and version-consistency validation;
 - `scripts/workbook_diff.py` for before/after semantic workbook QA;
-- executable regression tests in `tests/test_utilities.py`;
+- executable regression tests in `tests/test_utilities.py`;\n- `scripts/validate_harness.py` for machine-readable harness/OpenAI metadata validation;
 - `requirements-ci.txt` and dependency-aware GitHub Actions testing;
 - `assets/metric-contract-template.md`;
 - `assets/agent-state-template.yaml`;
