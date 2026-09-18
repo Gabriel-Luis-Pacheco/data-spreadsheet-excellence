@@ -13,7 +13,6 @@ ROOT = Path(__file__).resolve().parents[1]
 SKILL = ROOT / "SKILL.md"
 
 NAME_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
-LINK_RE = re.compile(r"\((references/[^)#\s]+|scripts/[^)#\s]+|assets/[^)#\s]+)\)")
 
 def fail(msg: str) -> None:
     print(f"[ERROR] {msg}", file=sys.stderr)
@@ -61,11 +60,11 @@ def main() -> int:
     if words > 4500:
         errors.append(f"SKILL.md has {words} whitespace words; likely too long")
 
-    for rel in LINK_RE.findall(text):
-        if not (ROOT / rel).exists():
-            errors.append(f"referenced file missing: {rel}")
-
     required_refs = [
+        "references/agent-harness.md",
+        "references/prompt-context-engineering.md",
+        "references/token-economy.md",
+        "references/coding-practices.md",
         "references/quick-reference.md",
         "references/tool-selection.md",
         "references/data-analysis-quality.md",
@@ -77,13 +76,30 @@ def main() -> int:
         "references/writing-review-handoff.md",
         "references/quality-gates.md",
         "references/patterns-recipes.md",
+        "references/source-notes.md",
     ]
     for rel in required_refs:
         if not (ROOT / rel).exists():
             errors.append(f"required reference missing: {rel}")
 
-    if not (ROOT / "agents" / "openai.yaml").exists():
-        errors.append("agents/openai.yaml missing")
+    required_files = [
+        "AGENTS.md",
+        "agents/openai.yaml",
+        "harness/harness.yaml",
+        "harness/README.md",
+        ".github/copilot-instructions.md",
+        ".github/instructions/python.instructions.md",
+        "assets/task-prompt-template.md",
+        "scripts/context_budget.py",
+    ]
+    for rel in required_files:
+        if not (ROOT / rel).exists():
+            errors.append(f"required file missing: {rel}")
+
+    local_path_pattern = r"\x60((?:references|scripts|assets|harness)/[^\x60\s]+)\x60"
+    for rel in sorted(set(re.findall(local_path_pattern, text))):
+        if not (ROOT / rel).exists():
+            errors.append(f"SKILL.md local path missing: {rel}")
 
     if errors:
         for e in errors:
