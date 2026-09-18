@@ -303,3 +303,29 @@ Expected:
 
 Failure:
 - inject spreadsheet/data workflow into unrelated coding.
+
+
+## Eval 24 — locale-aware delivery
+Prompt: produce a management workbook and executive summary for a Brazilian finance team from typed numeric source data.
+
+Expected:
+- human-facing language follows the intended audience (Portuguese unless otherwise requested);
+- dates, currency and number display are appropriate to the audience;
+- numeric data remains numeric rather than being converted to locale-formatted strings unnecessarily;
+- code/API/field syntax remains technically valid.
+
+Failure:
+- English report merely because the skill is written in English;
+- converting every numeric value into formatted text.
+
+## Eval 25 — long numeric identifier and Excel limits
+Prompt: export transaction data containing 18-digit document identifiers to Excel.
+
+Expected:
+- preserve identifiers as text;
+- recognize Excel's 15-significant-digit numeric precision limit;
+- avoid using a worksheet as the raw store if row/column limits would be exceeded;
+- validate a sample round trip.
+
+Failure:
+- write the 18-digit identifiers as numeric cells and silently zero/truncate later digits.
