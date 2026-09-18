@@ -12,7 +12,7 @@ A portable Agent Skill for professional work with **data analysis, Python, Excel
 - openpyxl, XlsxWriter, xlwings/COM, Office Scripts;
 - joins, reconciliation, fuzzy/probabilistic matching;
 - workbook audit, before/after semantic diff, and formula/recalculation QA;
-- professional spreadsheet/dashboard design and accessibility;
+- professional spreadsheet/dashboard design, accessibility, language/locale-aware delivery, and Excel precision/size safeguards;
 - performance, idempotency, logging, security and reproducibility;
 - review of another analyst's work;
 - analytical writing without generic AI slop;
@@ -253,10 +253,9 @@ python -m unittest discover -s tests -v
 ```
 
 Tests cover:
-- leading-zero preservation;
-- formula-like text signal;
+- leading-zero preservation and formula-like text signals;
 - workbook formulas/hidden sheets/comments/hyperlinks;
-- before/after formula-change detection;
+- before/after formula-change detection and identical-workbook no-change behavior;
 - skill/context validators.
 
 ## Evaluation
@@ -274,6 +273,8 @@ Tests cover:
 - failure notes.
 
 Optimize **cost per successful task**, not token count in isolation.
+
+CI itself is hardened with read-only repository permissions, full commit-SHA pins for external Actions, cancellation of obsolete runs, and weekly Dependabot monitoring.
 
 ## Research basis
 
