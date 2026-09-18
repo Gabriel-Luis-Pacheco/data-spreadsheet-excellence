@@ -1,8 +1,8 @@
 # Data & Spreadsheet Excellence
 
-A portable Agent Skill for professional work with **data analysis, Python, Excel, spreadsheets, reconciliation, automation, review, visualization, and analytical writing**.
+A portable Agent Skill for professional work with **data analysis, Python, Excel, spreadsheets, reconciliation, automation, review, visualization, analytical writing, and efficient AI execution**.
 
-> A successful analytical task is not merely code that runs or a workbook that opens. The result should be correct, decision-useful, auditable, reproducible, efficient, understandable, and visually intentional.
+> A successful analytical task is not merely code that runs or a workbook that opens. The result should be correct, decision-useful, auditable, reproducible, efficient, understandable, and visually intentional — without wasting context, tool calls, or output tokens.
 
 ## What it covers
 
@@ -15,7 +15,38 @@ A portable Agent Skill for professional work with **data analysis, Python, Excel
 - professional spreadsheet and dashboard design;
 - performance, idempotency, logging, security and reproducibility;
 - review of another analyst's work;
-- concise analytical writing without generic AI slop.
+- concise analytical writing without generic AI slop;
+- prompt/context engineering;
+- token, latency and tool-call economy;
+- adaptive agent execution (LEAN / BALANCED / DEEP);
+- AI coding discipline and minimal-diff workflows.
+
+## Efficiency harness
+
+The skill now includes an explicit execution harness.
+
+It does **not** mean “always use fewer tokens.” It means:
+
+- load only context that can change the next decision;
+- keep reusable instructions stable;
+- use progressive disclosure;
+- avoid rereading unchanged content;
+- prefer deterministic scripts for deterministic work;
+- use the smallest relevant toolset;
+- keep outputs proportional to the consumer;
+- escalate reasoning/verification only when risk or ambiguity warrants it;
+- never trade away material correctness, safety, or validation merely to save tokens.
+
+Portable defaults live in:
+
+`harness/harness.yaml`
+
+Detailed guidance:
+
+- `references/agent-harness.md`
+- `references/prompt-context-engineering.md`
+- `references/token-economy.md`
+- `references/coding-practices.md`
 
 ## Architecture
 
@@ -23,8 +54,16 @@ The skill uses progressive disclosure:
 
 ```text
 SKILL.md
+AGENTS.md
 agents/openai.yaml
+harness/
+  harness.yaml
+  README.md
 references/
+  agent-harness.md
+  prompt-context-engineering.md
+  token-economy.md
+  coding-practices.md
   quick-reference.md
   tool-selection.md
   data-analysis-quality.md
@@ -39,20 +78,53 @@ references/
   source-notes.md
 scripts/
   validate_skill.py
+  context_budget.py
   inspect_workbook.py
   profile_tabular.py
 assets/
+  task-prompt-template.md
   delivery-summary-template.md
   reconciliation-summary-template.md
   review-report-template.md
+.github/
+  copilot-instructions.md
+  instructions/python.instructions.md
+  workflows/validate.yml
 EVALS.md
 ```
 
-The main `SKILL.md` stays compact. Deeper references are loaded only when required.
+The main `SKILL.md` stays compact. Detailed references are loaded only when the task needs them.
+
+## Adaptive modes
+
+### LEAN
+For clear, reversible, low-risk work.
+
+- little or no formal planning;
+- 0–1 reference initially;
+- one focused verification;
+- concise response.
+
+### BALANCED
+Default for normal analysis and automation.
+
+- brief plan/state;
+- 1–3 references initially;
+- targeted + relevant end-to-end checks;
+- compact handoff.
+
+### DEEP
+For high-risk, ambiguous, F3 Excel, complex debugging/refactoring, conflicting evidence, or failed validation.
+
+- explicit completion criteria;
+- stronger evidence and independent verification;
+- additional context only when it resolves a material uncertainty.
+
+The skill escalates rather than starting deep by default.
 
 ## Install in Codex
 
-Use Codex's built-in `$skill-installer` and provide this repository:
+Use Codex's built-in `$skill-installer` and provide:
 
 ```text
 https://github.com/Gabriel-Luis-Pacheco/data-spreadsheet-excellence
@@ -71,6 +143,22 @@ Then:
 Use $data-spreadsheet-excellence to audit this workbook.
 ```
 
+## Efficient task prompt
+
+For larger tasks, this is usually enough:
+
+```text
+Goal:
+Context:
+Constraints:
+Output:
+Done when:
+```
+
+See `assets/task-prompt-template.md`.
+
+Do not turn every request into a giant prompt. Specificity matters more than length.
+
 ## Core philosophy
 
 - Decision before tool.
@@ -82,6 +170,8 @@ Use $data-spreadsheet-excellence to audit this workbook.
 - Formula written is not formula recalculated.
 - A spreadsheet is an information product, not a colorful grid.
 - Specific writing beats polished generic prose.
+- Useful context beats maximum context.
+- Minimal relevant tools beat maximum tool access.
 - High-risk work gets stronger assurance.
 - Low-risk work should not become process theater.
 
@@ -92,6 +182,14 @@ Validate the skill:
 ```bash
 python scripts/validate_skill.py
 ```
+
+Inspect instruction/context growth:
+
+```bash
+python scripts/context_budget.py --check
+```
+
+The token figure reported by that script is intentionally a **rough proxy**, not a billing/tokenizer truth.
 
 First-pass workbook inventory:
 
@@ -109,16 +207,25 @@ The profiler preserves CSV/Excel values as text where practical by default to re
 
 ## Evaluation
 
-`EVALS.md` contains scenarios for messy ERP data, XLSM fidelity, reconciliation, analyst review, dashboard design, causal claims, large data, Google Sheets automation, writing quality, and low-risk tasks.
+`EVALS.md` covers spreadsheet/data quality and also the efficiency harness: selective context loading, tool economy, minimal diffs, adaptive depth, compaction/state handling, and prompt quality.
 
 ## Research basis
 
-The guidance was refined against current Agent Skills/OpenAI skill-authoring guidance, ICAEW spreadsheet practice, the 2025 AQuA Book, reproducible analytical pipeline guidance, pandas/Polars/openpyxl/XlsxWriter/Microsoft/Google documentation, and accessibility/data-visualization guidance.
+The guidance is periodically refreshed against current primary documentation, including:
+
+- OpenAI Codex/Agent Skills, prompt engineering, prompt caching, compaction, cost/latency and skill-evaluation guidance;
+- GitHub Copilot context/custom-instruction efficiency guidance;
+- Anthropic prompt/long-context guidance;
+- Google Gemini prompt/long-context/caching guidance;
+- ICAEW spreadsheet practice;
+- the AQuA Book and reproducible analytical pipeline guidance;
+- pandas/Polars/openpyxl/XlsxWriter/Microsoft/Google documentation;
+- accessibility and data-visualization guidance.
 
 See `references/source-notes.md`.
 
 ## Version
 
-**v5.0.0**
+**v6.0.0 — Efficiency Harness**
 
 MIT licensed.
