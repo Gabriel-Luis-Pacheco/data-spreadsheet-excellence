@@ -47,6 +47,7 @@ Detailed guidance:
 - `references/prompt-context-engineering.md`
 - `references/token-economy.md`
 - `references/coding-practices.md`
+- `references/provider-adapters.md` — provider-specific mapping without duplicating the core
 
 ## Architecture
 
@@ -64,6 +65,7 @@ references/
   prompt-context-engineering.md
   token-economy.md
   coding-practices.md
+  provider-adapters.md
   quick-reference.md
   tool-selection.md
   data-analysis-quality.md
