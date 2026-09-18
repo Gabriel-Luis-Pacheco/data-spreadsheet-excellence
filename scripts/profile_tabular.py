@@ -222,7 +222,7 @@ def main() -> int:
         raise SystemExit(f"Unsupported format: {ext}")
 
     result = {
-        "path": str(path.resolve()),
+        "path": str(path),
         "sheet": args.sheet,
         "read_mode": "pandas-inferred" if args.infer_types else "preserve-text-where-practical",
         "row_limit": args.nrows,
