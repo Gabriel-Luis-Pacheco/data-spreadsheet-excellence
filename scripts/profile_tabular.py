@@ -7,12 +7,14 @@ Outputs JSON and never modifies the source.
 Safety default:
 - CSV/Excel values are read as strings where practical to preserve identifiers
   such as 00123. Use --infer-types only when pandas inference is desired.
+- Formula-like text is counted for review; this script does not sanitize it.
 """
 from __future__ import annotations
 
 import argparse
 import json
 from pathlib import Path
+
 
 def safe_scalar(v):
     try:
@@ -23,6 +25,7 @@ def safe_scalar(v):
     if isinstance(v, (str, int, float, bool)) or v is None:
         return v
     return str(v)
+
 
 def numeric_summary(pd, s):
     parsed = pd.to_numeric(s, errors="coerce")
@@ -36,6 +39,22 @@ def numeric_summary(pd, s):
         result["numeric_max"] = safe_scalar(parsed.max())
     return result
 
+
+def spreadsheet_text_risk_counts(s) -> dict[str, int]:
+    # =, +, and @ are stronger formula-like text signals.
+    # Leading '-' is tracked separately because negative numbers are legitimate.
+    values = s.dropna().astype(str)
+    if values.empty:
+        return {
+            "formula_like_text_count": 0,
+            "dash_prefixed_text_count": 0,
+        }
+    return {
+        "formula_like_text_count": int(values.str.match(r"^[=+@]").sum()),
+        "dash_prefixed_text_count": int(values.str.startswith("-").sum()),
+    }
+
+
 def profile_df(pd, df, top_n: int) -> dict:
     out = {
         "rows": int(len(df)),
@@ -43,6 +62,7 @@ def profile_df(pd, df, top_n: int) -> dict:
         "duplicate_rows": int(df.duplicated().sum()),
         "column_profiles": [],
     }
+
     for col in df.columns:
         s = df[col]
         p = {
@@ -51,7 +71,9 @@ def profile_df(pd, df, top_n: int) -> dict:
             "null_count": int(s.isna().sum()),
             "null_rate": float(s.isna().mean()) if len(s) else 0.0,
             "unique_count": int(s.nunique(dropna=True)),
+            **spreadsheet_text_risk_counts(s),
         }
+
         nonnull = s.dropna()
         if len(nonnull):
             try:
@@ -70,18 +92,28 @@ def profile_df(pd, df, top_n: int) -> dict:
                     p.update(nsum)
             except Exception:
                 pass
+
         out["column_profiles"].append(p)
+
     return out
+
 
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("path")
     parser.add_argument("--sheet")
     parser.add_argument("--top", type=int, default=5)
-    parser.add_argument("--nrows", type=int, default=None,
-                        help="Optional row limit for first-pass profiling of very large CSV/Excel files.")
-    parser.add_argument("--infer-types", action="store_true",
-                        help="Allow pandas dtype inference instead of preserving CSV/Excel values as strings.")
+    parser.add_argument(
+        "--nrows",
+        type=int,
+        default=None,
+        help="Optional row limit for first-pass profiling of very large CSV/Excel files.",
+    )
+    parser.add_argument(
+        "--infer-types",
+        action="store_true",
+        help="Allow pandas dtype inference instead of preserving CSV/Excel values as strings.",
+    )
     parser.add_argument("--pretty", action="store_true")
     args = parser.parse_args()
 
@@ -93,6 +125,7 @@ def main() -> int:
     path = Path(args.path)
     if not path.exists():
         raise SystemExit(f"File not found: {path}")
+
     ext = path.suffix.lower()
     preserve_text = not args.infer_types
 
@@ -124,12 +157,16 @@ def main() -> int:
         "limitations": [
             "Automated profiling is triage, not final analytical judgment.",
             "CSV/Excel safe mode preserves text to reduce identifier loss; numeric_parse_rate is only a diagnostic.",
+            "formula_like_text_count is a review signal, not proof of malicious content.",
+            "dash_prefixed_text_count is separate because legitimate negative numbers are common.",
             "Excel cell storage/type semantics can still require workbook-aware inspection.",
             "Large files may require selective columns, chunks, Polars, or DuckDB.",
         ],
     }
+
     print(json.dumps(result, indent=2 if args.pretty else None, ensure_ascii=False, default=str))
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())
