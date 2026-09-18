@@ -273,3 +273,46 @@ The comparator checks sheet order/state, defined names, formulas/content hashes 
 Use `--fail-on-risk` as an opt-in regression gate.
 
 Important: this is an **OOXML/openpyxl first-pass comparator**, not proof of F3 fidelity. It does not recalculate formulas, run macros, refresh queries, or guarantee preservation of every Excel object.
+
+
+## 21. Excel boundary hazards: size, precision, and dates
+
+Excel is a delivery/analysis application, not an unlimited typed database.
+
+### Worksheet size
+
+A worksheet supports at most:
+- **1,048,576 rows**
+- **16,384 columns**
+
+Do not design a pipeline that needs to dump larger raw datasets into one worksheet. Aggregate/filter for Excel and keep the detailed layer in Parquet, DuckDB, a database, or another suitable store.
+
+### Numeric precision
+
+Excel numeric precision is limited to **15 significant digits**.
+
+Therefore:
+- account numbers, card-like numbers, tax IDs, tracking IDs, SAP/document codes, and other digit-only identifiers may need to be text;
+- never “convert to number for convenience” when exact digit preservation matters;
+- verify source-to-workbook round trips for long digit strings.
+
+### Financial arithmetic
+
+Binary floating-point can introduce tiny representation differences. For financial controls:
+- define materiality/tolerance explicitly;
+- use integer minor units (for example cents) or decimal/fixed-point arithmetic when exactness requires it;
+- do not round intermediate values simply to make a reconciliation pass unless the business rule says to.
+
+### Excel date systems
+
+Excel workbooks can use different date epochs (1900 or 1904). Raw serial values can therefore represent different calendar dates across workbooks.
+
+When copying/merging workbooks or manipulating date serials:
+- inspect the workbook date system;
+- prefer actual date/datetime objects over hand-written serial arithmetic;
+- test cross-workbook date transfer;
+- treat unexplained multi-year shifts as a potential date-system mismatch.
+
+### Precision-as-displayed
+
+Excel's “precision as displayed” option can permanently alter stored values to the displayed precision. Treat changing this setting as consequential and do not enable it casually.
