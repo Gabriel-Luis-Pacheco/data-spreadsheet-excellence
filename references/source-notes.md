@@ -150,6 +150,17 @@ Research refresh: 2026-09-18.
 
 Provider-specific details change. The skill keeps durable principles portable and isolates provider-specific mappings in the harness/docs.
 
+## Repository / CI security
+
+- GitHub — Secure use reference:
+  https://docs.github.com/en/actions/reference/security/secure-use
+  - use least privilege for `GITHUB_TOKEN`;
+  - pin actions to full-length commit SHAs for immutable execution.
+
+- GitHub — Managing Actions settings:
+  https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository
+  - repositories can require full-length SHA pinning.
+
 ## Spreadsheet practice
 
 - ICAEW, 20 Principles for Good Spreadsheet Practice (2024):
@@ -162,6 +173,25 @@ Provider-specific details change. The skill keeps durable principles portable an
   - avoid merged/split cells in data tables;
   - meaningful content/instructions at A1;
   - alt text and Accessibility Checker.
+
+- Microsoft — Excel specifications and limits:
+  https://support.microsoft.com/excel/excel-specifications-and-limits
+  - 1,048,576 rows × 16,384 columns per worksheet;
+  - 15-digit numeric precision.
+
+- Microsoft — Format numbers as text:
+  https://support.microsoft.com/excel/format-numbers-as-text
+  - digit-only codes/identifiers with 16+ digits should be treated as text when exact preservation matters.
+
+- Microsoft — Date systems in Excel:
+  https://support.microsoft.com/excel/date-systems-in-excel
+  - Excel supports 1900 and 1904 date systems;
+  - the serial systems differ by 1,462 days.
+
+- Microsoft — Change formula recalculation/precision:
+  https://support.microsoft.com/excel/change-formula-recalculation-iteration-or-precision-in-excel
+  - Excel stores numbers at up to 15 digits of precision;
+  - precision-as-displayed can permanently change stored values.
 
 ## Analytical quality
 
