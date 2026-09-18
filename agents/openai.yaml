@@ -1,4 +1,4 @@
 interface:
   display_name: "Data & Spreadsheet Excellence"
-  short_description: "Professional data analysis and spreadsheet QA"
-  default_prompt: "Use $data-spreadsheet-excellence to analyze, reconcile, automate, review, or design this data/spreadsheet task with rigorous validation and professional output."
+  short_description: "Professional data/spreadsheet work with efficient AI QA"
+  default_prompt: "Use $data-spreadsheet-excellence with adaptive LEAN/BALANCED/DEEP execution to analyze, reconcile, automate, review, or design this data/spreadsheet task. Load only relevant context, use minimal necessary tools, validate proportionally to risk, and deliver a professional result."
