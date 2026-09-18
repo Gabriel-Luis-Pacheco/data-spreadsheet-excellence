@@ -108,6 +108,7 @@ def main() -> int:
         "scripts/validate_harness.py",
         "scripts/workbook_diff.py",
         "tests/test_utilities.py",
+        "requirements.txt",
         "requirements-ci.txt",
         "evals/README.md",
     ]
@@ -154,6 +155,18 @@ def main() -> int:
             if not action_ref_re.fullmatch(value):
                 errors.append(
                     f"{workflow_path.relative_to(ROOT)} action must use full 40-char commit SHA: {value}"
+                )
+
+    ci_requirements = ROOT / "requirements-ci.txt"
+    if ci_requirements.exists():
+        pin_re = re.compile(r"^[A-Za-z0-9_.-]+==[^=<>!~\\s]+$")
+        for raw_line in ci_requirements.read_text(encoding="utf-8").splitlines():
+            line = raw_line.strip()
+            if not line or line.startswith("#"):
+                continue
+            if not pin_re.fullmatch(line):
+                errors.append(
+                    f"requirements-ci.txt must use exact == pins for reproducible CI: {line}"
                 )
 
     if not VERSION_FILE.exists():
