@@ -2,14 +2,24 @@
 
 `harness.yaml` is a **portable advisory configuration** for agents using this skill.
 
-It does not magically configure every model. A hosting application, Codex setup, or custom agent can translate its concepts into provider-specific controls such as model selection, reasoning effort, verbosity, toolsets, caching, and compaction.
+It separates two controls:
+
+- **execution mode** — LEAN / BALANCED / DEEP, based on technical complexity and ambiguity;
+- **assurance tier** — A0 / A1 / A2 / A3, based on consequence and required evidence.
+
+A hosting application, Codex setup, or custom agent can map these concepts into provider-specific model/reasoning, verbosity, toolsets, confirmations, caching, and compaction.
 
 Core ideas:
-- adaptive LEAN / BALANCED / DEEP execution;
 - progressive context loading;
 - minimal relevant tools;
+- explicit untrusted-content boundary;
 - targeted testing first;
 - deterministic scripts for deterministic work;
-- quality floor that token savings cannot override.
+- evidence strength proportional to consequence;
+- token savings never override correctness/security.
 
-Detailed behavior: [../references/agent-harness.md](../references/agent-harness.md)
+Detailed behavior:
+- [agent harness](../references/agent-harness.md)
+- [assurance model](../references/assurance-model.md)
+- [agent security](../references/agent-security.md)
+- [provider adapters](../references/provider-adapters.md)
