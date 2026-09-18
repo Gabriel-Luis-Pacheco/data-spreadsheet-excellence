@@ -174,6 +174,20 @@ class UtilityTests(unittest.TestCase):
             self.assertEqual(proc.returncode, 0)
             self.assertIn("date_system_changed", payload["risk_flags"])
 
+    def test_file_manifest_hashes_without_reading_content_into_output(self) -> None:
+        import hashlib
+
+        with tempfile.TemporaryDirectory() as td:
+            path = Path(td) / "input.csv"
+            content = b"secret-ish-source-data\n"
+            path.write_bytes(content)
+
+            proc, payload = run_json("file_manifest.py", str(path))
+            self.assertEqual(proc.returncode, 0)
+            self.assertEqual(payload["hash_algorithm"], "sha256")
+            self.assertEqual(payload["files"][0]["sha256"], hashlib.sha256(content).hexdigest())
+            self.assertNotIn("secret-ish-source-data", json.dumps(payload))
+
     def test_repository_validators_pass(self) -> None:
         for script, extra in [
             ("validate_skill.py", []),
