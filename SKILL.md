@@ -290,6 +290,7 @@ Use `references/quality-gates.md`.
 - `references/prompt-context-engineering.md` — prompts, context hierarchy, caching-aware structure.
 - `references/token-economy.md` — task-level token/cost/latency economy.
 - `references/coding-practices.md` — code editing/testing discipline.
+- `references/provider-adapters.md` — map the portable harness to Codex/OpenAI, Copilot, Claude, Gemini, or generic API agents without duplicating domain rules.
 
 **Domain**
 - `references/quick-reference.md`
