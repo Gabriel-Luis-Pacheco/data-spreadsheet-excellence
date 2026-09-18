@@ -139,3 +139,19 @@ Provider adapters should translate:
 - toolset configuration.
 
 They should **not** fork the domain logic. Data, Excel, reconciliation, QA, and writing standards remain canonical in the shared skill references.
+
+
+## Assurance mapping
+
+Do not map A0–A3 directly to model size.
+
+Execution mode and assurance solve different problems:
+
+- **LEAN/BALANCED/DEEP** may influence model/reasoning depth, planning and context breadth.
+- **A0/A1/A2/A3** should primarily influence validation strength, independent checks, provenance, confirmation gates and completion language.
+
+Examples:
+- LEAN + A3: narrow regulated formula verification.
+- DEEP + A0: technically difficult exploratory research.
+
+A stronger model may be appropriate for A3 when reasoning difficulty also warrants it, but “high assurance” is not achieved merely by selecting a larger model.
