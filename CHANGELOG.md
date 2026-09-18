@@ -10,6 +10,7 @@ Major prompt/context engineering and agent-efficiency release.
 - `references/prompt-context-engineering.md`;
 - `references/token-economy.md`;
 - `references/coding-practices.md`;
+- `references/provider-adapters.md` for Codex/OpenAI, Copilot, Claude, Gemini, and generic harness mapping;
 - portable `harness/harness.yaml`;
 - concise repository `AGENTS.md`;
 - GitHub Copilot repository/path-specific instructions;
