@@ -25,27 +25,47 @@ def run_json(script: str, *args: str) -> tuple[subprocess.CompletedProcess[str],
 
 
 class UtilityTests(unittest.TestCase):
-    def test_profile_preserves_identifiers_and_flags_formula_like_text(self) -> None:
+    def test_profile_safe_mode_preserves_text_and_hides_values(self) -> None:
         with tempfile.TemporaryDirectory() as td:
             path = Path(td) / "sample.csv"
             path.write_text(
-                'id,amount,note\n'
-                '00123,10,ok\n'
-                '00456,20,"=HYPERLINK(""https://example.com"")"\n',
+                'id,amount,status,note\n'
+                '00123,10,NA,ok\n'
+                '00456,20,,"=HYPERLINK(""https://example.com"")"\n',
                 encoding="utf-8",
             )
 
             proc, payload = run_json("profile_tabular.py", str(path))
             self.assertEqual(proc.returncode, 0)
             self.assertEqual(payload["read_mode"], "preserve-text-where-practical")
+            self.assertFalse(payload["values_included"])
 
             id_profile = next(x for x in payload["column_profiles"] if x["name"] == "id")
-            top_values = {x["value"] for x in id_profile.get("top_values", [])}
-            self.assertIn("00123", top_values)
-            self.assertIn("00456", top_values)
+            self.assertNotIn("top_values", id_profile)
+            self.assertNotIn("sample_min", id_profile)
+
+            status_profile = next(x for x in payload["column_profiles"] if x["name"] == "status")
+            self.assertEqual(status_profile["null_count"], 0)
+            self.assertEqual(status_profile["blank_count"], 1)
+            self.assertEqual(status_profile["unique_count"], 2)
 
             note_profile = next(x for x in payload["column_profiles"] if x["name"] == "note")
             self.assertEqual(note_profile["formula_like_text_count"], 1)
+
+            proc_full, payload_full = run_json(
+                "profile_tabular.py",
+                str(path),
+                "--include-values",
+            )
+            self.assertEqual(proc_full.returncode, 0)
+            id_full = next(x for x in payload_full["column_profiles"] if x["name"] == "id")
+            top_values = {x["value"] for x in id_full.get("top_values", [])}
+            self.assertIn("00123", top_values)
+            self.assertIn("00456", top_values)
+
+            status_full = next(x for x in payload_full["column_profiles"] if x["name"] == "status")
+            status_values = {x["value"] for x in status_full.get("top_values", [])}
+            self.assertIn("NA", status_values)
 
     def test_inspect_workbook_reports_formula_hidden_comment_and_hyperlink(self) -> None:
         from openpyxl import Workbook
