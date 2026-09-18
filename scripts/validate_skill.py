@@ -98,6 +98,7 @@ def main() -> int:
         "harness/README.md",
         ".github/copilot-instructions.md",
         ".github/instructions/python.instructions.md",
+        ".github/dependabot.yml",
         "assets/task-prompt-template.md",
         "assets/metric-contract-template.md",
         "assets/agent-state-template.yaml",
@@ -116,6 +117,42 @@ def main() -> int:
     for rel in sorted(set(re.findall(local_path_pattern, text))):
         if not (ROOT / rel).exists():
             errors.append(f"SKILL.md local path missing: {rel}")
+
+    # Security/efficiency guardrails for repository workflows.
+    workflow_dir = ROOT / ".github" / "workflows"
+    workflow_files = sorted(list(workflow_dir.glob("*.yml")) + list(workflow_dir.glob("*.yaml")))
+    if not workflow_files:
+        errors.append("no GitHub Actions workflow found")
+
+    action_ref_re = re.compile(r"^[^@\\s]+@([0-9a-fA-F]{40})$")
+    for workflow_path in workflow_files:
+        workflow_text = workflow_path.read_text(encoding="utf-8")
+
+        if "permissions:" not in workflow_text or not re.search(
+            r"(?m)^\\s*contents:\\s*read\\s*$",
+            workflow_text,
+        ):
+            errors.append(f"{workflow_path.relative_to(ROOT)} must declare contents: read")
+
+        if "concurrency:" not in workflow_text or not re.search(
+            r"(?m)^\\s*cancel-in-progress:\\s*true\\s*$",
+            workflow_text,
+        ):
+            errors.append(
+                f"{workflow_path.relative_to(ROOT)} must cancel obsolete concurrent runs"
+            )
+
+        for line in workflow_text.splitlines():
+            stripped = line.strip()
+            if not stripped.startswith("- uses:") and not stripped.startswith("uses:"):
+                continue
+            value = stripped.split("uses:", 1)[1].strip().split("#", 1)[0].strip()
+            if value.startswith("./"):
+                continue
+            if not action_ref_re.fullmatch(value):
+                errors.append(
+                    f"{workflow_path.relative_to(ROOT)} action must use full 40-char commit SHA: {value}"
+                )
 
     if not VERSION_FILE.exists():
         errors.append("VERSION missing")
