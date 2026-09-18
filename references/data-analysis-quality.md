@@ -235,3 +235,18 @@ Preserve:
 - review notes.
 
 The goal is not bureaucracy. It is enabling another competent analyst to reproduce or challenge the result.
+
+
+## 17. Numerical precision and financial materiality
+
+Choose numeric representation from the decision requirement.
+
+- Use normal floating point when its precision is adequate for the analysis.
+- Use decimal/fixed-point or integer minor units when exact currency/accounting arithmetic requires it.
+- State rounding rules and when they are applied.
+- Compare money using a documented tolerance/materiality rule rather than ad hoc equality.
+- Distinguish source precision from display precision.
+- Avoid rounding each intermediate step unless that is part of the business rule.
+- Reconcile totals using the same currency, FX basis, unit scale, and rounding policy.
+
+A result that differs by 0.01 can be immaterial in one analysis and a control failure in another; encode that distinction explicitly.
