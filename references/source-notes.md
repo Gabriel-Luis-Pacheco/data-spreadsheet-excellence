@@ -79,6 +79,37 @@ Research refresh: 2026-09-18.
   https://developers.openai.com/blog/eval-skills
   - test skill activation and behavior with representative evals.
 
+## Agent security / prompt injection
+
+- OpenAI — Designing AI agents to resist prompt injection:
+  https://openai.com/index/designing-agents-to-resist-prompt-injection/
+  - external content can contain adversarial instructions;
+  - layered defenses are required.
+
+- OpenAI — Understanding prompt injections:
+  https://openai.com/safety/prompt-injections/
+  - distinguish trusted instructions from attacker-controlled content;
+  - defense in depth, monitoring and confirmations.
+
+- OpenAI — Deep research security guidance:
+  https://developers.openai.com/api/docs/guides/deep-research
+  - prompt injection can arrive through web/file/MCP retrieval;
+  - data exfiltration is a key agent risk.
+
+- OpenAI — MCP/connectors security:
+  https://developers.openai.com/api/docs/guides/tools-connectors-mcp
+  - remote tool content and actions require least privilege and prompt-injection safeguards.
+
+- OpenAI — Computer-use integration:
+  https://developers.openai.com/api/docs/guides/tools-computer-use-integration
+  - suspicious prompt injection should block/interrupt consequential action;
+  - sensitive transmission requires explicit trusted authorization.
+
+- OWASP Top 10 for LLM Applications 2025 — LLM01 Prompt Injection:
+  https://owasp.org/www-project-top-10-for-large-language-model-applications/
+  - includes indirect injection from external files/web content;
+  - RAG/fine-tuning alone do not eliminate the class of risk.
+
 ## Cross-provider context/prompt research
 
 - GitHub Copilot — optimize AI usage:
@@ -125,6 +156,12 @@ Provider-specific details change. The skill keeps durable principles portable an
   https://www.icaew.com/technical/technology/excel-community/20-principles-for-good-spreadsheet-practice-2024-edition
 - Government Analysis Function accessibility guidance:
   https://analysisfunction.civilservice.gov.uk/policy-store/making-spreadsheets-accessible-a-brief-checklist-of-the-basics/
+- Microsoft — Excel accessibility best practices:
+  https://support.microsoft.com/accessibility/excel-accessibility-best-practices-with-excel-spreadsheets
+  - simple tables and explicit headers;
+  - avoid merged/split cells in data tables;
+  - meaningful content/instructions at A1;
+  - alt text and Accessibility Checker.
 
 ## Analytical quality
 
