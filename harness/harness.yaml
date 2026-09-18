@@ -1,0 +1,100 @@
+version: 1
+name: data-spreadsheet-excellence-harness
+purpose: adaptive high-quality execution with minimal wasted context, tool calls, and output
+
+# Advisory portable defaults. A host agent/harness may map these concepts to
+# provider-specific model, reasoning, caching, compaction, and tool controls.
+defaults:
+  mode: adaptive
+  quality_floor: correctness_over_token_savings
+  response_style: concise_by_default
+  context_policy:
+    progressive_disclosure: true
+    search_before_full_read: true
+    avoid_bulk_reference_loading: true
+    avoid_re_read_unchanged_content: true
+    summarize_large_tool_outputs: true
+    carry_decisions_not_transcripts: true
+    start_new_context_for_unrelated_objective: true
+  tool_policy:
+    prefer_deterministic_scripts: true
+    batch_independent_calls: true
+    keep_result_ranges_bounded: true
+    use_minimal_relevant_toolset: true
+    stop_when_evidence_sufficient: true
+  coding_policy:
+    minimal_diff: true
+    follow_existing_patterns: true
+    avoid_unnecessary_dependencies: true
+    targeted_tests_first: true
+    broaden_tests_by_blast_radius: true
+  output_policy:
+    no_prompt_restatement: true
+    no_tool_call_narration: true
+    lead_with_result: true
+    disclose_material_limitations: true
+
+modes:
+  lean:
+    use_when:
+      - low_risk
+      - clear_scope
+      - reversible_change
+    planning: implicit_or_one_line
+    initial_reference_load: 0_to_1
+    verification: one_focused_check
+    subagents: avoid
+    verbosity: low
+
+  balanced:
+    use_when:
+      - ordinary_analysis
+      - moderate_automation
+      - reconciliation
+      - multi_file_clear_scope
+    planning: brief
+    initial_reference_load: 1_to_3
+    verification: targeted_plus_relevant_end_to_end
+    subagents: only_if_separable
+    verbosity: moderate
+
+  deep:
+    use_when:
+      - high_risk
+      - f3_excel
+      - ambiguous_requirements
+      - complex_debugging
+      - large_refactor
+      - conflicting_evidence
+      - failed_validation
+    planning: explicit
+    initial_reference_load: only_needed_no_arbitrary_cap
+    verification: independent_or_second_path
+    subagents: only_for_distinct_context_or_parallel_value
+    verbosity: proportional_to_evidence
+
+escalation:
+  from_lean_to_balanced:
+    - unexpected_data_quality_problem
+    - more_than_one_material_dependency
+    - failed_focused_verification
+    - unclear_success_criterion
+  from_balanced_to_deep:
+    - material_financial_or_regulatory_risk
+    - conflicting_sources
+    - repeated_test_failure
+    - uncertain_workbook_preservation
+    - causal_or_statistical_claim_is_decision_critical
+
+stop_conditions:
+  - requested_artifact_complete
+  - applicable_quality_gates_pass
+  - material_exceptions_disclosed
+  - remaining_uncertainty_cannot_be_resolved_with_available_evidence
+  - additional_work_has_low_expected_value
+
+provider_mapping:
+  note: >
+    Map lean/balanced/deep to the provider's current model/reasoning/verbosity
+    controls only after checking current documentation and evaluation results.
+    Do not hard-code a specific model family as a universal rule.
