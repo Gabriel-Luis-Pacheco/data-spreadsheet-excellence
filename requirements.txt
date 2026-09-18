@@ -1,0 +1,5 @@
+# Optional runtime dependencies for the bundled utilities.
+# The Agent Skill itself is Markdown/YAML and does not require these packages
+# until the relevant Python utilities are executed.
+pandas>=2.2,<4
+openpyxl>=3.1,<4
