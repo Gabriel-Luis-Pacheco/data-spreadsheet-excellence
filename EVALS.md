@@ -224,7 +224,7 @@ Score 0–2 on:
 - routing/tool choice;
 - data integrity;
 - validation;
-- risk proportionality;
+- execution-mode appropriateness;\n- assurance-tier appropriateness;
 - context efficiency;
 - tool-call efficiency;
 - coding/diff discipline where applicable;
