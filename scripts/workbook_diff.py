@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """Read-only semantic comparison for .xlsx/.xlsm workbooks.
 
-This is a first-pass preservation/QA tool, not proof of full Excel fidelity.
-It compares workbook/sheet structure and selected cell semantics without
-executing macros, refreshing connections, or recalculating formulas.
+First-pass preservation/QA only. It does not execute macros, refresh external
+connections, recalculate formulas, or prove full Excel application fidelity.
 """
 from __future__ import annotations
 
@@ -24,14 +23,40 @@ def digest(items: list[str]) -> str:
     return h.hexdigest()
 
 
-def safe_defined_names(wb) -> list[str]:
-    names: list[str] = []
+def defined_names_snapshot(wb) -> list[dict[str, Any]]:
+    items: list[dict[str, Any]] = []
     try:
-        for key in wb.defined_names:
-            names.append(str(key))
+        for name in wb.defined_names:
+            dn = wb.defined_names[name]
+            items.append({
+                "name": str(getattr(dn, "name", name)),
+                "localSheetId": getattr(dn, "localSheetId", None),
+                "hidden": getattr(dn, "hidden", None),
+                "attr_text": str(getattr(dn, "attr_text", "") or ""),
+            })
     except Exception:
+        # Defined-name support varies by workbook/library version. Returning a
+        # best-effort list is safer than claiming full coverage.
         pass
-    return sorted(names)
+    return sorted(
+        items,
+        key=lambda x: (
+            x["name"],
+            -1 if x["localSheetId"] is None else int(x["localSheetId"]),
+            x["attr_text"],
+        ),
+    )
+
+
+def calculation_snapshot(wb) -> dict[str, Any]:
+    calc = getattr(wb, "calculation", None)
+    if calc is None:
+        return {}
+    result: dict[str, Any] = {}
+    for attr in ("calcMode", "fullCalcOnLoad", "forceFullCalc", "calcId"):
+        if hasattr(calc, attr):
+            result[attr] = getattr(calc, attr)
+    return result
 
 
 def sheet_snapshot(ws, max_cells: int) -> dict[str, Any]:
@@ -42,19 +67,23 @@ def sheet_snapshot(ws, max_cells: int) -> dict[str, Any]:
     formulas: list[str] = []
     content: list[str] = []
     number_formats: list[str] = []
+    comment_count = 0
+    hyperlink_count = 0
 
     if not scan_skipped:
         for row in ws.iter_rows():
             for cell in row:
                 value = cell.value
-                if value is None:
-                    continue
-                nonempty += 1
-                value_repr = repr(value)
-                content.append(f"{cell.coordinate}\t{value_repr}")
-                if isinstance(value, str) and value.startswith("="):
-                    formulas.append(f"{cell.coordinate}\t{value}")
-                number_formats.append(f"{cell.coordinate}\t{cell.number_format}")
+                if value is not None:
+                    nonempty += 1
+                    content.append(f"{cell.coordinate}\t{repr(value)}")
+                    if isinstance(value, str) and value.startswith("="):
+                        formulas.append(f"{cell.coordinate}\t{value}")
+                    number_formats.append(f"{cell.coordinate}\t{cell.number_format}")
+                if cell.comment is not None:
+                    comment_count += 1
+                if cell.hyperlink is not None:
+                    hyperlink_count += 1
 
     tables = []
     try:
@@ -75,6 +104,8 @@ def sheet_snapshot(ws, max_cells: int) -> dict[str, Any]:
         "content_hash": None if scan_skipped else digest(content),
         "formula_hash": None if scan_skipped else digest(formulas),
         "number_format_hash": None if scan_skipped else digest(number_formats),
+        "comment_cells": None if scan_skipped else comment_count,
+        "hyperlinks": None if scan_skipped else hyperlink_count,
         "merged_ranges": sorted(str(x) for x in ws.merged_cells.ranges),
         "tables": tables,
         "freeze_panes": str(ws.freeze_panes) if ws.freeze_panes else None,
@@ -107,14 +138,18 @@ def workbook_snapshot(path: Path, max_cells: int) -> dict[str, Any]:
         "path": str(path.resolve()),
         "extension": path.suffix.lower(),
         "sheet_order": [ws.title for ws in wb.worksheets],
-        "defined_names": safe_defined_names(wb),
+        "defined_names": defined_names_snapshot(wb),
+        "external_links_count": len(getattr(wb, "_external_links", []) or []),
+        "vba_archive_present": bool(getattr(wb, "vba_archive", None)),
+        "calculation": calculation_snapshot(wb),
         "sheets": {ws.title: sheet_snapshot(ws, max_cells) for ws in wb.worksheets},
         "limitations": [
             "OOXML/openpyxl semantic comparison only.",
             "Does not execute or validate VBA/macros.",
             "Does not refresh Power Query/external connections.",
             "Does not recalculate formulas.",
-            "Does not prove preservation of all drawings, pivots, embedded objects, or application-specific behavior.",
+            "External-link and drawing inspection is best-effort.",
+            "Does not prove preservation of pivots, embedded objects, threaded comments, Power Query internals, or all application-specific behavior.",
         ],
     }
 
@@ -132,26 +167,68 @@ def compare(before: dict[str, Any], after: dict[str, Any]) -> dict[str, Any]:
     add("workbook", "extension", before["extension"], after["extension"], "file_type_changed")
     add("workbook", "sheet_order", before["sheet_order"], after["sheet_order"], "sheet_structure_changed")
     add("workbook", "defined_names", before["defined_names"], after["defined_names"], "defined_names_changed")
+    add(
+        "workbook",
+        "external_links_count",
+        before["external_links_count"],
+        after["external_links_count"],
+        "external_links_changed",
+    )
+    add(
+        "workbook",
+        "vba_archive_present",
+        before["vba_archive_present"],
+        after["vba_archive_present"],
+        "vba_container_changed",
+    )
+    add(
+        "workbook",
+        "calculation",
+        before["calculation"],
+        after["calculation"],
+        "calculation_settings_changed",
+    )
 
     before_names = set(before["sheets"])
     after_names = set(after["sheets"])
+
     for name in sorted(before_names - after_names):
         changes.append({"scope": name, "field": "sheet_removed", "before": True, "after": False})
         risk_flags.append("sheet_removed")
+
     for name in sorted(after_names - before_names):
         changes.append({"scope": name, "field": "sheet_added", "before": False, "after": True})
 
     fields = [
-        "state", "max_row", "max_column", "nonempty_cells", "formula_count",
-        "content_hash", "formula_hash", "number_format_hash", "merged_ranges",
-        "tables", "freeze_panes", "auto_filter", "data_validations",
-        "conditional_formatting_rules", "charts", "images",
-        "protection_enabled", "print_area",
+        "state",
+        "max_row",
+        "max_column",
+        "nonempty_cells",
+        "formula_count",
+        "content_hash",
+        "formula_hash",
+        "number_format_hash",
+        "comment_cells",
+        "hyperlinks",
+        "merged_ranges",
+        "tables",
+        "freeze_panes",
+        "auto_filter",
+        "data_validations",
+        "conditional_formatting_rules",
+        "charts",
+        "images",
+        "protection_enabled",
+        "print_area",
     ]
+
     risky = {
         "state": "sheet_visibility_changed",
         "formula_count": "formula_structure_changed",
         "formula_hash": "formula_structure_changed",
+        "number_format_hash": "number_formats_changed",
+        "comment_cells": "comments_changed",
+        "hyperlinks": "hyperlinks_changed",
         "merged_ranges": "merged_ranges_changed",
         "tables": "tables_changed",
         "data_validations": "data_validation_changed",
@@ -161,15 +238,22 @@ def compare(before: dict[str, Any], after: dict[str, Any]) -> dict[str, Any]:
         "protection_enabled": "protection_changed",
     }
 
+    scan_dependent = {
+        "nonempty_cells",
+        "formula_count",
+        "content_hash",
+        "formula_hash",
+        "number_format_hash",
+        "comment_cells",
+        "hyperlinks",
+    }
+
     for name in sorted(before_names & after_names):
         a = before["sheets"][name]
         b = after["sheets"][name]
         for field in fields:
-            # If a full cell scan was skipped in either snapshot, hashes/counts
-            # based on that scan are not comparable.
-            if field in {"nonempty_cells", "formula_count", "content_hash", "formula_hash", "number_format_hash"}:
-                if a["cell_scan_skipped"] or b["cell_scan_skipped"]:
-                    continue
+            if field in scan_dependent and (a["cell_scan_skipped"] or b["cell_scan_skipped"]):
+                continue
             add(name, field, a.get(field), b.get(field), risky.get(field))
 
     return {
@@ -197,6 +281,7 @@ def main() -> int:
 
     before_path = Path(args.before)
     after_path = Path(args.after)
+
     for path in (before_path, after_path):
         if not path.exists():
             raise SystemExit(f"File not found: {path}")
@@ -208,6 +293,7 @@ def main() -> int:
         workbook_snapshot(after_path, args.max_cells),
     )
     print(json.dumps(result, indent=2 if args.pretty else None, ensure_ascii=False, default=str))
+
     if args.fail_on_risk and result["risk_flags"]:
         return 2
     return 0
