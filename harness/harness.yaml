@@ -103,7 +103,7 @@ assurance_tiers:
   a3_critical:
     use_when:
       - regulatory
-      - externally_published
+      - material_official_or_external_publication
       - high_value_financial
       - irreversible_or_critical_action
     evidence:
@@ -130,7 +130,7 @@ assurance_escalation:
     - client_or_executive_consumption
     - substantial_unmatched_or_exception_value
   to_a3:
-    - regulatory_or_external_publication
+    - regulatory_or_material_external_publication
     - irreversible_action
     - critical_financial_close_or_control
     - explicit_audit_grade_requirement
