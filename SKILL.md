@@ -75,7 +75,7 @@ Use the lightest execution process that is safe, but choose assurance from conse
 - **A0 exploratory:** disposable exploration; sanity checks only.
 - **A1 standard:** routine internal work; targeted validation.
 - **A2 material:** meaningful operational/financial/client decisions; independent/alternate checks and traceability.
-- **A3 critical:** regulatory, external publication, high-value financial, irreversible, or explicitly audit-grade work; strongest practical evidence and approval controls.
+- **A3 critical:** regulatory, materially consequential official/external publication, high-value financial, irreversible, or explicitly audit-grade work; strongest practical evidence and approval controls.
 
 **Workbook fidelity**
 - **F0 — Data:** values/schema only.
