@@ -2,8 +2,8 @@
 """Read-only first-pass inventory for .xlsx/.xlsm workbooks.
 
 Requires openpyxl. This script does not execute macros, refresh external data,
-or prove full Excel fidelity. It highlights common workbook and agent-security
-surfaces for follow-up review.
+or prove full Excel fidelity. It highlights common workbook, integrity, and
+agent-security surfaces for follow-up review.
 """
 from __future__ import annotations
 
@@ -46,6 +46,7 @@ def main() -> int:
 
     external_links = list(getattr(wb, "_external_links", []) or [])
     vba_archive_present = bool(getattr(wb, "vba_archive", None))
+    epoch = getattr(wb, "epoch", None)
 
     result = {
         "path": str(path.resolve()),
@@ -53,6 +54,7 @@ def main() -> int:
         "keep_vba": keep_vba,
         "vba_archive_present": vba_archive_present,
         "external_links_count": len(external_links),
+        "date_epoch": str(epoch) if epoch is not None else None,
         "sheet_count": len(wb.worksheets),
         "sheets": [],
         "defined_names_count": len(wb.defined_names),
@@ -70,13 +72,20 @@ def main() -> int:
 
     calc = getattr(wb, "calculation", None)
     if calc is not None:
-        for attr in ("calcMode", "fullCalcOnLoad", "forceFullCalc", "calcId"):
+        for attr in (
+            "calcMode",
+            "fullCalcOnLoad",
+            "forceFullCalc",
+            "fullPrecision",
+            "calcId",
+        ):
             if hasattr(calc, attr):
                 result["calculation"][attr] = getattr(calc, attr)
 
     hidden_sheets = 0
     total_comments = 0
     total_hyperlinks = 0
+    total_local_names = 0
 
     for ws in wb.worksheets:
         estimated_cells = int(ws.max_row or 0) * int(ws.max_column or 0)
@@ -110,6 +119,10 @@ def main() -> int:
         if ws.sheet_state != "visible":
             hidden_sheets += 1
 
+        local_defined_names = getattr(ws, "defined_names", None)
+        local_defined_names_count = len(local_defined_names) if local_defined_names is not None else 0
+        total_local_names += local_defined_names_count
+
         result["sheets"].append({
             "title": ws.title,
             "state": ws.sheet_state,
@@ -122,6 +135,7 @@ def main() -> int:
             "comment_cells": comment_count,
             "merged_ranges": len(ws.merged_cells.ranges),
             "tables": sorted(ws.tables.keys()),
+            "local_defined_names_count": local_defined_names_count,
             "data_validations": len(ws.data_validations.dataValidation) if ws.data_validations else 0,
             "conditional_formatting_rules": len(ws.conditional_formatting),
             "hyperlinks": hyperlink_count,
@@ -143,6 +157,12 @@ def main() -> int:
         result["risk_hints"].append("cell_comments_present")
     if total_hyperlinks:
         result["risk_hints"].append("hyperlinks_present")
+    if total_local_names:
+        result["risk_hints"].append("worksheet_local_defined_names_present")
+    if getattr(epoch, "year", None) == 1904:
+        result["risk_hints"].append("1904_date_system")
+    if result["calculation"].get("fullPrecision") is False:
+        result["risk_hints"].append("precision_as_displayed_may_be_enabled")
 
     print(json.dumps(result, indent=2 if args.pretty else None, ensure_ascii=False, default=str))
     return 0
