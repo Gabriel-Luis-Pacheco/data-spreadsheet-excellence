@@ -65,6 +65,7 @@ def main() -> int:
         "references/prompt-context-engineering.md",
         "references/token-economy.md",
         "references/coding-practices.md",
+        "references/provider-adapters.md",
         "references/quick-reference.md",
         "references/tool-selection.md",
         "references/data-analysis-quality.md",
