@@ -102,6 +102,7 @@ def main() -> int:
         "assets/metric-contract-template.md",
         "assets/agent-state-template.yaml",
         "scripts/context_budget.py",
+        "scripts/validate_harness.py",
         "scripts/workbook_diff.py",
         "tests/test_utilities.py",
         "requirements-ci.txt",
