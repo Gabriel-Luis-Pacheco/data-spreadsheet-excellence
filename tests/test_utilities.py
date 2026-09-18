@@ -114,6 +114,26 @@ class UtilityTests(unittest.TestCase):
             )
             self.assertEqual(proc2.returncode, 2)
 
+    def test_workbook_diff_identical_copy_has_no_changes(self) -> None:
+        from openpyxl import Workbook
+
+        with tempfile.TemporaryDirectory() as td:
+            before = Path(td) / "before.xlsx"
+            after = Path(td) / "after.xlsx"
+
+            wb = Workbook()
+            ws = wb.active
+            ws.title = "Data"
+            ws["A1"] = 1
+            ws["A2"] = "=A1+1"
+            wb.save(before)
+            after.write_bytes(before.read_bytes())
+
+            proc, payload = run_json("workbook_diff.py", str(before), str(after))
+            self.assertEqual(proc.returncode, 0)
+            self.assertEqual(payload["change_count"], 0)
+            self.assertEqual(payload["risk_flags"], [])
+
     def test_repository_validators_pass(self) -> None:
         for script, extra in [
             ("validate_skill.py", []),
