@@ -82,6 +82,31 @@ def main() -> int:
         if "$data-spreadsheet-excellence" not in prompt:
             failures.append("default_prompt must reference $data-spreadsheet-excellence")
 
+    dependabot_path = ROOT / ".github" / "dependabot.yml"
+    try:
+        dependabot = yaml.safe_load(dependabot_path.read_text(encoding="utf-8"))
+    except Exception as exc:
+        failures.append(f"invalid .github/dependabot.yml: {exc}")
+        dependabot = {}
+
+    if not isinstance(dependabot, dict) or dependabot.get("version") != 2:
+        failures.append(".github/dependabot.yml must use version: 2")
+    else:
+        updates = dependabot.get("updates")
+        if not isinstance(updates, list):
+            failures.append(".github/dependabot.yml updates must be a list")
+        else:
+            ecosystems = {
+                item.get("package-ecosystem")
+                for item in updates
+                if isinstance(item, dict)
+            }
+            for required in {"github-actions", "pip"}:
+                if required not in ecosystems:
+                    failures.append(
+                        f".github/dependabot.yml missing {required} update configuration"
+                    )
+
     if failures:
         for item in failures:
             error(item)
