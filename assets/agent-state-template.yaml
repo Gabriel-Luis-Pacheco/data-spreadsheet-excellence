@@ -1,0 +1,18 @@
+objective:
+success_criteria: []
+constraints: []
+
+execution_mode: balanced
+assurance_tier: a1_standard
+
+trusted_instruction_sources: []
+inputs_inspected: []
+artifacts_changed: []
+
+decisions: []
+assumptions: []
+checks_completed: []
+material_exceptions: []
+unresolved: []
+
+next_action:
