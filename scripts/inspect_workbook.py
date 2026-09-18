@@ -49,7 +49,7 @@ def main() -> int:
     epoch = getattr(wb, "epoch", None)
 
     result = {
-        "path": str(path.resolve()),
+        "path": str(path),
         "extension": path.suffix.lower(),
         "keep_vba": keep_vba,
         "vba_archive_present": vba_archive_present,
