@@ -316,3 +316,16 @@ When copying/merging workbooks or manipulating date serials:
 ### Precision-as-displayed
 
 Excel's “precision as displayed” option can permanently alter stored values to the displayed precision. Treat changing this setting as consequential and do not enable it casually.
+
+
+## 22. Formula syntax vs user locale
+
+Do not translate programmatic formula syntax merely because the workbook's audience uses another language.
+
+When writing formulas with `openpyxl`:
+- use English function names;
+- use commas between function arguments rather than locale-specific semicolons;
+- keep formula syntax compatible with the file format/library;
+- localize labels, explanatory text, and display formats separately.
+
+A Portuguese-facing workbook can display Portuguese labels and Brazilian number/date formats while its programmatically written OOXML formulas still use the syntax required by the library.
