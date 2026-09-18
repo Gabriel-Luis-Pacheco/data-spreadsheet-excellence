@@ -187,3 +187,17 @@ A strong management view often follows:
 7. methodology/definitions available but not dominant.
 
 The goal is fast comprehension without loss of necessary context.
+
+## 19. Accessibility details worth checking
+
+For broadly shared/published workbooks:
+- put a meaningful title or instruction in/near A1 when appropriate; screen readers begin there;
+- use simple table structures with explicit headers;
+- avoid merged/split/nested cells in data tables;
+- avoid unexplained fully blank rows/columns inside navigational data regions;
+- provide alt text for meaningful charts/images where the target platform supports it;
+- use sufficient contrast and do not encode meaning by color alone;
+- run Excel's Accessibility Checker where available;
+- verify with manual keyboard/screen-reader-aware inspection for high-assurance publication.
+
+Accessibility can conflict with dense internal operational conventions; choose deliberately for the target audience.
