@@ -18,7 +18,7 @@ Before calculating a critical KPI, document:
 - expected range;
 - owner/source of definition when available.
 
-If two teams use the same metric name with different definitions, do not silently pick one.
+If two teams use the same metric name with different definitions, do not silently pick one.\n\nFor recurring/A2/A3 metrics, use `assets/metric-contract-template.md` (or an equivalent data contract) so definition changes are reviewable.
 
 ## 2. Profile before interpreting
 
