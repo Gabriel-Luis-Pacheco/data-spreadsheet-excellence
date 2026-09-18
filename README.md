@@ -90,6 +90,8 @@ VERSION
 SKILL.md
 AGENTS.md
 SECURITY.md
+requirements.txt
+requirements-ci.txt
 agents/openai.yaml
 
 harness/
@@ -199,6 +201,14 @@ Specificity matters more than length.
 - Low-complexity work should not become process theater.
 
 ## Utilities
+
+The skill itself is Markdown/YAML. To use the bundled workbook/tabular Python utilities:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+CI uses separately locked versions in `requirements-ci.txt`.
 
 Validate structure/version/references:
 
