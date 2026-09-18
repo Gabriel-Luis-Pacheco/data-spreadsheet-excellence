@@ -2,18 +2,52 @@
 
 Use this file when the task is routine and you need a compact execution checklist.
 
+## Choose execution depth first
+
+**LEAN** — clear/reversible/low risk:
+- 0–1 reference initially;
+- minimal diff/work;
+- one focused verification;
+- concise response.
+
+**BALANCED** — normal analysis/automation:
+- brief plan;
+- 1–3 relevant references initially;
+- targeted + relevant end-to-end checks.
+
+**DEEP** — high risk/F3/ambiguous/complex:
+- explicit completion criteria;
+- more evidence and independent validation;
+- additional context only when it resolves a material uncertainty.
+
+Never bulk-load `references/` “just in case”.
+
 ## Triage in 60 seconds
 
 1. What decision/action does the output support?
 2. Is the task low, medium, or high risk?
 3. What is the spreadsheet fidelity: F0 data, F1 structure, F2 visual, or F3 Excel behavior?
 4. What are the critical metrics, keys, totals, and exceptions?
-5. Is this creation from scratch or round-trip editing of an existing workbook?
+5. Is this creation from scratch or round-trip editing?
 6. Which checks would catch a plausible material failure?
+7. What is the smallest context/toolset needed for the next decision?
+
+## Efficient execution rules
+
+- search/find before full reads when the location is unknown;
+- do not reread unchanged content without a reason;
+- batch independent calls when supported;
+- prefer scripts/code for deterministic computation;
+- reuse outputs until inputs/code change;
+- do not narrate every tool call;
+- stop when quality gates and requested output are complete;
+- escalate depth after evidence of need, not by default.
 
 ## Default workflow
 
 `inventory → profile → contract → transform → reconcile/analyze → validate → design → visual QA → edit narrative → handoff`
+
+Collapse steps for trivial work; strengthen them for high-risk work.
 
 ## Fast tool matrix
 
