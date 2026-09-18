@@ -18,7 +18,9 @@ Before calculating a critical KPI, document:
 - expected range;
 - owner/source of definition when available.
 
-If two teams use the same metric name with different definitions, do not silently pick one.\n\nFor recurring/A2/A3 metrics, use `assets/metric-contract-template.md` (or an equivalent data contract) so definition changes are reviewable.
+If two teams use the same metric name with different definitions, do not silently pick one.
+
+For recurring/A2/A3 metrics, use `assets/metric-contract-template.md` (or an equivalent data contract) so definition changes are reviewable.
 
 ## 2. Profile before interpreting
 
@@ -223,7 +225,8 @@ Watch for:
 ## 16. Evidence package for material analysis
 
 Preserve:
-- source manifest;
+- source manifest/hash where appropriate (use `scripts/file_manifest.py` for a simple local manifest);
+- data dictionary/schema contract for shared or recurring datasets (see `assets/data-dictionary-template.md`);
 - metric definitions;
 - transformations;
 - parameters;
@@ -250,3 +253,26 @@ Choose numeric representation from the decision requirement.
 - Reconcile totals using the same currency, FX basis, unit scale, and rounding policy.
 
 A result that differs by 0.01 can be immaterial in one analysis and a control failure in another; encode that distinction explicitly.
+
+
+## 18. Schema and definition drift
+
+Recurring analysis must detect changes in what the data **means**, not only whether the pipeline still runs.
+
+Watch for:
+- added/removed/renamed columns;
+- type changes;
+- unit/currency changes;
+- enum/category expansion;
+- key uniqueness/cardinality changes;
+- source-system migrations;
+- changed null/default semantics;
+- metric-definition revisions;
+- historical backfills that alter prior periods.
+
+Classify changes as:
+- **compatible/additive** — downstream logic still valid;
+- **behavior-changing** — results can change and require review;
+- **breaking** — pipeline/metric contract is no longer valid.
+
+For A2/A3 recurring outputs, version the schema/metric contract and require review when a material definition changes.
