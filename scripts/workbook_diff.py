@@ -23,11 +23,14 @@ def digest(items: list[str]) -> str:
     return h.hexdigest()
 
 
-def defined_names_snapshot(wb) -> list[dict[str, Any]]:
+def defined_names_collection_snapshot(collection) -> list[dict[str, Any]]:
     items: list[dict[str, Any]] = []
+    if collection is None:
+        return items
+
     try:
-        for name in wb.defined_names:
-            dn = wb.defined_names[name]
+        for name in collection:
+            dn = collection[name]
             items.append({
                 "name": str(getattr(dn, "name", name)),
                 "localSheetId": getattr(dn, "localSheetId", None),
@@ -35,9 +38,10 @@ def defined_names_snapshot(wb) -> list[dict[str, Any]]:
                 "attr_text": str(getattr(dn, "attr_text", "") or ""),
             })
     except Exception:
-        # Defined-name support varies by workbook/library version. Returning a
-        # best-effort list is safer than claiming full coverage.
+        # Defined-name APIs vary across openpyxl/workbook generations.
+        # Best-effort comparison is safer than claiming full coverage.
         pass
+
     return sorted(
         items,
         key=lambda x: (
@@ -52,8 +56,15 @@ def calculation_snapshot(wb) -> dict[str, Any]:
     calc = getattr(wb, "calculation", None)
     if calc is None:
         return {}
+
     result: dict[str, Any] = {}
-    for attr in ("calcMode", "fullCalcOnLoad", "forceFullCalc", "calcId"):
+    for attr in (
+        "calcMode",
+        "fullCalcOnLoad",
+        "forceFullCalc",
+        "fullPrecision",
+        "calcId",
+    ):
         if hasattr(calc, attr):
             result[attr] = getattr(calc, attr)
     return result
@@ -106,6 +117,7 @@ def sheet_snapshot(ws, max_cells: int) -> dict[str, Any]:
         "number_format_hash": None if scan_skipped else digest(number_formats),
         "comment_cells": None if scan_skipped else comment_count,
         "hyperlinks": None if scan_skipped else hyperlink_count,
+        "defined_names": defined_names_collection_snapshot(getattr(ws, "defined_names", None)),
         "merged_ranges": sorted(str(x) for x in ws.merged_cells.ranges),
         "tables": tables,
         "freeze_panes": str(ws.freeze_panes) if ws.freeze_panes else None,
@@ -134,11 +146,14 @@ def workbook_snapshot(path: Path, max_cells: int) -> dict[str, Any]:
         keep_links=True,
     )
 
+    epoch = getattr(wb, "epoch", None)
+
     return {
         "path": str(path.resolve()),
         "extension": path.suffix.lower(),
+        "date_epoch": str(epoch) if epoch is not None else None,
         "sheet_order": [ws.title for ws in wb.worksheets],
-        "defined_names": defined_names_snapshot(wb),
+        "defined_names": defined_names_collection_snapshot(wb.defined_names),
         "external_links_count": len(getattr(wb, "_external_links", []) or []),
         "vba_archive_present": bool(getattr(wb, "vba_archive", None)),
         "calculation": calculation_snapshot(wb),
@@ -165,6 +180,7 @@ def compare(before: dict[str, Any], after: dict[str, Any]) -> dict[str, Any]:
                 risk_flags.append(risk)
 
     add("workbook", "extension", before["extension"], after["extension"], "file_type_changed")
+    add("workbook", "date_epoch", before["date_epoch"], after["date_epoch"], "date_system_changed")
     add("workbook", "sheet_order", before["sheet_order"], after["sheet_order"], "sheet_structure_changed")
     add("workbook", "defined_names", before["defined_names"], after["defined_names"], "defined_names_changed")
     add(
@@ -210,6 +226,7 @@ def compare(before: dict[str, Any], after: dict[str, Any]) -> dict[str, Any]:
         "number_format_hash",
         "comment_cells",
         "hyperlinks",
+        "defined_names",
         "merged_ranges",
         "tables",
         "freeze_panes",
@@ -229,6 +246,7 @@ def compare(before: dict[str, Any], after: dict[str, Any]) -> dict[str, Any]:
         "number_format_hash": "number_formats_changed",
         "comment_cells": "comments_changed",
         "hyperlinks": "hyperlinks_changed",
+        "defined_names": "local_defined_names_changed",
         "merged_ranges": "merged_ranges_changed",
         "tables": "tables_changed",
         "data_validations": "data_validation_changed",
