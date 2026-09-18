@@ -136,3 +136,28 @@ Avoid:
 ## 15. Do not mimic fake “human imperfection”
 
 Do not add typos, awkwardness, or randomness to “sound human”. Human-quality writing comes from specificity, judgment, rhythm, and restraint.
+
+
+## 16. Language, locale, and audience conventions
+
+Default the **human-facing delivery** to the user's or intended audience's language unless another language is explicitly required.
+
+Localize deliberately:
+- decimal and thousands separators;
+- currency symbol/code and negative-number convention;
+- percentage precision;
+- date/time display;
+- terminology used by the business;
+- month/day names and report labels.
+
+Do not confuse localization with data coercion.
+
+For example:
+- a Brazilian-facing report may display `R$ 1.234,56`;
+- the underlying numeric cell/dataframe value should remain numeric where possible;
+- identifiers should remain text where appropriate;
+- machine-readable exchange formats should follow their defined schema rather than a visual locale.
+
+Keep technical/library names, code, field identifiers, formulas, APIs, and file paths in the form required by the system. Translate explanation around them, not the syntax itself.
+
+When source data mixes locales, determine the parsing rule before conversion; do not guess whether `01/02/2026` means 1 February or 2 January without context.
