@@ -129,11 +129,12 @@ Read `references/tool-selection.md` when the stack is not obvious. Do not mount/
 
 ## 5. Data quality rules
 
-- Treat identifiers as text unless arithmetic is meaningful.
+- Treat identifiers as text unless arithmetic is meaningful; when Excel is involved, never store long numeric identifiers as numbers merely because they contain only digits.
 - Preserve source values before normalization.
 - Define critical metrics: formula, unit, population, denominator, period, source, null treatment, exclusions.
 - Distinguish zero, blank, missing, not applicable, suppressed, and error states.
 - Validate locale-sensitive dates, decimals, currencies, percentages, and time zones.
+- For financial exactness, choose fixed-point/Decimal/integer-minor-unit logic and explicit tolerances deliberately; do not inherit binary-float behavior accidentally.
 - Check duplicate/null keys before joins.
 - Declare join cardinality (`1:1`, `1:m`, `m:1`, `m:m`).
 - Never silently discard unmatched records.
@@ -255,6 +256,7 @@ Read `references/coding-practices.md`.
 - Prefer short specific prose to polished generic prose.
 - Do not label something “significant”, “anomaly”, “trend”, or “insight” without a criterion.
 - If evidence is insufficient, say what is unknown and what would resolve it.
+- Match the language, terminology, date/number display, and currency conventions to the intended audience unless the user specifies otherwise; localize presentation without corrupting underlying typed data.
 
 Read `references/writing-review-handoff.md`.
 
