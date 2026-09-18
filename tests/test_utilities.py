@@ -154,6 +154,26 @@ class UtilityTests(unittest.TestCase):
             self.assertEqual(payload["change_count"], 0)
             self.assertEqual(payload["risk_flags"], [])
 
+    def test_workbook_diff_detects_date_system_change(self) -> None:
+        from openpyxl import Workbook, load_workbook
+        from openpyxl.utils.datetime import CALENDAR_MAC_1904
+
+        with tempfile.TemporaryDirectory() as td:
+            before = Path(td) / "before.xlsx"
+            after = Path(td) / "after.xlsx"
+
+            wb = Workbook()
+            wb.active["A1"] = "date-system-test"
+            wb.save(before)
+
+            wb2 = load_workbook(before)
+            wb2.epoch = CALENDAR_MAC_1904
+            wb2.save(after)
+
+            proc, payload = run_json("workbook_diff.py", str(before), str(after))
+            self.assertEqual(proc.returncode, 0)
+            self.assertIn("date_system_changed", payload["risk_flags"])
+
     def test_repository_validators_pass(self) -> None:
         for script, extra in [
             ("validate_skill.py", []),
