@@ -119,6 +119,7 @@ references/
 
 scripts/
   validate_skill.py
+  validate_harness.py
   context_budget.py
   inspect_workbook.py
   profile_tabular.py
@@ -245,6 +246,7 @@ CI installs `requirements-ci.txt` and runs:
 
 ```bash
 python scripts/validate_skill.py
+python scripts/validate_harness.py
 python scripts/context_budget.py --check
 python -m py_compile scripts/*.py tests/*.py
 python -m unittest discover -s tests -v
