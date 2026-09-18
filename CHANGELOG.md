@@ -16,7 +16,9 @@ Deep audit/reliability release focused on gaps that were not adequately enforced
 - `assets/metric-contract-template.md`;
 - `assets/agent-state-template.yaml`;
 - `evals/README.md` with telemetry/comparison methodology;
-- accessibility details including A1/table structure/alt-text checks.
+- accessibility details including A1/table structure/alt-text checks;
+- locale-aware delivery guidance and Excel size/precision/date-system safeguards;
+- hardened GitHub Actions: least-privilege token permissions, immutable action SHAs, stale-run cancellation, and Dependabot monitoring.
 
 ### Improved
 - `SKILL.md` now separates execution depth from evidence strength;
@@ -26,7 +28,9 @@ Deep audit/reliability release focused on gaps that were not adequately enforced
 - quality gates now start with a trust/security gate and map to assurance tiers;
 - CI now runs functional behavior tests instead of only compiling scripts;
 - agent/Copilot instructions now include trust boundaries and executable test commands;
-- false activation boundary clarified for unrelated generic coding tasks.
+- false activation boundary clarified for unrelated generic coding tasks;
+- workbook diff now checks defined-name targets, calculation settings, external-link count, VBA-container presence, comments, hyperlinks, and number-format changes;
+- CI includes a no-change workbook regression test to reduce false-positive risk.
 
 ### Why this release matters
 v6 optimized how much the agent reads and does. v7 adds stronger guarantees about **what evidence is required** and **which content the agent is allowed to trust**.
