@@ -25,20 +25,31 @@ def run_json(script: str, *args: str) -> tuple[subprocess.CompletedProcess[str],
 
 
 class UtilityTests(unittest.TestCase):
-    def test_profile_preserves_leading_zero_identifier(self) -> None:
+    def test_profile_preserves_identifiers_and_flags_formula_like_text(self) -> None:
         with tempfile.TemporaryDirectory() as td:
             path = Path(td) / "sample.csv"
-            path.write_text("id,amount\n00123,10\n00456,20\n", encoding="utf-8")
+            path.write_text(
+                'id,amount,note\n'
+                '00123,10,ok\n'
+                '00456,20,"=HYPERLINK(""https://example.com"")"\n',
+                encoding="utf-8",
+            )
+
             proc, payload = run_json("profile_tabular.py", str(path))
             self.assertEqual(proc.returncode, 0)
             self.assertEqual(payload["read_mode"], "preserve-text-where-practical")
+
             id_profile = next(x for x in payload["column_profiles"] if x["name"] == "id")
             top_values = {x["value"] for x in id_profile.get("top_values", [])}
             self.assertIn("00123", top_values)
-            self.assertIn("00456", top_values)\n            note_profile = next(x for x in payload["column_profiles"] if x["name"] == "note")\n            self.assertEqual(note_profile["formula_like_text_count"], 1)
+            self.assertIn("00456", top_values)
 
-    def test_inspect_workbook_reports_formula_and_hidden_sheet(self) -> None:
+            note_profile = next(x for x in payload["column_profiles"] if x["name"] == "note")
+            self.assertEqual(note_profile["formula_like_text_count"], 1)
+
+    def test_inspect_workbook_reports_formula_hidden_comment_and_hyperlink(self) -> None:
         from openpyxl import Workbook
+        from openpyxl.comments import Comment
 
         with tempfile.TemporaryDirectory() as td:
             path = Path(td) / "book.xlsx"
@@ -48,6 +59,10 @@ class UtilityTests(unittest.TestCase):
             ws["A1"] = 1
             ws["A2"] = 2
             ws["A3"] = "=SUM(A1:A2)"
+            ws["B1"] = "https://example.com"
+            ws["B1"].hyperlink = "https://example.com"
+            ws["C1"].comment = Comment("review me", "tester")
+
             hidden = wb.create_sheet("Hidden")
             hidden.sheet_state = "hidden"
             wb.save(path)
@@ -55,10 +70,17 @@ class UtilityTests(unittest.TestCase):
             proc, payload = run_json("inspect_workbook.py", str(path))
             self.assertEqual(proc.returncode, 0)
             self.assertEqual(payload["sheet_count"], 2)
+
             data = next(x for x in payload["sheets"] if x["title"] == "Data")
             hidden_info = next(x for x in payload["sheets"] if x["title"] == "Hidden")
+
             self.assertEqual(data["formula_cells"], 1)
-            self.assertEqual(hidden_info["state"], "hidden")\n            self.assertEqual(data["comment_cells"], 1)\n            self.assertEqual(data["hyperlinks"], 1)\n            self.assertIn("hidden_or_very_hidden_sheets_present", payload["risk_hints"])\n            self.assertIn("cell_comments_present", payload["risk_hints"])
+            self.assertEqual(data["comment_cells"], 1)
+            self.assertEqual(data["hyperlinks"], 1)
+            self.assertEqual(hidden_info["state"], "hidden")
+            self.assertIn("hidden_or_very_hidden_sheets_present", payload["risk_hints"])
+            self.assertIn("cell_comments_present", payload["risk_hints"])
+            self.assertIn("hyperlinks_present", payload["risk_hints"])
 
     def test_workbook_diff_detects_formula_change(self) -> None:
         from openpyxl import Workbook, load_workbook
@@ -84,12 +106,18 @@ class UtilityTests(unittest.TestCase):
             self.assertIn("formula_structure_changed", payload["risk_flags"])
             self.assertGreater(payload["change_count"], 0)
 
-            proc2, _ = run_json("workbook_diff.py", str(before), str(after), "--fail-on-risk")
+            proc2, _ = run_json(
+                "workbook_diff.py",
+                str(before),
+                str(after),
+                "--fail-on-risk",
+            )
             self.assertEqual(proc2.returncode, 2)
 
     def test_repository_validators_pass(self) -> None:
         for script, extra in [
             ("validate_skill.py", []),
+            ("validate_harness.py", []),
             ("context_budget.py", ["--check"]),
         ]:
             proc = subprocess.run(
