@@ -1,6 +1,6 @@
 ---
 name: data-spreadsheet-excellence
-description: Professional data analysis, spreadsheet automation, reconciliation, audit, review, reporting, visualization, and analytical writing. Use for Excel/planilhas, CSV, Google Sheets, Python/pandas/Polars/DuckDB, openpyxl/XlsxWriter/xlwings, data cleaning, joins/cruzamentos, fuzzy matching/conciliação, dashboards, workbook design, formula QA, large-data pipelines, or reviewing another analyst's work. Produces decision-useful, auditable, visually polished outputs without generic AI slop.
+description: Professional data analysis, spreadsheet automation, reconciliation, audit, review, reporting, visualization, and analytical writing for Excel/planilhas, CSV, Google Sheets, Python/pandas/Polars/DuckDB, workbook QA, dashboards, and data pipelines. Uses adaptive context, tool, and token-efficient execution while preserving analytical quality.
 ---
 
 # Data & Spreadsheet Excellence
@@ -9,20 +9,56 @@ description: Professional data analysis, spreadsheet automation, reconciliation,
 
 Do not treat “code ran” or “file opens” as completion.
 
+## 0. Operate with adaptive efficiency
+
+Optimize **quality per unit of context, tool use, latency, and cost**. Do not minimize tokens at the expense of correctness.
+
+Choose an execution mode:
+
+- **LEAN:** small, reversible, clear, low-risk work. Load 0–1 relevant reference initially, make the smallest correct change, run one focused check.
+- **BALANCED (default):** ordinary analysis, reconciliation, automation, or multi-file work. Use a brief plan, load only 1–3 relevant references initially, run targeted plus relevant end-to-end checks.
+- **DEEP:** financial/regulatory/client-facing work, F3 Excel behavior, ambiguity, conflicting evidence, complex debugging/refactors, or failed validation. Use explicit completion criteria and stronger independent verification; load additional context only when it resolves a material uncertainty.
+
+Escalate mode when evidence justifies it. Do not start DEEP by ritual.
+
+Context hygiene:
+- read/search only what the next decision requires;
+- prefer targeted ranges/search before whole files;
+- do not bulk-load `references/`;
+- do not reread unchanged content unless needed;
+- reuse deterministic artifacts and scripts;
+- summarize large tool results instead of carrying raw output;
+- keep a compact state of objective, decisions, assumptions, checks, unresolved items, and next step;
+- do not narrate every tool call;
+- stop when the requested artifact and applicable quality gates are complete.
+
+Read `references/agent-harness.md` for long/complex tasks, `references/prompt-context-engineering.md` for prompt/config work, `references/token-economy.md` for cost/latency design, and `references/coding-practices.md` for code changes. Portable defaults are in `harness/harness.yaml`.
+
 ## 1. Start with the decision
 
-Before touching data, determine:
-
-- who will use the result;
-- what decision or action it supports;
-- the central question;
-- the required artifact(s);
-- the source scope and time period;
-- the critical metrics and definitions;
-- the cost of a wrong answer;
+Before material work, determine only what matters:
+- who uses the result;
+- what decision/action it supports;
+- central question;
+- required artifact;
+- source scope/period;
+- critical metrics/definitions;
+- cost of a wrong answer;
 - whether the work is one-off, recurring, collaborative, regulated, or externally published.
 
-If the user has already supplied this context, do not ask again. Infer only low-risk details; surface material assumptions.
+If the user already supplied this, do not ask again. Infer only low-risk details; surface material assumptions.
+
+For substantial tasks, use the compact contract:
+
+```text
+Goal:
+Context:
+Constraints:
+Output:
+Done when:
+```
+
+Do not add prompt ceremony that does not improve execution.
 
 ## 2. Classify risk and spreadsheet fidelity
 
@@ -43,22 +79,24 @@ Higher risk/fidelity requires more preservation, independent checks, and evidenc
 
 ## 3. Core execution workflow
 
-1. **Inventory** inputs before modification.
-2. **Profile** schema, types, nulls, duplicates, keys, dates, ranges, distributions, and control totals.
+Apply proportionally; a trivial task may collapse several steps.
+
+1. **Inventory** relevant inputs before modification.
+2. **Profile** schema, types, nulls, duplicates, keys, dates, ranges, distributions, and control totals as needed.
 3. **Define** metric contracts, join cardinality, exclusions, tolerances, and assumptions.
 4. **Choose** tools based on data size, fidelity, environment, and delivery requirements.
-5. **Preserve** raw inputs and originals unless replacement is explicitly requested.
+5. **Preserve** raw inputs/originals unless replacement is explicitly requested.
 6. **Transform** with explicit, reproducible rules.
 7. **Analyze/reconcile** while retaining unmatched and exception records.
-8. **Validate independently** using control totals, invariants, samples, plausibility checks, and alternate calculations where material.
+8. **Validate independently** with control totals, invariants, samples, plausibility checks, or alternate calculations where material.
 9. **Build** the final artifact around the user's workflow, not around the code.
 10. **QA visually** when appearance matters.
-11. **Edit the narrative** for specificity, brevity, and evidence.
-12. **Deliver evidence**: what changed, what was checked, what failed, and what remains uncertain.
+11. **Edit** narrative for specificity, brevity, and evidence.
+12. **Deliver evidence**: what changed, what was checked, exceptions, and unresolved uncertainty.
 
 ## 4. Tool router
 
-Choose the smallest safe stack. Do not default to one library for every task.
+Choose the smallest safe stack.
 
 | Need | Good starting point |
 | --- | --- |
@@ -66,53 +104,54 @@ Choose the smallest safe stack. Do not default to one library for every task.
 | Large/parallel/lazy dataframe workloads | `Polars` |
 | SQL over CSV/Parquet/dataframes; large joins | `DuckDB` |
 | Columnar interchange/storage | Parquet / `PyArrow` |
-| Spreadsheet ingestion | `pandas.read_excel()` with an appropriate engine |
-| Create polished `.xlsx` from scratch | `XlsxWriter` |
-| Edit ordinary existing `.xlsx` | `openpyxl` after preservation-risk inspection |
-| Control installed Excel / F3 behavior | `xlwings` or Windows COM |
+| Spreadsheet ingestion | `pandas.read_excel()` with appropriate engine |
+| New polished `.xlsx` | `XlsxWriter` |
+| Ordinary existing `.xlsx` edit | `openpyxl` after preservation-risk inspection |
+| Installed Excel / F3 behavior | `xlwings` or Windows COM |
 | Google Sheets | Sheets API with batched operations |
 | Microsoft 365 web automation | Office Scripts / Power Automate |
-| Exact/fuzzy entity matching | deterministic keys → `RapidFuzz`; probabilistic linkage such as `Splink` when justified |
-| Dataframe contracts | `Pandera`, explicit check functions, or domain-specific validation |
+| Fuzzy entity matching | deterministic rules → `RapidFuzz` |
+| Probabilistic linkage | `Splink` when justified |
+| Dataframe contracts | `Pandera` or explicit validation |
 | Statistical inference | `SciPy` / `statsmodels` |
-| Interactive analytical charts | Plotly/Altair when the delivery format supports interactivity |
-| Static analytical charts | Matplotlib or spreadsheet-native charts, depending on delivery |
+| Interactive charts | Plotly/Altair when the delivery supports it |
+| Static charts | Matplotlib or spreadsheet-native charts |
 
-Read `references/tool-selection.md` when the stack is not obvious.
+Read `references/tool-selection.md` when the stack is not obvious. Do not mount/use large toolsets that are irrelevant to the task.
 
-## 5. Data rules that are almost always worth enforcing
+## 5. Data quality rules
 
 - Treat identifiers as text unless arithmetic is meaningful.
 - Preserve source values before normalization.
 - Define critical metrics: formula, unit, population, denominator, period, source, null treatment, exclusions.
 - Distinguish zero, blank, missing, not applicable, suppressed, and error states.
-- Validate locale-sensitive dates, decimal separators, currencies, percentages, and time zones.
-- Check duplicate keys before joins.
-- Declare join cardinality (`1:1`, `1:m`, `m:1`, `m:m`) before or during merge validation.
+- Validate locale-sensitive dates, decimals, currencies, percentages, and time zones.
+- Check duplicate/null keys before joins.
+- Declare join cardinality (`1:1`, `1:m`, `m:1`, `m:m`).
 - Never silently discard unmatched records.
-- Beware that dataframe libraries can have join semantics different from SQL, especially around null keys.
-- Record row counts and control totals before and after material transformations.
-- Treat missingness and outliers as signals to understand, not automatic cleanup targets.
+- Remember dataframe join/null semantics may differ from SQL.
+- Record row counts and control totals before/after material transformations.
+- Treat missingness/outliers as signals to understand, not automatic deletion targets.
 - Do not infer causality from correlation without a defensible design.
 - Separate statistical significance from practical/material significance.
-- For time series, state baseline, comparison window, calendar, seasonality, and known structural breaks.
-- Sort explicitly when row order matters; do not rely on incidental engine order.
+- For time series, state baseline/window/calendar/seasonality where relevant.
+- Sort explicitly when order matters.
 
-For deeper analysis rules, read `references/data-analysis-quality.md`.
+Read `references/data-analysis-quality.md`.
 
 ## 6. Reconciliation and entity matching
 
-Use an escalation ladder:
+Escalate:
 
-1. exact match on trusted identifiers;
-2. exact match on normalized deterministic keys;
-3. composite-key matching;
-4. blocked fuzzy candidate generation;
-5. scored fuzzy matching with review zones;
-6. probabilistic linkage when the problem warrants it;
+1. trusted exact identifiers;
+2. normalized deterministic keys;
+3. composite exact keys;
+4. blocked fuzzy candidates;
+5. scored fuzzy matching with accept/review/reject zones;
+6. probabilistic linkage when warranted;
 7. manual review for unresolved material cases.
 
-A good reconciliation output includes source counts/totals, matched and unmatched count/value, duplicate or ambiguous keys, match method, score/confidence where applicable, material exceptions, net difference **and** gross unmatched amounts.
+A professional reconciliation reports source counts/totals, matched and unmatched count/value, duplicate/ambiguous keys, method/confidence, material exceptions, net difference **and** gross unmatched amounts.
 
 Read `references/reconciliation-matching.md`.
 
@@ -120,35 +159,33 @@ Read `references/reconciliation-matching.md`.
 
 Treat a workbook as an information product, not a decorated grid.
 
-- Make purpose and primary output obvious within seconds.
+- Make purpose/output obvious.
 - Separate inputs, calculations, outputs, checks, and raw/staging data when useful.
-- Keep assumptions and editable cells discoverable.
+- Keep assumptions/editable cells discoverable.
 - Prefer readable formulas over compressed cleverness.
-- Avoid hidden logic unless there is a documented reason.
-- Use tables, validation, protection, filters, freeze panes, grouping, and named ranges only when they improve the target workflow.
+- Avoid hidden logic without a documented reason.
 - Preserve formulas, names, macros, links, queries, objects, formatting, and calculation behavior according to required fidelity.
-- Remember: formula written ≠ formula accepted ≠ formula recalculated ≠ cached result current.
-- Do not use `openpyxl` as a universal Excel round-trip engine; inspect unsupported-feature risk first.
+- Formula written ≠ formula accepted ≠ formula recalculated ≠ cached result current.
+- Do not use `openpyxl` as a universal Excel round-trip engine.
 - For F3 work, validate in the target Excel environment when possible.
 
 Read `references/spreadsheet-engineering.md`.
 
-## 8. Visual design and dashboards
+## 8. Visual design and reporting
 
-A professional spreadsheet should communicate hierarchy before color.
+Hierarchy before decoration.
 
-- Establish one primary focus per view.
-- Use restrained, semantic color.
-- Reserve strong color for exceptions, action, selection, or the key series.
-- Align numbers for comparison; use consistent units and precision.
-- Use whitespace and grouping to create structure.
-- Prefer tables for exact lookup/comparison; charts for pattern, trend, distribution, or relationship.
-- Use declarative titles when evidence supports a clear takeaway.
-- Label close to the data when that reduces decoding effort.
-- Remove decorative chart junk, not necessary context.
-- Use honest scales and show uncertainty where material.
-- Design operational workbooks differently from executive dashboards.
-- When publishing for broad accessibility, apply accessibility-specific guidance rather than blindly reusing internal-workbook conventions.
+- one primary focus per view;
+- restrained semantic color;
+- consistent units/precision;
+- whitespace/grouping for structure;
+- tables for exact lookup/comparison;
+- charts for pattern/trend/distribution/relationship;
+- declarative titles only when evidence supports the takeaway;
+- direct labels when they reduce decoding;
+- honest scales and uncertainty where material;
+- different design for operational workbooks vs executive dashboards;
+- accessibility-specific practices for broadly published outputs.
 
 Read `references/visual-design-reporting.md`.
 
@@ -156,84 +193,105 @@ Read `references/visual-design-reporting.md`.
 
 - Prefer vectorized, set-based, batched operations over row/cell loops.
 - Minimize workbook/API round-trips.
-- Read only required rows/columns where practical.
-- Use Parquet for repeated analytical pipelines when suitable.
-- Use lazy/streaming engines when data size warrants them.
+- Read only needed rows/columns.
+- Use Parquet/lazy/streaming engines when scale warrants it.
 - Profile before micro-optimizing.
-- Make recurring jobs idempotent where possible.
-- Use bounded retries only for transient failures; do not retry deterministic validation errors.
-- Log enough to reproduce a run without leaking sensitive data.
-- Pin/constrain dependencies for recurring workflows and regression-test important templates.
+- Make recurring jobs idempotent where practical.
+- Retry only transient failures, with bounds.
+- Log enough to reproduce without leaking sensitive data.
+- Constrain dependencies and regression-test important recurring templates.
+- Use deterministic code/SQL for aggregation, joins, parsing, hashing, comparison, and validation rather than asking the model to manually compute large structures.
 
 Read `references/automation-performance.md`.
 
 ## 10. Security and governance
 
-Treat spreadsheets and connected data sources as potentially active/untrusted content.
+Treat spreadsheets and connected sources as potentially active/untrusted content.
 
-- Preserve originals and use safe output paths.
-- Do not expose credentials in code, logs, workbook cells, or committed config.
+- Preserve originals and safe output paths.
+- Do not expose credentials in code/logs/workbook cells/committed config.
 - Be cautious with macros, external links, Power Query, connectors, embedded objects, and formula/CSV injection.
 - `DisplayAlerts=False` is not macro security.
-- Use least privilege and trusted connectors.
-- Do not send confidential data to external services without authorization.
-- For programmatic Excel opening, manage automation security intentionally and restore prior state.
+- Use least privilege/trusted connectors.
+- Do not send confidential data externally without authorization.
+- Manage desktop Excel automation security intentionally and restore prior state.
 - Record provenance/lineage for high-risk work.
 
 Read `references/security-governance.md`.
 
-## 11. Writing without AI slop
+## 11. Coding behavior
+
+When changing code:
+- inspect target + nearby tests before broad exploration;
+- follow existing patterns;
+- prefer minimal diffs;
+- avoid speculative abstractions/dependencies;
+- validate external data boundaries explicitly;
+- fail loudly on violated invariants;
+- comments explain why, not obvious syntax;
+- run targeted tests first, then broaden by blast radius;
+- benchmark performance claims;
+- inspect the final diff.
+
+Read `references/coding-practices.md`.
+
+## 12. Writing without AI slop
 
 - Lead with the answer/finding when appropriate.
 - Use concrete nouns, verbs, numbers, dates, units, and denominators.
 - State what changed, where, how much, versus what, and why it matters.
 - Separate **fact**, **interpretation**, **hypothesis**, **limitation**, and **recommendation**.
-- Remove filler such as “it is important to highlight,” “valuable insights,” “robust solution,” and “in today's dynamic environment.”
+- Remove generic filler.
 - Do not repeat the prompt as an introduction.
-- Prefer a short specific paragraph to a long generic one.
-- Do not label something “significant,” “anomaly,” “trend,” or “insight” without a criterion.
+- Prefer short specific prose to polished generic prose.
+- Do not label something “significant”, “anomaly”, “trend”, or “insight” without a criterion.
 - If evidence is insufficient, say what is unknown and what would resolve it.
 
 Read `references/writing-review-handoff.md`.
 
-## 12. Five-lens review
+## 13. Five-lens review
 
-Before material delivery, review independently as:
+For material deliveries, review as needed through:
 
-**Analyst:** Does this answer the real question? Are comparisons and conclusions justified?
+**Analyst:** Does this answer the real question?
 
-**Auditor:** Can another person reproduce the result? Are sources, joins, filters, exclusions, assumptions, and control totals traceable?
+**Auditor:** Can another person reproduce and trace it?
 
-**Information designer:** Does attention go to the right thing first? Is visual emphasis proportional to importance?
+**Information designer:** Does attention go to the right thing?
 
-**Editor:** Does every sentence earn its place? Is the language specific, natural, concise, and evidence-based?
+**Editor:** Does every sentence earn its place?
 
-**End user:** Can the intended person understand and use the result without contacting the author?
+**End user:** Can the intended person use it without contacting the author?
 
-For review of third-party work, classify findings as `BLOCKER`, `MAJOR`, `MINOR`, or `IMPROVEMENT`; every material finding needs evidence, impact, and a resolution criterion.
+For third-party review, classify findings as `BLOCKER`, `MAJOR`, `MINOR`, or `IMPROVEMENT`; material findings need evidence, impact, and resolution criterion.
 
-## 13. Definition of done
+## 14. Definition of done
 
-Completion evidence should be proportional to risk and may include:
+Evidence is proportional to risk and may include:
 
-- output exists and reopens successfully;
+- output exists/reopens;
 - expected sheets/tables/files exist;
-- row counts, schemas, keys, and control totals reconcile;
-- material joins have matched/unmatched evidence;
-- formulas were checked at the correct layer;
-- current formula results were recalculated in a real engine when required;
-- output was visually inspected when presentation matters;
-- original/source data remains recoverable;
-- exceptions and limitations are disclosed;
-- final narrative is specific and free of material ambiguity;
-- another person can continue the workflow from delivered artifacts.
+- schemas/keys/control totals reconcile;
+- joins have matched/unmatched evidence;
+- formulas checked at the correct layer;
+- recalculation verified in a real compatible engine when required;
+- visual QA when presentation matters;
+- original/source remains recoverable;
+- exceptions/limitations disclosed;
+- narrative is specific and unambiguous;
+- another person can continue from delivered artifacts.
 
-Use `references/quality-gates.md` for the full QA rubric.
+Use `references/quality-gates.md`.
 
-## 14. Reference map
+## 15. Reference map — load selectively
 
-Load only what is needed:
+**Execution/context**
+- `references/agent-harness.md` — adaptive modes, tool/file-reading policy, state and stopping.
+- `references/prompt-context-engineering.md` — prompts, context hierarchy, caching-aware structure.
+- `references/token-economy.md` — task-level token/cost/latency economy.
+- `references/coding-practices.md` — code editing/testing discipline.
 
+**Domain**
 - `references/quick-reference.md`
 - `references/tool-selection.md`
 - `references/data-analysis-quality.md`
@@ -245,12 +303,14 @@ Load only what is needed:
 - `references/writing-review-handoff.md`
 - `references/quality-gates.md`
 - `references/patterns-recipes.md`
-- `references/source-notes.md`
 
-## 15. Boundary behavior
+Read `references/source-notes.md` only when researching/updating guidance, not during ordinary task execution.
+
+## 16. Boundary behavior
 
 - Low-risk tasks should not become process theater.
-- High-risk work should favor explicit evidence and independent checks over speed.
-- If the environment cannot validate something, state that limitation instead of implying validation.
-- If a workbook contains features the chosen library cannot safely preserve, switch tools or make the limitation explicit before editing.
-- If the best final artifact is not a spreadsheet, do not force one.
+- High-risk work favors evidence and independent checks over token savings.
+- If the environment cannot validate something, state the limitation.
+- If a workbook cannot be safely preserved by the chosen library, switch tools or disclose the limitation before editing.
+- If the best artifact is not a spreadsheet, do not force one.
+- Do not use hidden chain-of-thought as a deliverable; provide concise rationale/evidence when explanation is needed.
