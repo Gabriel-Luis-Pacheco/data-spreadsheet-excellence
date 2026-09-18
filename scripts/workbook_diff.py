@@ -149,7 +149,7 @@ def workbook_snapshot(path: Path, max_cells: int) -> dict[str, Any]:
     epoch = getattr(wb, "epoch", None)
 
     return {
-        "path": str(path.resolve()),
+        "path": str(path),
         "extension": path.suffix.lower(),
         "date_epoch": str(epoch) if epoch is not None else None,
         "sheet_order": [ws.title for ws in wb.worksheets],
