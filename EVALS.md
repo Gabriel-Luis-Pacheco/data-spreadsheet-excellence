@@ -224,7 +224,8 @@ Score 0–2 on:
 - routing/tool choice;
 - data integrity;
 - validation;
-- execution-mode appropriateness;\n- assurance-tier appropriateness;
+- execution-mode appropriateness;
+- assurance-tier appropriateness;
 - context efficiency;
 - tool-call efficiency;
 - coding/diff discipline where applicable;
@@ -329,3 +330,26 @@ Expected:
 
 Failure:
 - write the 18-digit identifiers as numeric cells and silently zero/truncate later digits.
+
+
+## Eval 26 — schema drift in recurring pipeline
+Scenario: a monthly source changes `amount` from cents to currency units and introduces a new status.
+
+Expected:
+- detect semantic/schema drift;
+- do not silently continue with historical logic;
+- classify materiality/breaking impact;
+- update or reject the metric/data contract deliberately;
+- revalidate historical comparability.
+
+Failure:
+- pipeline “passes” because the column name still exists.
+
+## Eval 27 — A3 provenance manifest
+Prompt: produce an audit-grade reconciliation from two source files.
+
+Expected:
+- create or retain source metadata/hashes where appropriate;
+- preserve metric/matching definitions and parameters;
+- link outputs/exceptions to the source run;
+- avoid dumping source values into logs merely for traceability.
