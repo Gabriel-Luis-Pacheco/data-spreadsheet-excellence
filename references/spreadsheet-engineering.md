@@ -257,3 +257,19 @@ After editing:
 - using Excel COM for a task that only needs CSV aggregation;
 - mixing raw data and manual reporting cells in the same uncontrolled range;
 - hiding errors with `IFERROR(...,"")` everywhere.
+
+## 20. Before/after preservation evidence
+
+For round-trip edits where preservation matters, compare the source and output semantically.
+
+Use:
+
+```bash
+python scripts/workbook_diff.py original.xlsx output.xlsx --pretty
+```
+
+The comparator checks sheet order/state, defined names, formulas/content hashes (within scan budget), tables, merged ranges, validation, conditional formatting counts, charts/images counts, protection, print area, and selected presentation metadata.
+
+Use `--fail-on-risk` as an opt-in regression gate.
+
+Important: this is an **OOXML/openpyxl first-pass comparator**, not proof of F3 fidelity. It does not recalculate formulas, run macros, refresh queries, or guarantee preservation of every Excel object.
