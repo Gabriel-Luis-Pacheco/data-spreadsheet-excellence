@@ -1,59 +1,58 @@
 # Changelog
 
+## 7.0.0 — 2026-09-18 — Assurance & Agent Security
+
+Deep audit/reliability release focused on gaps that were not adequately enforced by v6.
+
+### Added
+- independent `A0 / A1 / A2 / A3` assurance tiers, separate from LEAN/BALANCED/DEEP execution complexity;
+- `references/assurance-model.md`;
+- `references/agent-security.md` for indirect prompt injection, trust boundaries, exfiltration and consequential actions;
+- `SECURITY.md`;
+- canonical `VERSION` file and version-consistency validation;
+- `scripts/workbook_diff.py` for before/after semantic workbook QA;
+- executable regression tests in `tests/test_utilities.py`;
+- `requirements-ci.txt` and dependency-aware GitHub Actions testing;
+- `assets/metric-contract-template.md`;
+- `assets/agent-state-template.yaml`;
+- `evals/README.md` with telemetry/comparison methodology;
+- accessibility details including A1/table structure/alt-text checks.
+
+### Improved
+- `SKILL.md` now separates execution depth from evidence strength;
+- untrusted workbook/document/web/tool content is explicitly data, not authority;
+- workbook inventory now surfaces comments, hyperlinks, hidden sheets, external links and macro-container hints;
+- tabular profiler now reports formula-like text for review without unsafe blanket sanitization;
+- quality gates now start with a trust/security gate and map to assurance tiers;
+- CI now runs functional behavior tests instead of only compiling scripts;
+- agent/Copilot instructions now include trust boundaries and executable test commands;
+- false activation boundary clarified for unrelated generic coding tasks.
+
+### Why this release matters
+v6 optimized how much the agent reads and does. v7 adds stronger guarantees about **what evidence is required** and **which content the agent is allowed to trust**.
+
+Token savings never justify weaker assurance or unsafe actions.
+
 ## 6.0.0 — 2026-09-18 — Efficiency Harness
 
 Major prompt/context engineering and agent-efficiency release.
 
 ### Added
 - adaptive `LEAN / BALANCED / DEEP` execution modes;
-- `references/agent-harness.md`;
-- `references/prompt-context-engineering.md`;
-- `references/token-economy.md`;
-- `references/coding-practices.md`;
-- `references/provider-adapters.md` for Codex/OpenAI, Copilot, Claude, Gemini, and generic harness mapping;
-- portable `harness/harness.yaml`;
-- concise repository `AGENTS.md`;
-- GitHub Copilot repository/path-specific instructions;
-- `assets/task-prompt-template.md`;
-- `scripts/context_budget.py` to detect always-on context creep;
-- efficiency-focused evals for context selection, tool economy, coding discipline, compaction, and prompt caching.
-
-### Changed
-- `SKILL.md` now treats context/tool/token efficiency as an adaptive execution concern rather than a generic “be concise” rule;
-- core instructions now explicitly prohibit bulk-loading references;
-- prompt guidance emphasizes Goal / Context / Constraints / Output / Done when;
-- reasoning guidance avoids unnecessary exposed chain-of-thought instructions;
-- deterministic computation is routed to code/SQL/tools instead of language-model arithmetic;
-- CI now enforces core context budgets;
-- source notes include current OpenAI, GitHub, Anthropic, and Google prompt/context guidance.
+- prompt/context/token/coding references and provider adapters;
+- portable harness;
+- concise `AGENTS.md`;
+- Copilot instructions;
+- context budget CI;
+- efficiency-focused evals.
 
 ### Design principle
 Token savings cannot override correctness, safety, workbook fidelity, or material analytical validation.
 
 ## 5.0.0 — 2026-09-18
 
-Major skill architecture and quality release.
-
-### Added
-- modular progressive-disclosure references;
-- tool-selection, analytical-quality, reconciliation, spreadsheet-engineering, visual-design, automation, security, writing and quality-gate guides;
-- patterns/recipes and source notes;
-- evaluation suite (`EVALS.md`);
-- read-only workbook inventory utility;
-- safe-by-default tabular profiler;
-- OpenAI/Codex `agents/openai.yaml`;
-- reusable delivery, reconciliation and review templates.
-
-### Improved
-- stronger activation description in `SKILL.md`;
-- explicit F0–F3 workbook fidelity routing;
-- null-key and merge-cardinality safeguards;
-- deterministic → fuzzy → probabilistic matching ladder;
-- safer handling of identifiers and leading zeros;
-- accessibility guidance separated from internal workbook conventions;
-- formula/recalculation state model;
-- security around macros, Power Query, links and formula injection;
-- low-risk tasks remain lightweight while high-risk tasks get stronger assurance.
+Major modular skill architecture and quality release.
 
 ## 4.0.0
+
 Ten-round review release focused on professional analysis, spreadsheet design, data reconciliation, reproducibility, analytical writing, and QA.
