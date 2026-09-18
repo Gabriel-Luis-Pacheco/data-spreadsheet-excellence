@@ -1,0 +1,4 @@
+interface:
+  display_name: "Data & Spreadsheet Excellence"
+  short_description: "Professional data analysis and spreadsheet QA"
+  default_prompt: "Use $data-spreadsheet-excellence to analyze, reconcile, automate, review, or design this data/spreadsheet task with rigorous validation and professional output."
