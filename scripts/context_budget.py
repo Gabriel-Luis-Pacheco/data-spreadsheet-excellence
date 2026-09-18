@@ -2,8 +2,8 @@
 """Report context-size proxies for always-on/core skill files.
 
 This is not an exact tokenizer. Tokenization varies by model/provider/language.
-The script tracks lines, words, characters, and a deliberately rough token
-proxy so instruction growth is visible in CI.
+The script tracks lines, words, characters, and a rough token proxy so
+instruction growth is visible in CI.
 """
 from __future__ import annotations
 
@@ -17,13 +17,15 @@ CORE_LIMITS = {
     "SKILL.md": {"lines": 500, "words": 4500},
     "AGENTS.md": {"lines": 200, "words": 1800},
     ".github/copilot-instructions.md": {"lines": 150, "words": 1200},
+    "agents/openai.yaml": {"lines": 50, "words": 500},
 }
+
 
 def metrics(path: Path) -> dict[str, int]:
     text = path.read_text(encoding="utf-8")
     words = len(text.split())
     chars = len(text)
-    # Very rough portability proxy only. Never use as billing/tokenizer truth.
+    # Portability proxy only. Never use as billing/tokenizer truth.
     token_proxy = max(round(words * 1.35), round(chars / 4))
     return {
         "lines": len(text.splitlines()),
@@ -32,10 +34,14 @@ def metrics(path: Path) -> dict[str, int]:
         "token_proxy": token_proxy,
     }
 
+
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--check", action="store_true",
-                        help="Fail if core instruction files exceed repository guardrails.")
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="Fail if core instruction files exceed repository guardrails.",
+    )
     args = parser.parse_args()
 
     failures: list[str] = []
@@ -46,6 +52,7 @@ def main() -> int:
         if not path.exists():
             failures.append(f"missing core file: {rel}")
             continue
+
         m = metrics(path)
         status = "OK"
         for key, limit in limits.items():
@@ -82,6 +89,7 @@ def main() -> int:
         return 1 if args.check else 0
 
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())
