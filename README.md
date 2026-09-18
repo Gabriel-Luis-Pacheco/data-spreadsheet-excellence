@@ -124,6 +124,7 @@ scripts/
   inspect_workbook.py
   profile_tabular.py
   workbook_diff.py
+  file_manifest.py
 
 tests/
   test_utilities.py
@@ -132,6 +133,7 @@ assets/
   task-prompt-template.md
   metric-contract-template.md
   agent-state-template.yaml
+  data-dictionary-template.md
   delivery-summary-template.md
   reconciliation-summary-template.md
   review-report-template.md
@@ -224,7 +226,7 @@ First-pass data profile:
 python scripts/profile_tabular.py data.csv --pretty
 ```
 
-The profiler preserves CSV/Excel values as text where practical by default and reports formula-like text as a **review signal**, not proof of malicious content.
+The profiler preserves CSV/Excel text safely by default, does not treat literal labels such as `NA` as missing, separates blanks from nulls, and reports formula-like text as a **review signal**. Real top/sample values are hidden unless `--include-values` is explicitly requested.
 
 Compare a workbook before/after an edit:
 
@@ -239,6 +241,14 @@ python scripts/workbook_diff.py original.xlsx output.xlsx --fail-on-risk
 ```
 
 This comparison is first-pass OOXML QA. It does not prove F3 Excel fidelity.
+
+Create a source/provenance manifest:
+
+```bash
+python scripts/file_manifest.py source_a.xlsx source_b.csv --pretty
+```
+
+For shared/recurring datasets, `assets/data-dictionary-template.md` provides a lightweight schema/business dictionary.
 
 ## Deterministic tests
 
@@ -256,7 +266,8 @@ Tests cover:
 - leading-zero preservation and formula-like text signals;
 - workbook formulas/hidden sheets/comments/hyperlinks;
 - before/after formula-change detection and identical-workbook no-change behavior;
-- skill/context validators.
+- source-manifest hashing without leaking file contents;
+- skill/context/harness validators.
 
 ## Evaluation
 
