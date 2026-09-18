@@ -11,10 +11,12 @@ Deep audit/reliability release focused on gaps that were not adequately enforced
 - `SECURITY.md`;
 - canonical `VERSION` file and version-consistency validation;
 - `scripts/workbook_diff.py` for before/after semantic workbook QA;
-- executable regression tests in `tests/test_utilities.py`;\n- `scripts/validate_harness.py` for machine-readable harness/OpenAI metadata validation;
+- executable regression tests in `tests/test_utilities.py`;
+- `scripts/validate_harness.py` for machine-readable harness/OpenAI metadata validation;
 - `requirements-ci.txt` and dependency-aware GitHub Actions testing;
 - `assets/metric-contract-template.md`;
 - `assets/agent-state-template.yaml`;
+- `assets/data-dictionary-template.md` and `scripts/file_manifest.py` for schema/provenance handoff;
 - `evals/README.md` with telemetry/comparison methodology;
 - accessibility details including A1/table structure/alt-text checks;
 - locale-aware delivery guidance and Excel size/precision/date-system safeguards;
@@ -30,7 +32,9 @@ Deep audit/reliability release focused on gaps that were not adequately enforced
 - agent/Copilot instructions now include trust boundaries and executable test commands;
 - false activation boundary clarified for unrelated generic coding tasks;
 - workbook diff now checks defined-name targets, calculation settings, external-link count, VBA-container presence, comments, hyperlinks, and number-format changes;
-- CI includes a no-change workbook regression test to reduce false-positive risk.
+- CI includes a no-change workbook regression test to reduce false-positive risk;
+- profiler safe mode now preserves literal NA-like text, separates blanks from nulls, and hides real top values unless explicitly requested;
+- recurring analysis guidance now covers schema/definition drift.
 
 ### Why this release matters
 v6 optimized how much the agent reads and does. v7 adds stronger guarantees about **what evidence is required** and **which content the agent is allowed to trust**.
