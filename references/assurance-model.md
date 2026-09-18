@@ -48,7 +48,7 @@ Typical evidence:
 
 ### A3 — critical
 
-Use for regulatory, externally published, high-value financial, irreversible, safety-sensitive, or otherwise critical work.
+Use for regulatory, materially consequential official/external publication, high-value financial, irreversible, safety-sensitive, or otherwise critical work.
 
 Typical evidence:
 - independent validation path or reviewer where feasible;
@@ -84,7 +84,7 @@ Escalate **execution** when:
 
 Escalate **assurance** when:
 - the cost of a wrong result rises;
-- the output leaves the team/company;
+- the output leaves the team/company **and** an error would be materially consequential;
 - money, compliance, reputation, or irreversible action is involved;
 - the user explicitly requests audit-grade/review-grade work;
 - input provenance or calculation behavior is uncertain.
