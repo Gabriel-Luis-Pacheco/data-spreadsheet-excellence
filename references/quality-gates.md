@@ -26,6 +26,7 @@ Choose gates by **assurance tier**, not by ritual. High consequence can require 
 - [ ] key nulls/duplicates checked
 - [ ] control totals captured
 - [ ] raw source recoverable
+- [ ] recurring inputs meet freshness/contract expectations or drift is explicitly classified
 
 ## Gate C — Transformations
 - [ ] normalization rules explicit
@@ -62,6 +63,7 @@ Choose gates by **assurance tier**, not by ritual. High consequence can require 
 - [ ] inputs/outputs/checks clear
 - [ ] external links/macros/queries inventoried
 - [ ] before/after semantic diff reviewed when preservation matters
+- [ ] target Excel version/channel compatibility considered when recipients differ from authoring environment
 - [ ] original preserved
 
 ## Gate G — Workbook F2
@@ -118,6 +120,7 @@ Choose gates by **assurance tier**, not by ritual. High consequence can require 
 - [ ] limitations included
 - [ ] recipient can continue without author
 - [ ] confidential temp/source artifacts not unintentionally included
+- [ ] A2/A3 evidence manifest or equivalent traceability package included when needed
 
 ## Assurance mapping
 
