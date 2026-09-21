@@ -3,3 +3,4 @@
 # until the relevant Python utilities are executed.
 pandas>=2.2,<4
 openpyxl>=3.1,<4
+PyYAML>=6,<7
