@@ -22,7 +22,20 @@ A portable Agent Skill for professional work with **data analysis, Python, Excel
 - adaptive execution and independent assurance tiers;
 - AI coding discipline and minimal-diff workflows.
 
-## v7 architecture: execution ≠ assurance
+## v8 architecture: measurable quality, drift, and compatibility
+
+v8 closes gaps between written guidance and executable QA:
+
+- machine-readable behavioral eval catalog in `evals/cases.yaml`;
+- CI validation of eval coverage via `scripts/validate_evals.py`;
+- semantic before/after data comparison via `scripts/tabular_diff.py`;
+- explicit recurring-data contracts, freshness and drift discipline;
+- dedicated Excel cross-version/precision/date-system compatibility guidance;
+- `assets/evidence-manifest-template.yaml` for A2/A3 traceability.
+
+The detailed human scenarios remain in `EVALS.md`; the YAML catalog exists so coverage can be checked and exported to an external model-eval harness.
+
+## Execution ≠ assurance
 
 The biggest change in v7 is separating **how difficult the work is** from **how much evidence the result requires**.
 
@@ -117,6 +130,8 @@ references/
   writing-review-handoff.md
   quality-gates.md
   patterns-recipes.md
+  data-contracts-observability.md
+  excel-compatibility.md
   source-notes.md
 
 scripts/
@@ -126,6 +141,8 @@ scripts/
   inspect_workbook.py
   profile_tabular.py
   workbook_diff.py
+  tabular_diff.py
+  validate_evals.py
   file_manifest.py
 
 tests/
@@ -139,10 +156,12 @@ assets/
   delivery-summary-template.md
   reconciliation-summary-template.md
   review-report-template.md
+  evidence-manifest-template.yaml
 
 evals/
   README.md
 EVALS.md
+  evals/cases.yaml
 
 .github/
   copilot-instructions.md
@@ -307,7 +326,7 @@ See `references/source-notes.md`.
 
 ## Version
 
-**v7.0.0 — Assurance & Agent Security**
+**v8.0.0 — Assurance & Agent Security**
 
 Canonical version: `VERSION`
 
