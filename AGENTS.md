@@ -31,6 +31,9 @@ This repository defines the `data-spreadsheet-excellence` Agent Skill.
 
 For instruction-only changes:
 - `python scripts/validate_skill.py`
+- `python scripts/validate_harness.py`
+- `python scripts/validate_evals.py`
+- `python scripts/validate_evidence.py`
 - `python scripts/context_budget.py --check`
 
 For Python changes:
