@@ -188,10 +188,78 @@ class UtilityTests(unittest.TestCase):
             self.assertEqual(payload["files"][0]["sha256"], hashlib.sha256(content).hexdigest())
             self.assertNotIn("secret-ish-source-data", json.dumps(payload))
 
+    def test_tabular_diff_hashes_keys_and_detects_changes(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            before = Path(td) / "before.csv"
+            after = Path(td) / "after.csv"
+            before.write_text(
+                "id,amount,status\n00123,10,open\n00456,20,closed\n",
+                encoding="utf-8",
+            )
+            after.write_text(
+                "id,amount,status\n00123,15,open\n00789,30,new\n",
+                encoding="utf-8",
+            )
+
+            proc, payload = run_json(
+                "tabular_diff.py",
+                str(before),
+                str(after),
+                "--key",
+                "id",
+            )
+            self.assertEqual(proc.returncode, 0)
+            self.assertTrue(payload["differences_detected"])
+            self.assertEqual(payload["row_diff"]["added_rows"], 1)
+            self.assertEqual(payload["row_diff"]["removed_rows"], 1)
+            self.assertEqual(payload["row_diff"]["changed_rows"], 1)
+            serialized = json.dumps(payload)
+            self.assertNotIn("00123", serialized)
+            self.assertNotIn("00456", serialized)
+            self.assertNotIn("00789", serialized)
+            self.assertIn("sha256:", serialized)
+
+            proc2, payload2 = run_json(
+                "tabular_diff.py",
+                str(before),
+                str(after),
+                "--key",
+                "id",
+                "--include-values",
+            )
+            self.assertEqual(proc2.returncode, 0)
+            self.assertIn("00123", json.dumps(payload2))
+
+    def test_tabular_diff_refuses_ambiguous_duplicate_keys(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            before = Path(td) / "before.csv"
+            after = Path(td) / "after.csv"
+            before.write_text(
+                "id,amount\nA,10\nA,20\n",
+                encoding="utf-8",
+            )
+            after.write_text(
+                "id,amount\nA,30\n",
+                encoding="utf-8",
+            )
+
+            proc, payload = run_json(
+                "tabular_diff.py",
+                str(before),
+                str(after),
+                "--key",
+                "id",
+            )
+            self.assertEqual(proc.returncode, 0)
+            self.assertEqual(payload["row_diff"]["status"], "ambiguous_key")
+            self.assertGreater(payload["key"]["duplicate_rows_before"], 0)
+
+
     def test_repository_validators_pass(self) -> None:
         for script, extra in [
             ("validate_skill.py", []),
             ("validate_harness.py", []),
+            ("validate_evals.py", []),
             ("context_budget.py", ["--check"]),
         ]:
             proc = subprocess.run(
