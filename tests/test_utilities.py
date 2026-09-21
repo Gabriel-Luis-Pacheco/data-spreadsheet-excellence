@@ -255,11 +255,40 @@ class UtilityTests(unittest.TestCase):
             self.assertGreater(payload["key"]["duplicate_rows_before"], 0)
 
 
+    def test_evidence_manifest_template_validates(self) -> None:
+        proc = subprocess.run(
+            [PY, str(ROOT / "scripts" / "validate_evidence.py")],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        self.assertEqual(proc.returncode, 0, msg=proc.stderr + proc.stdout)
+
+    def test_eval_export_emits_jsonl(self) -> None:
+        proc = subprocess.run(
+            [PY, str(ROOT / "scripts" / "export_evals.py"), "--tag", "excel"],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        self.assertEqual(proc.returncode, 0, msg=proc.stderr)
+        lines = [line for line in proc.stdout.splitlines() if line.strip()]
+        self.assertGreater(len(lines), 0)
+        first = json.loads(lines[0])
+        self.assertIn("id", first)
+        self.assertIn("prompt", first)
+        self.assertIn("expected", first)
+        self.assertIn("excel", first["tags"])
+
+
     def test_repository_validators_pass(self) -> None:
         for script, extra in [
             ("validate_skill.py", []),
             ("validate_harness.py", []),
             ("validate_evals.py", []),
+            ("validate_evidence.py", []),
             ("context_budget.py", ["--check"]),
         ]:
             proc = subprocess.run(
