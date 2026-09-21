@@ -183,6 +183,13 @@ Provider-specific details change. The skill keeps durable principles portable an
   https://support.microsoft.com/excel/format-numbers-as-text
   - digit-only codes/identifiers with 16+ digits should be treated as text when exact preservation matters.
 
+- Microsoft — Dynamic array compatibility:
+  https://support.microsoft.com/excel/dynamic-array-formulas-in-non-dynamic-aware-excel
+  - newer dynamic-array behavior/functions can require compatibility review in older Excel.
+- Microsoft — Formula compatibility issues:
+  https://support.microsoft.com/excel/formula-compatibility-issues-in-excel
+  - use compatibility checking when targeting older formats/versions.
+
 - Microsoft — Date systems in Excel:
   https://support.microsoft.com/excel/date-systems-in-excel
   - Excel supports 1900 and 1904 date systems;
@@ -192,6 +199,15 @@ Provider-specific details change. The skill keeps durable principles portable an
   https://support.microsoft.com/excel/change-formula-recalculation-iteration-or-precision-in-excel
   - Excel stores numbers at up to 15 digits of precision;
   - precision-as-displayed can permanently change stored values.
+
+## Data contracts and observability
+
+- Great Expectations — schema validation:
+  https://docs.greatexpectations.io/docs/reference/learn/data_quality_use_cases/schema/
+  - validates structural expectations and detects schema changes.
+- Great Expectations — freshness validation:
+  https://docs.greatexpectations.io/docs/reference/learn/data_quality_use_cases/freshness/
+  - treats freshness/staleness as a first-class data-quality property.
 
 ## Analytical quality
 
