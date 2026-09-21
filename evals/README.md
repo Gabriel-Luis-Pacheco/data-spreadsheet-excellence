@@ -1,6 +1,6 @@
 # Evaluation Strategy
 
-The repository uses two evaluation layers.
+The repository uses three evaluation layers.
 
 ## 1. Deterministic CI tests
 
@@ -19,9 +19,21 @@ Run:
 python -m unittest discover -s tests -v
 ```
 
-## 2. Behavioral agent evals
+## 2. Machine-readable eval catalog
 
-`../EVALS.md` contains scenarios that require an AI agent/harness.
+`cases.yaml` contains representative activation/behavior cases with expected execution mode, assurance tier, tags, required behaviors, and prohibited behaviors.
+
+Validate the catalog and minimum coverage with:
+
+```bash
+python scripts/validate_evals.py
+```
+
+This catches structural regressions but does **not** pretend to execute an LLM.
+
+## 3. Behavioral agent evals
+
+`../EVALS.md` contains richer scenarios that require an AI agent/harness.
 
 For each run record:
 
@@ -75,3 +87,7 @@ Treat as a regression when:
 - cost/latency rises materially without a quality benefit.
 
 Behavioral eval execution is provider/harness-specific; this repository intentionally does not pretend a static Markdown file can execute model evals by itself.
+
+## External benchmark integration
+
+Export/use `cases.yaml` as the stable scenario source for provider-specific eval harnesses. Record raw observed usage/results outside the prompt context, then compare versions using the same cases and fixtures. The OpenAI skill-evaluation guidance recommends systematic activation and behavior evaluation rather than judging skill quality from one anecdotal run.
