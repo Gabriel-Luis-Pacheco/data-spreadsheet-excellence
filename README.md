@@ -143,6 +143,8 @@ scripts/
   workbook_diff.py
   tabular_diff.py
   validate_evals.py
+  export_evals.py
+  validate_evidence.py
   file_manifest.py
 
 tests/
@@ -160,8 +162,9 @@ assets/
 
 evals/
   README.md
+  cases.yaml
+
 EVALS.md
-  evals/cases.yaml
 
 .github/
   copilot-instructions.md
@@ -248,6 +251,25 @@ python scripts/inspect_workbook.py workbook.xlsx --pretty
 ```
 
 The inventory now flags common review surfaces such as hidden sheets, comments, hyperlinks, VBA containers, and external links where visible to openpyxl.
+
+Semantic before/after table diff:
+
+```bash
+python scripts/tabular_diff.py before.csv after.csv --key id --pretty
+```
+
+Machine-readable eval validation/export:
+
+```bash
+python scripts/validate_evals.py
+python scripts/export_evals.py --tag excel
+```
+
+Evidence-manifest validation:
+
+```bash
+python scripts/validate_evidence.py path/to/evidence.yaml --strict
+```
 
 First-pass data profile:
 
