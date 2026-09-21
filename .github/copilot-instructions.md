@@ -7,5 +7,5 @@
 - Prefer minimal diffs and existing patterns over speculative refactors.
 - Follow `AGENTS.md` for repository workflow, trust boundaries, and verification.
 - For Python under `scripts/`, follow the path-specific Python instructions.
-- Run `python scripts/validate_skill.py`, `python scripts/context_budget.py --check`, and relevant tests after architecture/code changes.
+- Run the repository validators (`validate_skill.py`, `validate_harness.py`, `validate_evals.py`, `validate_evidence.py`, `context_budget.py --check`) and relevant tests after architecture/code changes.
 - Do not weaken correctness, security, spreadsheet fidelity, reconciliation, or assurance merely to save tokens.
