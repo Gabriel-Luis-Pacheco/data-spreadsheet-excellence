@@ -29,6 +29,10 @@ jobs:
         run: python scripts/validate_skill.py
       - name: Validate harness and agent metadata
         run: python scripts/validate_harness.py
+      - name: Validate machine-readable eval catalog
+        run: python scripts/validate_evals.py
+      - name: Validate evidence manifest template
+        run: python scripts/validate_evidence.py
       - name: Enforce core context budgets
         run: python scripts/context_budget.py --check
       - name: Compile utility and test scripts
