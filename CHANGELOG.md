@@ -1,5 +1,30 @@
 # Changelog
 
+## 8.0.0 — 2026-09-21 — Measurable Quality & Data Observability
+
+Audit-driven release focused on gaps between strong written guidance and executable evidence.
+
+### Added
+- machine-readable behavioral eval catalog in `evals/cases.yaml`;
+- `scripts/validate_evals.py` with activation/mode/assurance/coverage checks;
+- `scripts/export_evals.py` for JSONL integration with external model-eval harnesses;
+- `references/data-contracts-observability.md` for schema, semantic, unit, domain, freshness, volume and definition drift;
+- `references/excel-compatibility.md` for Excel-version portability, dynamic arrays, 15-digit precision, date systems, worksheet limits and legacy-format risk;
+- `scripts/tabular_diff.py` for privacy-conscious before/after semantic data comparison;
+- `assets/evidence-manifest-template.yaml` and `scripts/validate_evidence.py` for A2/A3 traceability;
+- regression tests for tabular diff privacy/ambiguous keys, eval export, and evidence-manifest validation.
+
+### Improved
+- recurring pipelines now distinguish one-run validation from longitudinal observability/drift;
+- workbook QA explicitly considers recipient Excel version/channel, not only authoring environment;
+- CI validates eval coverage and evidence-manifest structure;
+- runtime dependencies now include PyYAML because bundled YAML utilities require it;
+- harness v3 includes recurring-data, compatibility and evidence policies;
+- quality gates include freshness/drift, cross-version compatibility and evidence-package checks.
+
+### Why this release matters
+v7 strengthened trust and assurance. v8 makes more of that assurance **measurable and portable**: datasets can be compared semantically, recurring sources can drift without silently passing, eval coverage is machine-checkable, and material runs can leave a structured evidence trail.
+
 ## 7.0.0 — 2026-09-18 — Assurance & Agent Security
 
 Deep audit/reliability release focused on gaps that were not adequately enforced by v6.
