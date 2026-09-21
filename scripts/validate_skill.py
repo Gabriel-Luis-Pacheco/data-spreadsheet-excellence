@@ -140,13 +140,13 @@ def main() -> int:
         workflow_text = workflow_path.read_text(encoding="utf-8")
 
         if "permissions:" not in workflow_text or not re.search(
-            r"(?m)^\\s*contents:\\s*read\\s*$",
+            r"(?m)^\s*contents:\s*read\s*$",
             workflow_text,
         ):
             errors.append(f"{workflow_path.relative_to(ROOT)} must declare contents: read")
 
         if "concurrency:" not in workflow_text or not re.search(
-            r"(?m)^\\s*cancel-in-progress:\\s*true\\s*$",
+            r"(?m)^\s*cancel-in-progress:\s*true\s*$",
             workflow_text,
         ):
             errors.append(
