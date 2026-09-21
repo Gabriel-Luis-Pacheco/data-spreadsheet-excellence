@@ -1,4 +1,4 @@
-version: 2
+version: 3
 name: data-spreadsheet-excellence-harness
 purpose: adaptive high-quality execution with minimal wasted context, tool calls, and output
 
@@ -34,6 +34,17 @@ defaults:
     avoid_unnecessary_dependencies: true
     targeted_tests_first: true
     broaden_tests_by_blast_radius: true
+  recurring_data_policy:
+    contract_and_drift_checks_when_applicable: true
+    freshness_is_explicit: true
+    do_not_auto_accept_breaking_drift: true
+  compatibility_policy:
+    target_environment_matters: true
+    preserve_excel_date_epoch: true
+    long_digit_identifiers_are_text: true
+  evidence_policy:
+    a2_manifest_when_traceability_would_be_lost: true
+    a3_provenance_and_change_control: true
   output_policy:
     no_prompt_restatement: true
     no_tool_call_narration: true
