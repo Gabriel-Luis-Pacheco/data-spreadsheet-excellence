@@ -56,7 +56,16 @@ def main() -> int:
         failures.append("defaults must be a mapping")
         defaults = {}
 
-    for key in ("context_policy", "trust_policy", "tool_policy", "coding_policy", "output_policy"):
+    for key in (
+        "context_policy",
+        "trust_policy",
+        "tool_policy",
+        "coding_policy",
+        "recurring_data_policy",
+        "compatibility_policy",
+        "evidence_policy",
+        "output_policy",
+    ):
         if not isinstance(defaults.get(key), dict):
             failures.append(f"defaults.{key} must be a mapping")
 
