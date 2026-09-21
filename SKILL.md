@@ -91,7 +91,7 @@ Apply proportionally; a trivial task may collapse several steps.
 
 1. **Inventory** relevant inputs before modification.
 2. **Profile** schema, types, nulls, duplicates, keys, dates, ranges, distributions, and control totals as needed.
-3. **Define** metric contracts, join cardinality, exclusions, tolerances, and assumptions.
+3. **Define** metric contracts, join cardinality, exclusions, tolerances, and assumptions. For recurring feeds, also define data-contract/freshness/drift expectations.
 4. **Choose** tools based on data size, fidelity, environment, and delivery requirements.
 5. **Preserve** raw inputs/originals unless replacement is explicitly requested.
 6. **Transform** with explicit, reproducible rules.
@@ -146,7 +146,7 @@ Read `references/tool-selection.md` when the stack is not obvious. Do not mount/
 - For time series, state baseline/window/calendar/seasonality where relevant.
 - Sort explicitly when order matters.
 
-Read `references/data-analysis-quality.md`.
+Read `references/data-analysis-quality.md`. For recurring feeds, monthly reports, or reusable pipelines, also read `references/data-contracts-observability.md`.
 
 ## 6. Reconciliation and entity matching
 
@@ -177,8 +177,9 @@ Treat a workbook as an information product, not a decorated grid.
 - Formula written ≠ formula accepted ≠ formula recalculated ≠ cached result current.
 - Do not use `openpyxl` as a universal Excel round-trip engine.
 - For F3 work, validate in the target Excel environment when possible.
+- When recipients may use different Excel versions/channels or legacy formats, design against the oldest supported target rather than the author's environment.
 
-Read `references/spreadsheet-engineering.md`.
+Read `references/spreadsheet-engineering.md`. For cross-version/portable workbooks, also read `references/excel-compatibility.md`.
 
 ## 8. Visual design and reporting
 
@@ -290,9 +291,11 @@ Evidence is proportional to risk and may include:
 - original/source remains recoverable;
 - exceptions/limitations disclosed;
 - narrative is specific and unambiguous;
-- another person can continue from delivered artifacts.
+- another person can continue from delivered artifacts;
+- recurring pipelines have drift/freshness checks when material;
+- A2/A3 work uses a compact evidence manifest when traceability would otherwise be lost.
 
-Use `references/quality-gates.md`.
+Use `references/quality-gates.md`. `assets/evidence-manifest-template.yaml` is the optional canonical handoff shape for material/critical runs.
 
 ## 15. Reference map — load selectively
 
@@ -309,14 +312,21 @@ Use `references/quality-gates.md`.
 - `references/quick-reference.md`
 - `references/tool-selection.md`
 - `references/data-analysis-quality.md`
+- `references/data-contracts-observability.md` — contracts, freshness, semantic/schema/unit drift for recurring data.
 - `references/reconciliation-matching.md`
 - `references/spreadsheet-engineering.md`
+- `references/excel-compatibility.md` — cross-version formulas, limits, precision, date systems, and portability.
 - `references/visual-design-reporting.md`
 - `references/automation-performance.md`
 - `references/security-governance.md`
 - `references/writing-review-handoff.md`
 - `references/quality-gates.md`
 - `references/patterns-recipes.md`
+
+**Deterministic QA utilities**
+- `scripts/tabular_diff.py` — privacy-conscious before/after semantic diff for tabular data.
+- `scripts/workbook_diff.py` — before/after semantic workbook diff.
+- `scripts/file_manifest.py` — source/output hashes and provenance support.
 
 Read `references/source-notes.md` only when researching/updating guidance, not during ordinary task execution.
 
