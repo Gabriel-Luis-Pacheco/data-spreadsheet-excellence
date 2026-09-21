@@ -112,6 +112,8 @@ def main() -> int:
         "scripts/workbook_diff.py",
         "scripts/tabular_diff.py",
         "scripts/validate_evals.py",
+        "scripts/export_evals.py",
+        "scripts/validate_evidence.py",
         "tests/test_utilities.py",
         "requirements.txt",
         "requirements-ci.txt",
