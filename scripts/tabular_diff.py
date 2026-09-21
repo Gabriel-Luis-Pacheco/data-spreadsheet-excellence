@@ -96,6 +96,15 @@ def main() -> int:
     added_cols = [c for c in after_cols if c not in before_cols]
     removed_cols = [c for c in before_cols if c not in after_cols]
     common_cols = [c for c in before_cols if c in after_cols]
+    before_dtypes = dtype_map(before)
+    after_dtypes = dtype_map(after)
+    dtype_changes = {
+        col: {"before": before_dtypes[col], "after": after_dtypes[col]}
+        for col in common_cols
+        if before_dtypes.get(col) != after_dtypes.get(col)
+    }
+    column_order_changed = before_cols != after_cols and not added_cols and not removed_cols
+    schema_changed = bool(added_cols or removed_cols or dtype_changes or column_order_changed)
 
     result: dict[str, Any] = {
         "before": str(before_path),
@@ -106,12 +115,18 @@ def main() -> int:
             "added_columns": added_cols,
             "removed_columns": removed_cols,
             "common_columns": common_cols,
-            "dtypes_before": dtype_map(before),
-            "dtypes_after": dtype_map(after),
+            "column_order_changed": column_order_changed,
+            "dtype_changes": dtype_changes,
+            "dtypes_before": before_dtypes,
+            "dtypes_after": after_dtypes,
         },
         "key": None,
-        "row_diff": None,
-        "differences_detected": bool(added_cols or removed_cols or len(before) != len(after)),
+        "row_diff": {
+            "status": "not_run",
+            "message": "Provide one or more --key columns for row-level semantic comparison.",
+        },
+        "semantic_row_comparison_complete": False,
+        "differences_detected": bool(schema_changed or len(before) != len(after)),
         "limitations": [
             "String-preserving comparison is intentional by default; use --infer-types only when typed comparison is desired.",
             "This utility compares tabular semantics, not business meaning.",
@@ -153,6 +168,7 @@ def main() -> int:
                 "message": "Row-level comparison skipped because key contains blanks or duplicates.",
             }
             result["differences_detected"] = True
+            result["semantic_row_comparison_complete"] = False
         else:
             before_i = before.set_index(keys, drop=False)
             after_i = after.set_index(keys, drop=False)
@@ -209,6 +225,7 @@ def main() -> int:
                 "sample_changed_rows": changed_rows[: args.sample],
             }
 
+            result["semantic_row_comparison_complete"] = True
             if added_keys or removed_keys or changed_rows:
                 result["differences_detected"] = True
 
