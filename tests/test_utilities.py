@@ -255,6 +255,21 @@ class UtilityTests(unittest.TestCase):
             self.assertGreater(payload["key"]["duplicate_rows_before"], 0)
 
 
+    def test_tabular_diff_without_key_is_explicitly_incomplete(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            before = Path(td) / "before.csv"
+            after = Path(td) / "after.csv"
+            before.write_text("id,amount\nA,10\n", encoding="utf-8")
+            after.write_text("amount,id\n10,A\n", encoding="utf-8")
+
+            proc, payload = run_json("tabular_diff.py", str(before), str(after))
+            self.assertEqual(proc.returncode, 0)
+            self.assertFalse(payload["semantic_row_comparison_complete"])
+            self.assertEqual(payload["row_diff"]["status"], "not_run")
+            self.assertTrue(payload["schema"]["column_order_changed"])
+            self.assertTrue(payload["differences_detected"])
+
+
     def test_evidence_manifest_template_validates(self) -> None:
         proc = subprocess.run(
             [PY, str(ROOT / "scripts" / "validate_evidence.py")],
