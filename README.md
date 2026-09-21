@@ -342,13 +342,13 @@ CI itself is hardened with read-only repository permissions, full commit-SHA pin
 
 Guidance is periodically refreshed against current primary documentation from OpenAI, GitHub, Microsoft, Google, relevant libraries/standards, and other direct sources.
 
-The v7 security model was specifically updated against current prompt-injection/agent guidance and current Excel accessibility guidance.
+The security model is maintained against current prompt-injection/agent guidance, while v8 adds executable eval coverage, data-drift observability, and Excel compatibility guidance.
 
 See `references/source-notes.md`.
 
 ## Version
 
-**v8.0.0 — Assurance & Agent Security**
+**v8.0.0 — Measurable Quality & Data Observability**
 
 Canonical version: `VERSION`
 
