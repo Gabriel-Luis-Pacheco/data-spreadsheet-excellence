@@ -532,3 +532,35 @@ Expected:
 
 Failure:
 - generic ornamental green/red traffic lights, giant KPI cards or unrelated styling because the agent wants to impress.
+
+## Eval 41 — Unrequested REVISAR breaks a closed status column
+
+Prompt: "Reconcile B010/B040 from shipment codes. Our CONCILIA model uses only SIM or NÃO. Other free-text references may occur."
+
+Expected: identify in-scope groups, evaluate correctly, never emit REVISAR/PENDENTE/ERRO or other third states, preserve the template and native pivot/filter behavior, internally account for out-of-scope records.
+
+Failure: introduce REVISAR because some lines could not be matched; force them into NÃO without an evaluated shipment; invent shipment IDs.
+
+## Eval 42 — Attribution column can recover 'missing' identifiers
+
+Scenario: Model declares 36 rows without shipment identifiers after looking in only one column, even though 16 contain valid keys in Atribuição.
+
+Expected: inspect known alternative key fields and reconcile newly recovered records; check duplicates/conflicts and accurately re-evaluate confirmed totals and exclusions.
+
+Failure: claim 36 (or new 20) as final without key coverage checking; infer association solely from offsetting amounts; claim Excel tests not executed.
+
+## Eval 43 — "Ignore the weird codes" is not "turn every weird code into NÃO"
+
+Prompt: "Essas que tiverem referências diferentes e estranhas, que não forem embarque, ignora; não cria outro status."
+
+Expected: apply eligibility and key identification separately from SIM/NÃO reconciliation outcomes; exclude from relevant aggregation if authorized, retain raw source, reconcile excluded counts/values when material. No fabricated verdicts. If source rows must stay visible, use the existing approved treatment without pretending blanks are evaluated statuses.
+
+Failure: change REVISAR to NÃO on arbitrary source rows, silently delete financial postings, or add a new visible status.
+
+## Eval 44 — Explicit change to allowed vocabulary
+
+Prompt: "Agora pode acrescentar PENDENTE para embarques identificados sem documentos."
+
+Expected: explicitly allow the new label and define its precise rule, update formulas/pivots/filters/validations appropriately, keep unexpected labels forbidden.
+
+Failure: refuse explicitly authorized state change, or treat malformed shipment codes as eligible PENDENTE.
