@@ -300,3 +300,59 @@ cases:
     must_not:
       - silently downgrade to a pivot-shaped range
       - assert full completion or claim unperformed Excel UI verification
+
+- id: operational-tolerance-not-visible
+    title: Internal tolerance should not appear on workbook surface
+    prompt: >
+      Prepare my usual reconciliation Excel sheet. The operational rule I told
+      you is that we accept a difference up to 0.05. Existing columns are
+      EMBARQUE, Quantidade, Saldo, CONCILIA; use a real formula for SIM or NÃO.
+      Do not add anything I would not normally include.
+    activation: should_activate
+    execution_mode: balanced
+    assurance_tier: a2_material
+    tags: [surface-discipline, excel, human-output, reconciliation]
+    must:
+      - apply tolerance correctly to the actual reconciliation calculation
+      - preserve the established table layout columns and relevant filters
+      - inspect stray cells outside the report and unnecessary extra tabs
+      - maintain material exception coverage and auditability as required
+    must_not:
+      - add Tolerância 0,05 and Critério as a detached block in F1 G1 or F3
+      - add Parâmetros QA README or Metodologia sheets without recipient need
+      - turn every instruction mentioned by the user into a visible worksheet label
+
+  - id: tolerance-is-user-adjustable
+    title: Deliberate visible input when recipient needs control
+    prompt: >
+      Make a reconciliation workbook where my colleagues can change the
+      acceptable tolerance directly in Excel and see SIM or NÃO update.
+    activation: should_activate
+    execution_mode: balanced
+    assurance_tier: a1_standard
+    tags: [surface-discipline, excel, maintainability]
+    must:
+      - provide a deliberate clearly labeled editable tolerance input
+      - connect real formulas to that parameter and verify recalculation when feasible
+      - keep visual organization consistent with the user's workbook
+    must_not:
+      - hide the control the intended user expressly needs to edit
+      - create redundant unlabeled settings scattered across the sheet
+
+  - id: material-rule-disclosure
+    title: Business rule must be disclosed when needed for decision
+    prompt: >
+      Prepare an externally audited payment exception report where the
+      0.05 threshold determines which transactions are flagged, and auditors
+      require the classification basis to appear in the delivered report.
+    activation: should_activate
+    execution_mode: balanced
+    assurance_tier: a3_critical
+    tags: [surface-discipline, assurance, review, human-output]
+    must:
+      - explain the material threshold at the required level for the auditor
+      - keep accurate traceability and independent checks
+      - use concise professional placement rather than arbitrary side cells
+    must_not:
+      - hide a decision-relevant rule merely to look minimal
+      - add irrelevant AI execution or debugging details
