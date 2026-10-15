@@ -28,6 +28,10 @@ REQUIRED_TAGS = {
     "activation",
     "locale",
     "review",
+    "human-output",
+    "context",
+    "parallelism",
+    "no-ritual",
 }
 
 
