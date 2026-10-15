@@ -9,6 +9,8 @@ description: Professional data analysis, spreadsheet automation, reconciliation,
 
 Do not treat “code ran” or “file opens” as completion.
 
+**Original-schema contract (highest priority for existing files):** The ORIGINAL workbook's **actual** sheet names, existing headers, column count/order, existing field meanings and status labels are the baseline. Do **not** invent/append/rename `CONCILIA`, `QTD`, `EMBARQUE` or any other user-facing field because grouping/calculation would be convenient. If `CLASSIFICADO` already exists, investigate its **business meaning**; only reuse it for the result it actually represents. Compute derived keys/counts internally. A different required result needs a **genuinely authorized destination**, not a new column or a repurposed existing field chosen by the agent. Compare original vs final sheet/header schemas and block unjustified differences. Earlier AI-generated files/examples are NOT evidence of the original schema. Read `references/source-schema-contract.md`.
+
 **Closed business-status contract (critical):** When an existing template or user instruction allows only `SIM`/`NÃO` (or any defined vocabulary), **do not invent `REVISAR`, `PENDENTE`, `ERRO`, new categories or additional pivot states**. `NÃO` means an identified, eligible group **failed** the specified reconciliation rule; an irrelevant or unidentified key is **not** a failed group and must not be relabeled `NÃO` just to eliminate `REVISAR`. If instructed to ignore non-shipment references, exclude them from relevant matching/aggregation without inventing IDs or deleting source data; keep included/excluded counts and material value impact traceable. Search all relevant key-bearing fields (including `Atribuição` when available) before claiming a key is missing or declaring final totals. Never claim Excel/native feature checks you did not perform. Read `references/closed-status-reconciliation.md`.
 
 **Original-template fidelity rule (critical):** When the user supplies a workbook, screenshot or established model, **preserve its original appearance by default**. Populating cells, reconciling data, automating formulas, and making a workbook professionally usable do NOT authorize invented green `SIM` fills, red `NÃO` fills, colored fonts, conditional formatting, borders, banding, dashboards, extra labels, or other visual embellishments. Do not change any existing formatting unless the user requested it or a narrowly justified functional, accessibility, or mandatory-disclosure need requires it. Inherit original formatting for new required cells; review **unexpected visual diffs** against the source and remove them. No-source new designs and explicit redesign tasks may use purposeful styling. Read `references/template-fidelity.md`.
@@ -103,11 +105,11 @@ Assurance and fidelity are independent. Higher assurance/fidelity strengthens pr
 
 Apply proportionally; a trivial task may collapse several steps.
 
-1. **Context sweep:** inspect relevant inputs, existing examples/templates, historical comparisons, applicable business rules, and missing evidence before modification. Pursue distinct decision-relevant context, not exhaustive raw reads.
+1. **Original-first structural inventory:** locate the actual original input (not an earlier AI revision), record exact sheet/header names, header row/positions, existing classifications and their meanings, formula/pivot objects and current layout. Identify the existing output field or an explicitly authorized new output; then sweep relevant additional business context. Pursue distinct decision-relevant context, not exhaustive raw reads.
 2. **Profile** schema, types, nulls, duplicates, keys, dates, ranges, distributions, and control totals as needed.
 3. **Define** metric contracts, join cardinality, exclusions, tolerances, and assumptions. For recurring feeds, also define data-contract/freshness/drift expectations.
 4. **Choose** tools based on data size, fidelity, environment, and delivery requirements.
-5. **Preserve** original data, workbook and visual conventions unless an explicit functional or styling requirement needs a narrow change.
+5. **Preserve** original sheets, exact headers, column order/count, meanings, values and visual conventions. Work with minimum authorized differences; do not introduce helper columns or alter existing status meaning by convenience.
 6. **Transform** with explicit, reproducible rules.
 7. **Analyze/reconcile** while retaining unmatched and exception records.
 8. **Validate independently and efficiently** using the minimum risk-covering combination of control totals, invariants, samples, plausibility checks, or alternate calculations; extend tests only when failures, consequence, or blast radius demand it.
@@ -186,11 +188,11 @@ Treat a workbook as an information product, not a decorated grid. Native functio
 
 - If asked for a PivotTable, create a genuine Excel PivotTable (source/cache/fields/refresh); if asked for an Excel Table, create a native Table/ListObject. Never confuse them or substitute a styled range.
 - Requested charts, slicers, drop-downs, native filters, formulas, conditional formatting, Power Query or controls must use actual Excel objects and behavior, not fake widgets or screenshots.
-- **Do not promote internal operating rules into visible spreadsheet content**: user-provided tolerances, formulas, comparison logic, controls, test methods, or background assumptions are implementation context unless explicitly requested as visible controls or essential for interpretation/compliance. For example, use a `0,05` reconciliation tolerance in real `CONCILIA` calculations without casually adding `Tolerância: 0,05` and `Critério` in empty cells beside the table.
+- **Do not promote internal operating rules into visible spreadsheet content**: user-provided tolerances, comparison logic, derived shipment keys/counts, and tests are implementation context unless explicitly authorized as output. E.g. apply tolerance internally or in an existing semantically correct formula, without adding `CONCILIA`, `QTD`, `EMBARQUE`, `Tolerância`, or `Critério` merely because they helped analysis.
 - When modifying an existing template, treat its colors, conditional formatting, fonts, borders, spacing, widths, chart/table styles and sheet layout as constraints. Never add green/red `SIM/NÃO` styling or other aesthetic improvements just because they could be useful.
 - Make purpose/output obvious.
-- Separate inputs, calculations, outputs, checks, and raw/staging data when useful.
-- Keep assumptions/editable cells discoverable.
+- Separate input, calculation, output and QA **conceptually/in memory** when useful; do not automatically create corresponding worksheet tabs or deliver helper data.
+- Keep genuinely user-editable assumptions discoverable when requested or needed in the original workflow; internal assumptions do not automatically become worksheet cells.
 - Prefer readable formulas over compressed cleverness.
 - Avoid hidden logic without a documented reason.
 - Preserve formulas, names, macros, links, queries, objects, formatting, and calculation behavior according to required fidelity.
@@ -199,7 +201,7 @@ Treat a workbook as an information product, not a decorated grid. Native functio
 - For F3 work, verify object existence AND the relevant user action in a target Excel runtime when possible. ZIP/OOXML structure is not full functional proof. If native authoring or validation is unavailable, disclose it rather than silently downgrade.
 - When recipients may use different Excel versions/channels or legacy formats, design against the oldest supported target rather than the author's environment.
 
-Read `references/spreadsheet-engineering.md` and `references/native-excel-fidelity.md` whenever native features or interaction are requested. For cross-version/portable workbooks, also read `references/excel-compatibility.md`.
+For supplied workbooks, read `references/source-schema-contract.md` and `references/spreadsheet-engineering.md` before changing structure; read `references/native-excel-fidelity.md` when native features or interaction are requested. For cross-version/portable workbooks, also read `references/excel-compatibility.md`.
 
 ## 8. Visual design and reporting
 
@@ -305,6 +307,8 @@ Evidence is proportional to risk and may include:
 
 - output exists/reopens;
 - expected sheets/tables/files exist;
+- no unrequested added/removed/renamed/reordered columns or worksheets compared with the **actual original**;
+- any output written into an existing column matches that column's business meaning; internal derived fields are not leaked into the workbook;
 - schemas/keys/control totals reconcile;
 - joins have matched/unmatched evidence;
 - allowed final status vocabulary is preserved exactly; excluded/unidentified records are not falsely labeled as evaluated failures;
@@ -341,6 +345,7 @@ Use `references/quality-gates.md`. `assets/evidence-manifest-template.yaml` is t
 - `references/tool-selection.md`
 - `references/data-analysis-quality.md`
 - `references/data-contracts-observability.md` — contracts, freshness, semantic/schema/unit drift for recurring data.
+- `references/source-schema-contract.md` — source-first preservation of original fields, sheet schema, semantics and no invented helper columns.
 - `references/closed-status-reconciliation.md` — no invented `REVISAR`, no invalid key forced to `NÃO`, full key search and traceable eligibility.
 - `references/reconciliation-matching.md`
 - `references/native-excel-fidelity.md` — authentic PivotTables, Tables, slicers and other Excel objects with real interactions.
@@ -356,6 +361,7 @@ Use `references/quality-gates.md`. `assets/evidence-manifest-template.yaml` is t
 - `references/patterns-recipes.md`
 
 **Deterministic QA utilities**
+- `scripts/check_workbook_schema.py` — flag unauthorized sheet and header changes versus the original workbook.
 - `scripts/tabular_diff.py` — privacy-conscious before/after semantic diff for tabular data.
 - `scripts/workbook_diff.py` — before/after semantic workbook diff.
 - `scripts/file_manifest.py` — source/output hashes and provenance support.
