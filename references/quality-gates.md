@@ -71,6 +71,9 @@ Choose gates by **assurance tier**, not by ritual. High consequence can require 
 - [ ] original preserved
 
 ## Gate G — Workbook F2
+- [ ] original template styles/visual hierarchy retained unless a change was requested or materially necessary
+- [ ] no unsolicited green `SIM` cells, red `NÃO` cells, status font colors, banding, borders, decorative formatting or new CF rules
+- [ ] unexpected fills, fonts, conditional-formatting and layout differences from source reviewed/removed
 - [ ] opened/rendered for visual QA
 - [ ] widths/heights/wrap checked
 - [ ] chart axes/labels/titles checked
@@ -104,6 +107,8 @@ Choose gates by **assurance tier**, not by ritual. High consequence can require 
 - [ ] failure leaves recoverable state
 
 ## Gate J — Visual/reporting
+- [ ] original supplied palette, cell formatting and style conventions take priority over generic dashboard/color suggestions
+- [ ] new design embellishments only when creating from scratch or expressly/necessarily changing visuals
 - [ ] first screen and entire used range contain only justified content; no orphan `Critério` labels or decorative empty areas
 - [ ] extra sheets/notes/legends have a clear recipient use rather than existing for the agent's convenience
 - [ ] primary message obvious
