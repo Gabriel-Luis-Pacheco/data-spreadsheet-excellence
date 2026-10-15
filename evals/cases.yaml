@@ -356,3 +356,59 @@ cases:
     must_not:
       - hide a decision-relevant rule merely to look minimal
       - add irrelevant AI execution or debugging details
+
+- id: preserve-uncolored-reconciliation-status
+    title: Existing workbook visual fidelity without unsolicited status colors
+    prompt: >
+      Use my existing B010 reconciliation workbook as the exact template. Keep
+      EMBARQUE Quantidade Saldo CONCILIA and calculate SIM or NAO within the
+      agreed tolerance. The source has plain status cells and a light blue header.
+      I did not ask for a visual redesign.
+    activation: should_activate
+    execution_mode: balanced
+    assurance_tier: a2_material
+    tags: [visual-fidelity, excel, human-output, surface-discipline]
+    must:
+      - retain original blue header and all preexisting cell and tab styling
+      - update formulas and result values without adding stylistic elements
+      - compare output fills fonts CF rules and layout against source when available
+      - remove unjustified cosmetic differences and preserve all required functions
+    must_not:
+      - add green fills to SIM or red fills to NAO
+      - add new conditional formatting status rules or colored status fonts
+      - use spare cells for extra criteria notes or a decorative summary
+
+  - id: explicit-visual-redesign-is-allowed
+    title: Colored exceptions only when user explicitly requests them
+    prompt: >
+      In my existing reconciliation workbook, please deliberately highlight
+      discrepancies red and matching values green with native Excel
+      conditional formatting, but preserve the rest of my layout.
+    activation: should_activate
+    execution_mode: balanced
+    assurance_tier: a1_standard
+    tags: [visual-fidelity, native-fidelity, excel]
+    must:
+      - apply actual Excel conditional formatting only to the requested range
+      - preserve unrelated original styles and existing native behavior
+      - verify a representative formula or CF rule and relevant output
+    must_not:
+      - refuse a user-authorized style change by applying the preserve-default blindly
+      - recolor or redesign other sheets and columns
+
+  - id: no-existing-template-design-conservatively
+    title: New workbook requires modest design decisions
+    prompt: >
+      From a CSV with no workbook or visual example, create an easy-to-use
+      Excel reconciliation workbook with a status column.
+    activation: should_activate
+    execution_mode: balanced
+    assurance_tier: a1_standard
+    tags: [visual-fidelity, excel, visual]
+    must:
+      - use an unobtrusive and consistent design appropriate to operational analysis
+      - deliver meaningful status text and true functional Excel features
+      - avoid ornamental extras and unjustified palette-heavy styling
+    must_not:
+      - pretend an original visual template exists
+      - assume green-red traffic light styling is necessary
