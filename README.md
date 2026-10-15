@@ -13,6 +13,7 @@ A portable Agent Skill for professional work with **data analysis, Python, Excel
 - joins, reconciliation, fuzzy/probabilistic matching;
 - workbook audit, before/after semantic diff, and formula/recalculation QA;
 - professional spreadsheet/dashboard design, accessibility, language/locale-aware delivery, and Excel precision/size safeguards;
+- native Excel object fidelity: real PivotTables, Ctrl+T Tables, slicers, refresh behavior and genuine interactive controls;
 - performance, idempotency, logging, security and reproducibility;
 - review of another analyst's work;
 - analytical writing without generic AI slop;
@@ -23,6 +24,14 @@ A portable Agent Skill for professional work with **data analysis, Python, Excel
 - prompt-injection / untrusted-content boundaries;
 - adaptive execution and independent assurance tiers;
 - AI coding discipline and minimal-diff workflows.
+
+## v9.1: Native Excel Objects — Real Functionality, Not Lookalikes
+
+**If the user asks for a PivotTable, deliver an actual Excel PivotTable** with editable fields/cache and refresh capability, not a `pandas.pivot_table()` result pasted into colored cells. A native Excel Table (`Ctrl+T`) is not a PivotTable. Likewise, slicers, chart objects, formulas, data validation, conditional formatting, connections and controls must use real supported Excel functionality if requested.
+
+An automated Excel/API workflow is acceptable: the goal is a **normal, truly interactive Excel workbook as a human would build it**, not the literal act of mouse clicking. Select tools by native-feature support; don't silently downgrade to a static imitation when the environment lacks Excel-native authoring.
+
+Reference: `references/native-excel-fidelity.md`. The read-only `scripts/inspect_native_excel.py` inventories native OOXML structures and supports `--require pivot_table` / `--require excel_table`; its structural detection does **not** replace an Excel interaction/refresh test.
 
 ## v9: human-authored delivery and analyst-speed orchestration
 
@@ -358,7 +367,7 @@ See `references/source-notes.md`.
 
 ## Version
 
-**v9.0.0 — Human-First Analyst Delivery & Parallel Assurance**
+**v9.1.0 — Native Excel Feature Authenticity**
 
 Canonical version: `VERSION`
 
