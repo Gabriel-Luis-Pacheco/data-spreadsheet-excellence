@@ -187,7 +187,8 @@ For code:
 6. broaden by blast radius and assurance tier.
 
 For data:
-1. schema/profile;
+1. inspect actual original output schema and field semantics when editing an existing workbook; any unapproved added/renamed sheet/header is a delivery blocker;
+2. schema/profile;
 2. inspect exceptions/representative samples;
 3. aggregate with code;
 4. keep bulk rows out of model context.
@@ -200,7 +201,7 @@ For long documents:
 
 ## 10. Reuse instead of regeneration
 
-Reuse existing utilities, templates, styles, validation functions, deterministic intermediate artifacts, schemas, and configs until their inputs/code change.
+Reuse existing utilities, templates, styles, validation functions, deterministic intermediate artifacts, schemas, and configs until their inputs/code change. **Existing AI-generated outputs must not be mistaken for the original input schema**; inspect the true source before reusing any previous design decisions.
 
 Do not regenerate boilerplate or rerun expensive deterministic steps from habit.
 
