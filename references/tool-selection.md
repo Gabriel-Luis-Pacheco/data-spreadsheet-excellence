@@ -5,7 +5,7 @@ Choose tools from the requirements backward. The best library is the one that sa
 ## 1. Ask these questions first
 
 1. Is the source tabular data or an application-rich workbook?
-2. Is the task read-only, create-new, or round-trip edit?
+2. Is the task read-only, create-new, or round-trip edit? For an existing workbook, identify the ORIGINAL existing headers and field meanings, and which specific cells the user authorized changing. Do not rebuild from scratch or add helper columns just because a tool makes that easier.
 3. Are real PivotTables/caches, Tables (ListObjects), slicers, connections, macros, queries, links, formulas, or charts needed? Must these objects be **created**, not just preserved?
 4. Does recalculation need to be current?
 5. How large is the data?
@@ -85,7 +85,7 @@ Reading an Excel file successfully does not imply you can safely round-trip it w
 
 ## 7. Route by actual native feature support
 
-Do not choose a familiar library then downgrade requested functionality. **Native PivotTable creation** requires a compatible Excel host/API such as Excel COM/VBA or supported Office Scripts/Excel JavaScript. `openpyxl` documents pivot preservation but not regular authoring from scratch; `pandas.pivot_table()` only computes values. XlsxWriter creates genuine Excel Tables and charts, but must not be assumed to create pivots or every F3 object. A native Table/ListObject (`Ctrl+T`) is not a PivotTable. When feature creation or target-Excel interaction verification is unavailable, disclose the gap; do not pass off a polished static sheet as functional.
+Do not choose a familiar library then downgrade requested functionality. Native PivotTable requirements do not justify unrequested source columns `QTD`, `EMBARQUE`, `CONCILIA`: use original source data or specifically authorized support structures. See `references/source-schema-contract.md`. **Native PivotTable creation** requires a compatible Excel host/API such as Excel COM/VBA or supported Office Scripts/Excel JavaScript. `openpyxl` documents pivot preservation but not regular authoring from scratch; `pandas.pivot_table()` only computes values. XlsxWriter creates genuine Excel Tables and charts, but must not be assumed to create pivots or every F3 object. A native Table/ListObject (`Ctrl+T`) is not a PivotTable. When feature creation or target-Excel interaction verification is unavailable, disclose the gap; do not pass off a polished static sheet as functional.
 
 Computer/UI interaction is optional if a supported native API exists. What matters is that the saved file behaves like a manually created Excel workbook. Use `references/native-excel-fidelity.md` for tool routing and acceptance checks.
 
