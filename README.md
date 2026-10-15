@@ -19,12 +19,19 @@ A portable Agent Skill for professional work with **data analysis, Python, Excel
 - analytical writing without generic AI slop;
 - human-authored client/management reports without exposing internal execution logs, raw TXT paths, model names, or ceremonial AI sections;
 - strict visible-content discipline: operational tolerances, criteria, validation rules and instructions do not become unsolicited Excel cells, panels or tabs;
+- reference-first visual fidelity: preserve the supplied spreadsheet's styles; no invented green/red statuses or formatting just because it looks better;
 - proactive domain/source/template discovery, parallel independent agent research, and risk-based validation without ritual testing;
 - prompt/context engineering;
 - token, latency and tool-call economy;
 - prompt-injection / untrusted-content boundaries;
 - adaptive execution and independent assurance tiers;
 - AI coding discipline and minimal-diff workflows.
+
+## v9.3: Template Fidelity — No Unrequested Colors
+
+**A supplied workbook is the visual contract.** Doing a reconciliation does not permit an agent to invent green `SIM` cell fills, red `NÃO` cell fills, conditional formatting, bold status fonts, decorative colors, borders or dashboard elements that the user's reference did not contain. Preserving the user's original styling is the default, even when another style could appear attractive or "professional". Only explicit user requests or narrow functional/accessibility/compliance requirements justify a visual change.
+
+The skill includes `references/template-fidelity.md`, updated core and design guidance, and new behavioral evals for an uncolored reconciliation, explicitly requested status colors, and a new workbook without a template. The existing `scripts/workbook_diff.py` now compares cell visual-style and conditional-formatting-definition hashes to flag possible visual drift (review required; not pixel-perfect or proof of unauthorized edits).
 
 ## v9.2: Reader-First Workbook Surface — Instructions Are Not Labels
 
@@ -376,7 +383,7 @@ See `references/source-notes.md`.
 
 ## Version
 
-**v9.2.0 — Reader-First Workbook Surface & Operational-Context Discipline**
+**v9.3.0 — Original Template Fidelity & Visual Regression QA**
 
 Canonical version: `VERSION`
 
