@@ -1,5 +1,27 @@
 # Changelog
 
+## 10.0.0 — 2026-10-15 — Source-Schema Fidelity & Minimal Authorized Edits
+
+### Critical correction
+- Found a real contradiction in the earlier skill: examples assumed an AI-created `EMBARQUE | Quantidade | Saldo | CONCILIA` table was the original while the user's **real original** had `CLASSIFICADO` (SIM/NÃO) and lacked `CONCILIA`, `QTD` and `EMBARQUE`.
+- The default is now **preserve actual original workbook schema, meanings, status labels, visuals and native behavior**. Derive temporary keys/quantities privately. An existing `CLASSIFICADO` field is not an automatic substitute for a new reconciliation outcome.
+
+### Added
+- `references/source-schema-contract.md`: strict original-schema inventory, authorized-edit ladder, distinct output semantics, no implicit columns/tabs, and original-versus-final acceptance gate.
+- `scripts/check_workbook_schema.py`: read-only sheet/header inventory diff that flags added, removed, renamed or moved fields and unapproved sheets against the **actual original**, with explicit exemptions for authorized additions.
+- `tests/test_schema_contract.py`: regression cases for newly invented `CONCILIA`, `QTD`, `EMBARQUE`, renamed `CLASSIFICADO`, authorized edits and gratuitous extra sheets.
+- Five evaluation cases for no-new-column delivery, CLASSIFICADO semantic mismatch, explicitly requested addition, original-vs-prior-AI baseline and real native PivotTable without unauthorized source-header mutations.
+- Harness schema policy v9 and validation requirements for dedicated schema/semantic fidelity coverage.
+
+### Revised across the repository
+- Reconciliation, spreadsheet engineering, status, template fidelity, native Excel, visual/writing, analytical quality, orchestration, pattern recipes, QA gates, agent defaults and prompt/assets now separate **internal analysis fields from visible user columns**.
+- Removed default XlsxWriter guidance that silently encouraged `README`, `Summary`, `Data`, `Exceptions` and `QA` sheets, and removed the status checker default `CONCILIA` column.
+- Actual original files take precedence over generic documentation examples or previous AI-generated workbook revisions.
+
+### Assurance/limitations
+- CI tests validate guides/scripts, **not** the contents of the user's original workbook, which was not attached here. Header comparison cannot prove semantic correctness or complete Excel F3 functionality. Do not claim a live workbook was fixed or its numbers verified by this release.
+
+
 ## 9.4.0 — 2026-10-15 — Closed Status Contracts & Accurate Reconciliation Scope
 
 ### Added
