@@ -89,8 +89,8 @@ Choose gates by **assurance tier**, not by ritual. High consequence can require 
 - [ ] logs useful but not sensitive
 - [ ] config validated
 - [ ] dependencies justified/constrained
-- [ ] targeted functional tests pass
-- [ ] broader tests match blast radius/assurance
+- [ ] smallest set of risk-covering targeted functional tests pass
+- [ ] broader tests run only when failure, changed dependencies, blast radius, or assurance justify them
 - [ ] failure leaves recoverable state
 
 ## Gate J — Visual/reporting
@@ -112,6 +112,9 @@ Choose gates by **assurance tier**, not by ritual. High consequence can require 
 - [ ] limitations explicit
 - [ ] recommendations executable
 - [ ] no unsupported causal claims
+- [ ] human-facing document uses the author's known conventions or a restrained audience-appropriate default
+- [ ] no gratuitous AI/worker/process narration, raw paths/TXT names, stack traces, or decorative filler in the reader-facing artifact
+- [ ] technical evidence is separate unless the requested product is technical; material coverage gaps remain visible
 
 ## Gate L — Handoff
 - [ ] outputs named clearly
