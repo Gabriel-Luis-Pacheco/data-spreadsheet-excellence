@@ -2,7 +2,11 @@
 
 Reconciliation quality is determined by the exceptions you can explain, not by how close the final net number looks.
 
-## 1. Start with the reconciliation contract
+## 1. Closed output vocabulary and eligibility precede matching
+
+**Important:** Internal matching/audit categories are NOT automatically permitted statuses in the delivered workbook. If `CONCILIA` has only `SIM`/`NÃO`, never add `REVISAR`, `PENDENTE`, `AMBIGUOUS` or `INVALID` to that field. `NÃO` means a **validly identified, eligible group** failed the reconciliation rule, not an invalid identifier or excluded record. If a user says to ignore non-shipment references, exclude them from matching/aggregation as authorized and preserve source records and material excluded totals; do not recast them as `NÃO`. Investigate all relevant columns for legitimate keys (e.g., `Atribuição` if present) before claiming they cannot be identified. See `references/closed-status-reconciliation.md`.
+
+## 2. Start with the reconciliation contract
 
 Define:
 - source A and B;
@@ -82,17 +86,14 @@ Never let null-null matching silently create “matches” without a business ru
 
 ## 7. Anti-joins / exception populations
 
-Produce explicit tables for:
-- matched;
-- left-only;
-- right-only;
-- ambiguous;
-- duplicate-key;
-- invalid-key;
-- tolerance-failed;
-- manually reviewed.
+Keep internal accounting/evidence for relevant populations as needed:
+- matched, unmatched/left-only/right-only;
+- ambiguous, duplicate-key or invalid-key;
+- out-of-scope/excluded;
+- tolerance-failed (for valid evaluated groups);
+- genuinely manually reviewed.
 
-The exception table is a first-class deliverable.
+**Do not automatically put these labels into the final status column or add one tab per category.** Exception records are internally first-class evidence; include a separate table/file in the business-facing delivery only when requested, needed for decision/compliance, or material to truthful interpretation. If the recipient explicitly needs only `SIM/NÃO`, preserve that enum and account for exclusions separately.
 
 ## 8. Amount/date tolerances
 
@@ -176,16 +177,6 @@ Persist normalization rules, matching rules, thresholds, candidate blocking, sof
 
 Manual review is part of the model and must be traceable.
 
-## 16. Recommended output tabs/files
+## 16. Final workbook follows the user's real workflow
 
-For a business-facing reconciliation workbook:
-- `Summary`
-- `Matched`
-- `Only_Source_A`
-- `Only_Source_B`
-- `Ambiguous`
-- `Duplicates`
-- `Rules_&_Definitions`
-- `QA_Checks`
-
-Keep raw source extracts separate or clearly marked.
+**There is no mandatory tab checklist.** Prefer the user's actual supplied sheets, columns and status vocabulary. Do not add `Ambiguous`, `QA_Checks`, `Rules_&_Definitions`, `Revisar` or a dashboard merely because this guide discusses internal reconciliation QA. Extra exception/evidence tabs belong only if explicitly requested or needed for actionable material exceptions or required audit disclosure. Internal logs can remain separate from the finished workbook. Preserve source rows, scoped totals and valid native Excel features.
