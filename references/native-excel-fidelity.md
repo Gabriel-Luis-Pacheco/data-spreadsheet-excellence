@@ -78,6 +78,17 @@ Do not run elaborate UI sequences for every trivial formatting edit. Test **one 
 
 **Editing existing workbooks:** inventory important native objects before and after; preserve the original; do not assert F3 preservation from a successful `openpyxl.save()` or ZIP comparison alone. If real Excel cannot be run, mark interaction as **not verified**, even when structural parts exist.
 
+### Fast native-object inventory (preliminary only)
+
+Use the provided read-only script on an OOXML workbook:
+
+```bash
+python scripts/inspect_native_excel.py workbook.xlsx --require pivot_table --pretty
+python scripts/inspect_native_excel.py workbook.xlsx --require excel_table --pretty
+```
+
+This checks expected OOXML parts and, for PivotTables, a worksheet-to-PivotTable relationship and a PivotTable-to-cache relationship. It is **not** a certification that Excel can open, configure, refresh, or preserve the feature. Keep full interactive verification separate and appropriate to F3 risk. A structural positive alone is not completion evidence.
+
 ## 6. Acceptance and truthful delivery
 
 **Definition of done for a native request:** the saved file contains the correct native object; recipient can use it through normal Excel UI; source update/refresh/calculation behavior works where required; content and style fit the user's actual workflow. The requested native object is a requirement, not an optional polish item.
