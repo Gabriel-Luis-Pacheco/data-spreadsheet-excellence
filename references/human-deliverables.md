@@ -54,6 +54,10 @@ When an existing example is supplied, preserve the user's working surface as the
 
 **Final cleanup:** inspect visible non-data cells *outside* the intended report/table, every extra sheet, top-of-sheet metadata, notes and print area. Ask of each: "Would this be in the real finished workbook if the person had completed this task?" Remove or relocate anything unjustified, then verify formulas, references, native Excel features, and counts still work.
 
+### Business status labels are also part of the author's original deliverable
+
+For a supplied `CONCILIA` column with only `SIM/NÃO`, do not add `REVISAR` merely because the agent could not identify some shipment references. The user's instruction to ignore strange codes is about matching **scope**, not permission to mark them `NÃO`: an unclassified/ineligible item is not equivalent to a valid group failing its tolerance. Do not add a new category in a cell, pivot filter, extra tab or visual legend. Search alternate authorized key fields first; retain out-of-scope records in source evidence and account for exclusions. See `references/closed-status-reconciliation.md`.
+
 ## 4. The reader never needs the orchestration transcript
 
 By default, keep OUT of the reader-facing artifact:
