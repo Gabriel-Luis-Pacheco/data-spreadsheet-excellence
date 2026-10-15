@@ -301,7 +301,7 @@ cases:
       - silently downgrade to a pivot-shaped range
       - assert full completion or claim unperformed Excel UI verification
 
-- id: operational-tolerance-not-visible
+  - id: operational-tolerance-not-visible
     title: Internal tolerance should not appear on workbook surface
     prompt: >
       Prepare my usual reconciliation Excel sheet. The operational rule I told
@@ -357,7 +357,7 @@ cases:
       - hide a decision-relevant rule merely to look minimal
       - add irrelevant AI execution or debugging details
 
-- id: preserve-uncolored-reconciliation-status
+  - id: preserve-uncolored-reconciliation-status
     title: Existing workbook visual fidelity without unsolicited status colors
     prompt: >
       Use my existing B010 reconciliation workbook as the exact template. Keep
