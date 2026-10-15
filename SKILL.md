@@ -21,6 +21,8 @@ For **EDIT_EXISTING**, make the actual ORIGINAL source—not a previous AI versi
 
 **Build real native features.** Requested PivotTables, tables, charts, slicers, formulas, validations and queries must be actual supported Excel features, not visual imitations. Check real application behavior where feasible. Read `references/native-excel-fidelity.md`.
 
+**For acceptance, score actual generated artifacts.** Synthetic CI tests validate the gate but do not prove a Codex run obeyed the skill. When benchmarking the installed Codex skill, prepare/score a real run with `scripts/live_eval_fixture.py` and `evals/live-codex-evaluation.md`, separately from standard CI. Record observed failures and latency. Never claim model behavior was verified by static checklist tests.
+
 **Validate before handing over.** Use a small trusted change contract and `scripts/verify_delivery.py` on substantive existing-workbook edits; use appropriate independent business totals and native-Excel checks. A passing static check never proves field semantics or Excel interaction. Never self-authorize a change solely to make a test pass.
 
 ## 0. Operate with adaptive efficiency
@@ -367,6 +369,7 @@ Use `references/quality-gates.md`. `assets/evidence-manifest-template.yaml` is t
 
 **Deterministic QA utilities**
 - `scripts/verify_delivery.py` — fail-closed user-output QA for existing Excel workbooks with trusted change contract.
+- `scripts/live_eval_fixture.py` — generate isolated XLSX task fixture and score actual Codex-produced output, without launching Codex in CI.
 - `scripts/check_workbook_schema.py` — flag unauthorized sheet and header changes versus the original workbook.
 - `scripts/tabular_diff.py` — privacy-conscious before/after semantic diff for tabular data.
 - `scripts/workbook_diff.py` — before/after semantic workbook diff.
