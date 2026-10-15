@@ -46,6 +46,26 @@ def _normalize(value):
     return " ".join(str(value).split()).upper() if value is not None else ""
 
 
+def _sheet_structure(ws):
+    """Stable, bounded comparison of user-visible/native container properties."""
+    return {
+        "visibility": ws.sheet_state,
+        "freeze": str(ws.freeze_panes),
+        "filter": str(ws.auto_filter.ref),
+        "tables": [(name, str(ws.tables[name].ref)) for name in sorted(ws.tables)],
+        "merged": sorted(str(r) for r in ws.merged_cells.ranges),
+        "cf": sorted(
+            f"{area.sqref}:{repr(rule)}:{repr(getattr(rule, 'dxf', None))}"
+            for area in ws.conditional_formatting
+            for rule in ws.conditional_formatting[area]
+        ),
+        "validations": repr(ws.data_validations),
+        "print_area": str(ws.print_area),
+        "chart_count": len(ws._charts),
+        "image_count": len(ws._images),
+    }
+
+
 def evaluate(contract, max_cells=400_000):
     if contract.get("mode") != "EDIT_EXISTING":
         raise ValueError("This gate supports EDIT_EXISTING only. Never claim other modes were verified.")
@@ -61,41 +81,35 @@ def evaluate(contract, max_cells=400_000):
     allowed_sheets = set(contract.get("authorized_new_sheets", []))
     allowed_new = contract.get("authorized_new_headers", {})
     allowed_cells = contract.get("authorized_changed_ranges", {})
+    style_ranges = contract.get("authorized_style_ranges", {})
+    object_changes = contract.get("authorized_object_changes", {})
     status_rules = contract.get("allowed_status_values", {})
-    errors = []
-    warnings = []
+    errors, warnings = [], []
     checked = 0
-    before = _load(original)
-    after = _load(output)
+    before, after = _load(original), _load(output)
     try:
-        a = set(after.sheetnames)
-        b = set(before.sheetnames)
-        for name in sorted(a - b - allowed_sheets):
-            errors.append(f"Unapproved new sheet: {name}")
-        for name in sorted(b - a):
-            errors.append(f"Original sheet removed: {name}")
+        a, b = set(after.sheetnames), set(before.sheetnames)
+        errors.extend(f"Unapproved new sheet: {name}" for name in sorted(a-b-allowed_sheets))
+        errors.extend(f"Original sheet removed: {name}" for name in sorted(b-a))
         if [x for x in after.sheetnames if x in b] != [x for x in before.sheetnames if x in a]:
             errors.append("Original sheet order changed")
+        if set(before.sheetnames) != set(header_rows):
+            raise ValueError("Header rows required for EVERY original worksheet, no partial verification")
         for sheet, row in header_rows.items():
             if not isinstance(row, int) or row < 1:
                 raise ValueError(f"Bad header row for {sheet}")
-            if sheet not in before.sheetnames:
-                raise ValueError(f"Source header sheet missing: {sheet}")
-        if set(before.sheetnames) - set(header_rows):
-            raise ValueError("Must specify header row for EVERY original sheet; no partial comparison")
-        if set(allowed_new) - set(header_rows) or set(allowed_cells) - set(header_rows):
-            raise ValueError("Authorized changes refer to unknown source sheets")
+        if any(set(cfg) - b for cfg in (allowed_new, allowed_cells, style_ranges, object_changes, status_rules)):
+            raise ValueError("Contract scopes unknown original worksheets")
         for sheet in before.sheetnames:
-            if sheet not in after.sheetnames:
+            if sheet not in a:
                 continue
             ws, dst = before[sheet], after[sheet]
-            row = header_rows[sheet]
-            old = _header(ws, row)
-            new = _header(dst, row)
+            hdr = header_rows[sheet]
+            old, new = _header(ws, hdr), _header(dst, hdr)
             additions = allowed_new.get(sheet, [])
             if not isinstance(additions, list):
                 raise ValueError(f"authorized_new_headers.{sheet} must be a list")
-            approved = set()
+            approved: dict[int, str] = {}
             for item in additions:
                 col = item.get("column")
                 if isinstance(col, str):
@@ -104,8 +118,8 @@ def evaluate(contract, max_cells=400_000):
                     raise ValueError("Authorized header needs exact Excel column index")
                 if col in approved:
                     raise ValueError(f"Duplicated authorized header position {sheet}!{col}")
-                approved.add(col)
-                if (col, str(item.get("name", ""))) not in new:
+                approved[col] = str(item.get("name", ""))
+                if (col, approved[col]) not in new:
                     errors.append(f"Authorized header absent/wrong position: {sheet}!{col}")
             expected = [name for _, name in old]
             actual = [name for col, name in new if col not in approved]
@@ -113,14 +127,10 @@ def evaluate(contract, max_cells=400_000):
                 errors.append(f"Unexpected header/order changes in {sheet}: {expected!r} => {actual!r}")
             if len(old) + len(additions) != len(new):
                 errors.append(f"Header count changed beyond permission on {sheet}")
-            if any(col in {p for p, _ in old} for col in approved):
-                # Insertion ahead of original fields is allowed only if explicitly configured
-                # and the unchanged source field sequence remains intact.
-                pass
+
             ranges = allowed_cells.get(sheet, [])
-            if not isinstance(ranges, list):
-                raise ValueError(f"authorized_changed_ranges.{sheet} must be list")
-            for area in ranges:
+            styles = style_ranges.get(sheet, [])
+            for area in ranges + styles:
                 try:
                     range_boundaries(area)
                 except (TypeError, ValueError) as exc:
@@ -128,32 +138,31 @@ def evaluate(contract, max_cells=400_000):
             size = max(ws.max_row, dst.max_row) * max(ws.max_column, dst.max_column)
             if size > max_cells:
                 raise ValueError(f"{sheet}: {size} cells exceeds scan cap {max_cells}; NOT VERIFIED")
-            # Added columns shift existing fields; comparing coordinates would give false
-            # positives. Require a separate scoped evaluator for such structural changes.
-            if additions:
-                warnings.append(f"{sheet}: new header authorized; cell/format comparisons need separate insertion-aware QA")
-                continue
-            for row_cells in ws.iter_rows():
-                for src in row_cells:
-                    dst_cell = dst[src.coordinate]
+            allowed_property_names = set(object_changes.get(sheet, []))
+            old_structure, new_structure = _sheet_structure(ws), _sheet_structure(dst)
+            for key, old_value in old_structure.items():
+                if old_value != new_structure[key] and key not in allowed_property_names:
+                    errors.append(f"Unapproved Excel object/layout change: {sheet}.{key}")
+
+            # Map destination columns back to original columns after *authorized*
+            # insertions; do NOT skip cell validation because an insertion exists.
+            added_columns = sorted(approved)
+            for row in range(1, max(ws.max_row, dst.max_row) + 1):
+                for dest_col in range(1, max(ws.max_column + len(approved), dst.max_column) + 1):
+                    if dest_col in approved:
+                        continue  # Entire new field is in the user's explicit allowed additions.
+                    original_col = dest_col - sum(index < dest_col for index in added_columns)
+                    if original_col < 1:
+                        continue
+                    source_cell = ws.cell(row, original_col)
+                    result_cell = dst.cell(row, dest_col)
                     checked += 1
-                    if src.value != dst_cell.value and not _allowed_cell(src.row, src.column, ranges):
-                        errors.append(f"Unauthorized cell change: {sheet}!{src.coordinate}")
-                    if _style(src) != _style(dst_cell) and not _allowed_cell(src.row, src.column, contract.get("authorized_style_ranges", {}).get(sheet, [])):
-                        errors.append(f"Unapproved formatting change: {sheet}!{src.coordinate}")
+                    if source_cell.value != result_cell.value and not _allowed_cell(row, original_col, ranges):
+                        errors.append(f"Unauthorized cell change: {sheet}!{result_cell.coordinate}")
+                    if _style(source_cell) != _style(result_cell) and not _allowed_cell(row, original_col, styles):
+                        errors.append(f"Unapproved formatting change: {sheet}!{result_cell.coordinate}")
                     if len(errors) >= 40:
                         break
-                if len(errors) >= 40:
-                    break
-            # Prevent unapproved content beyond original range (including detached notes).
-            for row_cells in dst.iter_rows():
-                for cell in row_cells:
-                    if cell.row <= ws.max_row and cell.column <= ws.max_column:
-                        continue
-                    if cell.value is not None and not _allowed_cell(cell.row, cell.column, ranges):
-                        errors.append(f"Extra populated cell: {sheet}!{cell.coordinate}")
-                        if len(errors) >= 40:
-                            break
                 if len(errors) >= 40:
                     break
             for header, permitted in status_rules.get(sheet, {}).items():
@@ -162,24 +171,32 @@ def evaluate(contract, max_cells=400_000):
                     errors.append(f"Status field missing/ambiguous: {sheet}.{header}")
                     continue
                 allowed = {_normalize(x) for x in permitted}
-                for idx in range(row + 1, dst.max_row + 1):
+                if not allowed or "" in allowed:
+                    raise ValueError(f"Invalid status allowlist: {sheet}.{header}")
+                formula_count = 0
+                for idx in range(hdr + 1, dst.max_row + 1):
                     cell = dst.cell(idx, hits[0])
                     if cell.data_type == "f":
-                        warnings.append(f"Formula status not recalculated by Python: {sheet}!{cell.coordinate}")
+                        formula_count += 1
                         continue
                     if _normalize(cell.value) and _normalize(cell.value) not in allowed:
                         errors.append(f"Unexpected status {sheet}!{cell.coordinate}: {cell.value!r}")
                         if len(errors) >= 40:
                             break
+                if formula_count:
+                    warnings.append(f"{sheet}.{header}: {formula_count} formula results need independent Excel recalc verification")
+        if allowed_sheets:
+            warnings.append("Authorized new worksheets not compared for cell-level scope")
         return {
             "pass": not errors,
             "checked_cells": checked,
             "errors": errors[:40],
             "warnings": sorted(set(warnings)),
-            "verified": ["source_sheet_inventory", "header_names_order", "value_scope",
-                         "existing_cell_styles", "literal_closed_status_values"],
+            "verified": ["source_sheet_inventory", "original_header_order_and_approved_position",
+                         "unchanged_cells_and_styles_including_insertions", "sheet_objects",
+                         "literal_closed_status_values"],
             "not_verified": ["semantic_field_meaning", "Excel_native_F3_interactivity",
-                             "calculated_formula_results", "unauthorized_user_permission_claims"],
+                             "calculated_formula_results", "authorization_of_contract_permissions"],
         }
     finally:
         before.close()
