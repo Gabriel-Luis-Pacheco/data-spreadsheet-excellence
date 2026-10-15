@@ -119,7 +119,11 @@ Example:
 
 **End user:** usability, period/source/units, next action, exceptions.
 
-## 13. Author-facing artifact vs internal evidence
+## 13. User instructions versus delivered content
+
+Operational context is not an outline for the report. A user may specify a tolerance, calculation rule, QA method, employee convention or file handling requirement solely so the analysis is performed correctly. Don't translate each such statement into a visible `Critério`, `Parâmetros`, `Tolerância`, `Metodologia` or `Execução` section/cell. Include the minimum information the intended reader genuinely needs, plus required material assumptions and caveats. Keep implementation/audit information in the appropriate separate evidence trail. In Excel, scan populated side cells and extra sheets for unrequested labels/blocks. This does not prevent an intentionally adjustable parameter or mandatory methodological disclosure. See `references/human-deliverables.md`.
+
+## 14. Author-facing artifact vs internal evidence
 
 When the user wants to submit the work as their own, use their known template, style, audience, and business wording. The delivered report must be a real report **about the findings**, not an AI/automation execution narrative. Do not insert model/worker names, raw TXT paths, run logs, tests, generic methodology, decorative blocks or empty mandatory sections without a reader need. Exact technical source identifiers belong in a separate evidence annex if required. If missing data changes the conclusion, say so plainly in the report; do not hide it for style.
 
