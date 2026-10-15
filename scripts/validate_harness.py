@@ -67,6 +67,7 @@ def main() -> int:
         "evidence_policy",
         "output_policy",
         "artifact_surface_policy",
+        "visual_fidelity_policy",
     ):
         if not isinstance(defaults.get(key), dict):
             failures.append(f"defaults.{key} must be a mapping")
