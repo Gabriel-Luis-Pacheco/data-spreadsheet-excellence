@@ -36,6 +36,10 @@ API/harness:
 - keep tool definitions stable when cache reuse matters;
 - use structured outputs only when downstream consumption benefits.
 
+## Native Excel feature routing
+
+When a true PivotTable/slicer/query or Excel-specific interaction is requested, inspect the runtime for a real Excel host or supported Office Scripts/Excel API. Do not assume that the local Python writer or a cloud connector creates arbitrary F3 objects. The skill cannot install/enable Excel or grant Excel API permissions by instruction alone. Avoid silently generating a static pivot-shaped summary; disclose any native-authoring or target-application test limitation. Use `references/native-excel-fidelity.md`.
+
 ## GitHub Copilot
 
 Repository-wide:
