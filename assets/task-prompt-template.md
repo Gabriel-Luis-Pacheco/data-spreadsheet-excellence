@@ -6,7 +6,7 @@ Use only the fields that materially help.
 [What should be changed, analyzed, or produced?]
 
 ## Context
-[Relevant files, data, examples, period, audience.]
+[Relevant files, data, examples of your previous reports, period, audience, definitions, rules, prior periods.]
 
 ## Constraints
 [What must stay unchanged? Fidelity/security/performance rules?]
