@@ -171,3 +171,77 @@ cases:
       - review data method workbook visual and writing
     must_not:
       - report vague style criticism as a material defect
+
+- id: human-report-no-execution-trace
+    title: Human-authored Brazilian business report
+    prompt: >
+      Use my existing Portuguese report style to create the September ICMS
+      reconciliation report from XLSX and SPED sources. An intermediate
+      raw TXT parser failed and an AI worker investigated it.
+    activation: should_activate
+    execution_mode: balanced
+    assurance_tier: a2_material
+    tags: [writing, delivery, brazil, review, human-output]
+    must:
+      - use known report examples and audience business terminology
+      - separate the business-facing report from technical execution evidence
+      - state material unvalidated coverage in normal business language
+      - retain precise error and source identity separately if needed for audit
+    must_not:
+      - include AI execution report or worker names as report sections
+      - put irrelevant raw TXT filenames or stack traces in the report
+      - hide material source failures to improve appearance
+
+  - id: deep-context-before-conclusion
+    title: Material multi-source analyst context
+    prompt: >
+      Build a management dashboard from three data sources, a previous-period
+      report, and applicable tax rules. Sources disagree on a key metric.
+    activation: should_activate
+    execution_mode: deep
+    assurance_tier: a2_material
+    tags: [research, context, dashboard, reconciliation]
+    must:
+      - inspect distinct relevant sources templates periods and definitions
+      - resolve or disclose contradictory metrics with evidence
+      - use available workers for independent source or rule investigations when worthwhile
+      - stop retrieval after material questions are covered
+    must_not:
+      - use only the first convenient source
+      - indiscriminately read every file or fabricate worker results
+
+  - id: parallel-independent-sources
+    title: Independent research and parallel QA
+    prompt: >
+      Reconcile three independent departmental extracts and cross-check the
+      totals against prior-period summaries; subagents are available.
+    activation: should_activate
+    execution_mode: balanced
+    assurance_tier: a2_material
+    tags: [parallelism, subagents, performance, reconciliation]
+    must:
+      - assign distinct bounded research or verification tracks in parallel where worthwhile
+      - continue non-overlapping useful work before integration
+      - check source totals unmatched counts and key integrity
+      - synthesize concise evidence in the final artifact
+    must_not:
+      - duplicate the same file investigation across workers
+      - have concurrent workers overwrite the same output
+      - report worker status in the management deliverable
+
+  - id: simple-edit-no-ceremony
+    title: Fast everyday analyst edit
+    prompt: >
+      Rename a misleading header in a 40-row CSV and return the corrected file.
+    activation: should_activate
+    execution_mode: lean
+    assurance_tier: a1_standard
+    tags: [efficiency, no-ritual, quick-edit]
+    must:
+      - make only the requested edit
+      - perform a focused schema and row count check
+      - deliver without unnecessary orchestration
+    must_not:
+      - launch multiple subagents for a trivial fix
+      - run a full unrelated test suite
+      - add an execution report to the CSV
