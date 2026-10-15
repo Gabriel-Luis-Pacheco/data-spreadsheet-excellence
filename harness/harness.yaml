@@ -1,4 +1,4 @@
-version: 4
+version: 5
 name: data-spreadsheet-excellence-harness
 purpose: adaptive high-quality execution with minimal wasted context, tool calls, and output
 
@@ -45,6 +45,13 @@ defaults:
     contract_and_drift_checks_when_applicable: true
     freshness_is_explicit: true
     do_not_auto_accept_breaking_drift: true
+  native_feature_policy:
+    real_excel_objects_required_for_requested_features: true
+    visual_or_formula_lookalikes_do_not_satisfy_pivot_table: true
+    select_tool_based_on_native_api_capability: true
+    structural_inventory_is_preliminary_only: true
+    f3_interaction_and_refresh_qa_when_available: true
+    disclose_native_creation_or_test_limitations: true
   compatibility_policy:
     target_environment_matters: true
     preserve_excel_date_epoch: true
