@@ -78,6 +78,7 @@ def sheet_snapshot(ws, max_cells: int) -> dict[str, Any]:
     formulas: list[str] = []
     content: list[str] = []
     number_formats: list[str] = []
+    visual_styles: list[str] = []
     comment_count = 0
     hyperlink_count = 0
 
@@ -85,6 +86,12 @@ def sheet_snapshot(ws, max_cells: int) -> dict[str, Any]:
         for row in ws.iter_rows():
             for cell in row:
                 value = cell.value
+                if cell.has_style:
+                    # Compare semantic properties, not unstable style-table IDs.
+                    visual_styles.append(
+                        f"{cell.coordinate}\t{repr(cell.font)}\t{repr(cell.fill)}\t"
+                        f"{repr(cell.border)}\t{repr(cell.alignment)}"
+                    )
                 if value is not None:
                     nonempty += 1
                     content.append(f"{cell.coordinate}\t{repr(value)}")
@@ -95,6 +102,11 @@ def sheet_snapshot(ws, max_cells: int) -> dict[str, Any]:
                     comment_count += 1
                 if cell.hyperlink is not None:
                     hyperlink_count += 1
+
+    conditional_rules = []
+    for region in ws.conditional_formatting:
+        for rule in ws.conditional_formatting[region]:
+            conditional_rules.append(f"{region.sqref}\t{repr(rule)}")
 
     tables = []
     try:
@@ -115,6 +127,8 @@ def sheet_snapshot(ws, max_cells: int) -> dict[str, Any]:
         "content_hash": None if scan_skipped else digest(content),
         "formula_hash": None if scan_skipped else digest(formulas),
         "number_format_hash": None if scan_skipped else digest(number_formats),
+        "visual_style_hash": None if scan_skipped else digest(visual_styles),
+        "conditional_formatting_detail_hash": digest(sorted(conditional_rules)),
         "comment_cells": None if scan_skipped else comment_count,
         "hyperlinks": None if scan_skipped else hyperlink_count,
         "defined_names": defined_names_collection_snapshot(getattr(ws, "defined_names", None)),
@@ -165,6 +179,7 @@ def workbook_snapshot(path: Path, max_cells: int) -> dict[str, Any]:
             "Does not recalculate formulas.",
             "External-link and drawing inspection is best-effort.",
             "Does not prove preservation of pivots, embedded objects, threaded comments, Power Query internals, or all application-specific behavior.",
+            "Style/CF hashes show potential drift but cannot prove pixel fidelity or whether each difference was authorized.",
         ],
     }
 
@@ -224,6 +239,7 @@ def compare(before: dict[str, Any], after: dict[str, Any]) -> dict[str, Any]:
         "content_hash",
         "formula_hash",
         "number_format_hash",
+        "visual_style_hash",
         "comment_cells",
         "hyperlinks",
         "defined_names",
@@ -233,6 +249,7 @@ def compare(before: dict[str, Any], after: dict[str, Any]) -> dict[str, Any]:
         "auto_filter",
         "data_validations",
         "conditional_formatting_rules",
+        "conditional_formatting_detail_hash",
         "charts",
         "images",
         "protection_enabled",
@@ -244,6 +261,8 @@ def compare(before: dict[str, Any], after: dict[str, Any]) -> dict[str, Any]:
         "formula_count": "formula_structure_changed",
         "formula_hash": "formula_structure_changed",
         "number_format_hash": "number_formats_changed",
+        "visual_style_hash": "visual_cell_styles_changed",
+        "conditional_formatting_detail_hash": "conditional_formatting_details_changed",
         "comment_cells": "comments_changed",
         "hyperlinks": "hyperlinks_changed",
         "defined_names": "local_defined_names_changed",
@@ -262,6 +281,7 @@ def compare(before: dict[str, Any], after: dict[str, Any]) -> dict[str, Any]:
         "content_hash",
         "formula_hash",
         "number_format_hash",
+        "visual_style_hash",
         "comment_cells",
         "hyperlinks",
     }
