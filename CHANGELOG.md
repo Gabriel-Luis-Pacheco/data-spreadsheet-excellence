@@ -1,5 +1,22 @@
 # Changelog
 
+## 9.1.0 — 2026-10-15 — Native Excel Feature Authenticity
+
+### Added
+- `references/native-excel-fidelity.md`: a non-negotiable contract requiring the **actual editable Excel object** (especially PivotTable/PivotCache), not a static or visually convincing imitation.
+- Native feature acceptance matrix for real PivotTables, Excel Tables (Ctrl+T), slicers, charts, formulas, data validation, conditional formatting, Power Query/connections and controls.
+- `scripts/inspect_native_excel.py`: read-only OOXML parts/relationships inventory with `--require pivot_table`, `--require excel_table` and other preliminary object checks.
+- Focused structural-inventory tests and behavioral evals for real PivotTables, Tables and unavailable native Excel authoring.
+
+### Improved
+- `SKILL.md`, spreadsheet engineering, tool selection, compatibility, human deliverables, provider adapters and quality gates now prioritize actual normal Excel interactions, refresh and source relationships.
+- Harness v5 and validators encode native-feature requirements without mistaking package-level detection for full Excel F3 verification.
+- Tool choice must match the requested native feature; no substitution by `pandas.pivot_table()`, styled ranges or screenshots without honest disclosure and user acceptance.
+
+### Integrity rule
+Automating native object creation is acceptable. A ZIP/package inspection is preliminary evidence, not proof of working native Excel behavior. If a real feature cannot be created or verified in the available environment, disclose the limitation rather than falsely claim full functionality.
+
+
 ## 9.0.0 — 2026-10-15 — Human-First Analyst Delivery & Parallel Assurance
 
 ### Added
