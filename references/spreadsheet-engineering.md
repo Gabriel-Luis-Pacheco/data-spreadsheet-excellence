@@ -12,7 +12,7 @@ A serious workbook has layers:
 - checks;
 - documentation/control.
 
-Small workbooks do not need a worksheet for every layer, but the conceptual separation should remain clear.
+Small workbooks do not need a worksheet for every layer; many finished reports should have **only the required operational sheet(s)**. Internal checks, technical provenance and intermediate calculations can exist in the production workflow or separately, without automatically adding visible tabs/blocks. Never confuse conceptual architecture with mandatory recipient-facing worksheet furniture.
 
 ## 2. Inventory before round-trip editing
 
@@ -135,7 +135,21 @@ For Excel application automation:
 
 Do not save immediately after `RefreshAll` and assume data finished refreshing.
 
-## 10. Workbook structure
+## 10. Keep the final workbook surface minimal
+
+**Inputs to the agent are not automatically labels/parameters to print.** If a user says a balance is reconciled within a tolerance of 0,05, apply that business rule in the actual formulas/calculation; **do not add `Tolerância` / `0,05` / `Critério` outside the working table by default.** Similarly, do not manufacture `Aba de Critérios`, `QA`, `README`, `Parâmetros`, source lists, run timestamps, test summaries or hidden explanatory columns just because the agent used those internally.
+
+Before adding a visible cell, tab, label, formula helper or note, test whether it is (a) requested, (b) a necessary recipient control, (c) a normal element in the user's example, or (d) essential to avoid misleading interpretation/meet disclosure. **If none applies, leave it out.** Avoid creating detached mini-panels in free space beside the table. Match the footprint and hierarchy of the original work when provided.
+
+**Parameter placement according to actual use:**
+- One-off fixed criterion: keep the value within the required calculation/formula or a scope-appropriate defined constant; no unsolicited display cell. Numeric rule remains inspectable in normal Excel formulas and validation records.
+- Reused/maintainable rule: use a named constant/reference, controlled support location, or separate technical configuration if needed, without unnecessarily widening the report. A hidden sheet is not a secrecy/security boundary; avoid invisible logic that makes a critical workbook unauditable.
+- Parameter expected to be **changed by the recipient**: deliberately provide a clearly named, validated, user-facing input with its units and dependencies.
+- Regulatory/client audit or materially sensitive interpretation: disclose the criterion where required, with sufficient business context; don't hide a threshold that changes a decision if the intended recipient needs to understand it.
+
+**Delivery sweep:** review the used range beyond the table and all extra sheets. Remove unjustified leftover cells, headings, criteria blocks and empty labels; then check that formulas, pivot references, charts, native features and print/export still work. Favor a compact final report over the appearance of exhaustive documentation. See `references/human-deliverables.md`.
+
+## 11. Workbook structure
 
 Use sheet names that describe function.
 
@@ -150,13 +164,7 @@ Good examples:
 
 Avoid `Sheet1`, `Final_Final2`, or ambiguous abbreviations.
 
-For recurring processes, include:
-- owner;
-- period;
-- generated timestamp;
-- source;
-- version;
-- refresh instructions.
+For recurring processes, **consider** ownership, period, source, version and refresh instructions **only where the intended user or compliance workflow actually needs them**. Store execution timestamps, file manifests and run details separately by default; do not create metadata panels or README sheets automatically.
 
 ## 11. Tables and ranges
 
@@ -195,7 +203,7 @@ Useful checks:
 - reconciliation status;
 - refresh timestamp.
 
-A check should have an expected state and make failure visible.
+A check should have an expected state and make failure visible **to the appropriate reviewer**, not necessarily as a `QA` tab or conspicuous block in the business-facing workbook. Keep meaningful unresolved exceptions visible; retain internal assurance evidence separately where appropriate.
 
 ## 14. External links and connections
 
