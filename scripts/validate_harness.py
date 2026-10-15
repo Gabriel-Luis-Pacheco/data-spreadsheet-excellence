@@ -70,6 +70,7 @@ def main() -> int:
         "visual_fidelity_policy",
         "business_status_policy",
         "original_schema_policy",
+        "delivery_gate_policy",
     ):
         if not isinstance(defaults.get(key), dict):
             failures.append(f"defaults.{key} must be a mapping")
