@@ -37,6 +37,11 @@ Choose gates by **assurance tier**, not by ritual. High consequence can require 
 - [ ] deterministic/reproducible where practical
 
 ## Gate D — Joins/reconciliation
+- [ ] final status vocabulary matches the user/template exactly; no invented REVISAR/PENDENTE labels
+- [ ] each NÃO reflects a valid identified evaluated group that fails the rule, not an ignored/unidentified identifier
+- [ ] ignored/out-of-scope rows are excluded only as authorized, retained in source evidence, and quantified when material
+- [ ] all relevant key-bearing source fields were searched (including Atribuição if applicable) before reporting unidentified rows
+- [ ] final SIM/NÃO totals reconcile with eligible population, not arbitrary full-source counts
 - [ ] expected cardinality stated
 - [ ] duplicate/null keys checked
 - [ ] matched/left-only/right-only reported
@@ -135,6 +140,8 @@ Choose gates by **assurance tier**, not by ritual. High consequence can require 
 - [ ] technical evidence is separate unless the requested product is technical; material coverage gaps remain visible
 
 ## Gate L — Handoff
+- [ ] no unsupported claim of definitive coverage, key search, real-Excel interaction, or finished reconciliation
+- [ ] material excluded/unidentified source populations disclosed without adding a third workbook status
 - [ ] outputs named clearly
 - [ ] validation evidence included
 - [ ] exceptions included
