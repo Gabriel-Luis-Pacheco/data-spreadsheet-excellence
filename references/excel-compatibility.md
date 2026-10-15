@@ -85,7 +85,11 @@ Saving modern workbooks to older formats can cause:
 
 Treat a format downgrade as a transformation requiring validation, not a simple extension change.
 
-## 8. Excel for web vs desktop
+## 8. Native feature compatibility
+
+A workbook can look correct while requested PivotTables, slicers, refresh connections or controls are missing or nonfunctional. For authentic native features, select a supported authoring host/API, check the recipient's Excel platform/version, then verify object discovery and the relevant interaction in Excel where possible. A static grouped table must never be labeled a PivotTable. See `references/native-excel-fidelity.md`.
+
+## 9. Excel for web vs desktop
 
 Features can differ across:
 - VBA/macros;
