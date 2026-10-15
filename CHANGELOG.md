@@ -1,5 +1,22 @@
 # Changelog
 
+## 9.4.0 — 2026-10-15 — Closed Status Contracts & Accurate Reconciliation Scope
+
+### Added
+- `references/closed-status-reconciliation.md`: preserves authorized status vocabulary, distinguishes eligible identified evaluated groups from irrelevant/invalid inputs, and prevents treating ignored records as automatically failed.
+- `scripts/check_status_values.py` read-only Excel check for exact allowed status labels, unexpected `REVISAR`, blanks and formula caches, with targeted regression tests.
+- Four behavioral evals: unrequested REVISAR in SIM/NÃO model, recovery via alternate Atribuição column, ignore-versus-NÃO semantics, and explicitly authorized third status.
+- Harness v8 status vocabulary, exclusion traceability and identifier-source coverage policy.
+
+### Improved
+- Core skill and reconciliation reference no longer promote internal exception labels or generic `Ambiguous`/`QA` tabs to the user's final workbook.
+- Enforce search of relevant shipment ID columns before declaring missing keys; don't invent codes or infer associations from offsetting amounts.
+- Audit source-to-eligible/excluded row and monetary totals when material, while keeping recipient-facing reports faithful to existing status/format conventions.
+
+### Integrity rule
+A closed set of labels is not permission to misclassify ineligible records. `NÃO` must mean a valid evaluated failure, not a missing or ignored identifier. A result called 'final' needs adequate evidence of key coverage, population and calculations; structural checks alone do not establish semantic correctness.
+
+
 ## 9.3.0 — 2026-10-15 — Original Template Fidelity & Visual Regression QA
 
 ### Added
