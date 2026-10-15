@@ -79,6 +79,18 @@ Research refresh: 2026-10-15 (multi-agent/delegation guidance); spreadsheet/doma
   https://developers.openai.com/blog/eval-skills
   - test skill activation and behavior with representative evals.
 
+- OpenAI — Multi-agent (Agents API):
+  https://developers.openai.com/api/docs/guides/agents-api/multi-agent
+  - independent scoped tasks can run concurrently; the orchestrator integrates evidence; same-file edits require coordination.
+
+- OpenAI — Multi-agent (Responses API):
+  https://developers.openai.com/api/docs/guides/responses-multi-agent
+  - use bounded parallel tracks when they improve wall-clock or coverage; fan-out increases token cost and is not appropriate for tightly dependent short work.
+
+- OpenAI — Codex subagent implementation notes:
+  https://github.com/openai/codex/blob/main/codex-rs/core/src/tools/handlers/multi_agents_spec.rs
+  - delegate distinct well-defined work, avoid redundant exploration and unnecessary waiting, use disjoint edit scopes.
+
 ## Agent security / prompt injection
 
 - OpenAI — Designing AI agents to resist prompt injection:
