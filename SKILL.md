@@ -9,6 +9,8 @@ description: Professional data analysis, spreadsheet automation, reconciliation,
 
 Do not treat “code ran” or “file opens” as completion.
 
+**Original-template fidelity rule (critical):** When the user supplies a workbook, screenshot or established model, **preserve its original appearance by default**. Populating cells, reconciling data, automating formulas, and making a workbook professionally usable do NOT authorize invented green `SIM` fills, red `NÃO` fills, colored fonts, conditional formatting, borders, banding, dashboards, extra labels, or other visual embellishments. Do not change any existing formatting unless the user requested it or a narrowly justified functional, accessibility, or mandatory-disclosure need requires it. Inherit original formatting for new required cells; review **unexpected visual diffs** against the source and remove them. No-source new designs and explicit redesign tasks may use purposeful styling. Read `references/template-fidelity.md`.
+
 **Native-feature authenticity rule:** When the user requests a PivotTable, Excel Table (Ctrl+T), chart, slicer, dropdown, conditional format, formula, Power Query, macro, or interactive control, deliver the **real Excel-native editable object**, not a visual imitation, frozen result, fake control or screenshot. A PivotTable must really expose fields/source/cache and refresh through Excel. Supported automation counts as authentic creation; literal mouse clicking is not required. Select tools by actual feature support, test normal Excel behavior when possible, and never silently substitute or falsely claim unsupported native functionality. Read `references/native-excel-fidelity.md`.
 
 **Instruction-versus-deliverable rule (critical):** A user's stated tolerance, criterion, validation procedure, work habit, file-processing instruction, or internal assumption tells the agent **how to work**, not necessarily **what to print in Excel**. Do not turn this background context into unsolicited visible `Tolerância`, `Critério`, `Parâmetros`, `QA`, `Método`, `Execução` fields, detached cells, explanatory blocks or extra sheets. Keep the existing human workbook surface unless the recipient needs an adjustable control, accurate interpretation, or required disclosure. Apply calculation rules behind the result; keep maintenance/audit details appropriately separate. Before delivery, inspect **all visible cells outside the intended data/report area** and remove unjustified metadata without breaking formulas. See `references/human-deliverables.md`.
@@ -90,7 +92,7 @@ Use the lightest execution process that is safe, but choose assurance from conse
 **Workbook fidelity**
 - **F0 — Data:** values/schema only.
 - **F1 — Structure:** sheets, formulas, tables, names, basic formatting.
-- **F2 — Visual:** layout, charts, printing, spacing, visual fidelity.
+- **F2 — Visual:** layout, charts, printing, spacing and visual fidelity. Existing reference styling is a preservation constraint, not permission to embellish.
 - **F3 — Excel behavior:** macros, real PivotTables/caches, slicers, Power Query, links, native objects, calculation/refresh and application-specific interaction; static lookalikes do not satisfy F3.
 
 Assurance and fidelity are independent. Higher assurance/fidelity strengthens preservation and validation; it does not automatically require loading more irrelevant context.
@@ -103,7 +105,7 @@ Apply proportionally; a trivial task may collapse several steps.
 2. **Profile** schema, types, nulls, duplicates, keys, dates, ranges, distributions, and control totals as needed.
 3. **Define** metric contracts, join cardinality, exclusions, tolerances, and assumptions. For recurring feeds, also define data-contract/freshness/drift expectations.
 4. **Choose** tools based on data size, fidelity, environment, and delivery requirements.
-5. **Preserve** raw inputs/originals unless replacement is explicitly requested.
+5. **Preserve** original data, workbook and visual conventions unless an explicit functional or styling requirement needs a narrow change.
 6. **Transform** with explicit, reproducible rules.
 7. **Analyze/reconcile** while retaining unmatched and exception records.
 8. **Validate independently and efficiently** using the minimum risk-covering combination of control totals, invariants, samples, plausibility checks, or alternate calculations; extend tests only when failures, consequence, or blast radius demand it.
@@ -182,6 +184,7 @@ Treat a workbook as an information product, not a decorated grid. Native functio
 - If asked for a PivotTable, create a genuine Excel PivotTable (source/cache/fields/refresh); if asked for an Excel Table, create a native Table/ListObject. Never confuse them or substitute a styled range.
 - Requested charts, slicers, drop-downs, native filters, formulas, conditional formatting, Power Query or controls must use actual Excel objects and behavior, not fake widgets or screenshots.
 - **Do not promote internal operating rules into visible spreadsheet content**: user-provided tolerances, formulas, comparison logic, controls, test methods, or background assumptions are implementation context unless explicitly requested as visible controls or essential for interpretation/compliance. For example, use a `0,05` reconciliation tolerance in real `CONCILIA` calculations without casually adding `Tolerância: 0,05` and `Critério` in empty cells beside the table.
+- When modifying an existing template, treat its colors, conditional formatting, fonts, borders, spacing, widths, chart/table styles and sheet layout as constraints. Never add green/red `SIM/NÃO` styling or other aesthetic improvements just because they could be useful.
 - Make purpose/output obvious.
 - Separate inputs, calculations, outputs, checks, and raw/staging data when useful.
 - Keep assumptions/editable cells discoverable.
@@ -197,6 +200,8 @@ Read `references/spreadsheet-engineering.md` and `references/native-excel-fideli
 
 ## 8. Visual design and reporting
 
+**With an existing user template, visual fidelity takes precedence over generic design preferences.** Do not invent status highlights, colors or conditional formatting unless explicitly requested or narrowly required; compare changed styles with the original. Only create a restrained design from scratch when no applicable template exists or the user requests a redesign.
+
 Hierarchy before decoration.
 
 - one primary focus per view;
@@ -211,7 +216,7 @@ Hierarchy before decoration.
 - different design for operational workbooks vs executive dashboards;
 - accessibility-specific practices for broadly published outputs.
 
-Read `references/visual-design-reporting.md`.
+Read `references/template-fidelity.md` before editing supplied visual templates, and `references/visual-design-reporting.md` when designing new presentation or changing visuals.
 
 ## 9. Automation and performance
 
@@ -302,7 +307,7 @@ Evidence is proportional to risk and may include:
 - formulas checked at the correct layer;
 - recalculation verified in a real compatible engine when required;
 - each required native feature is an actual Excel object with meaningful interaction/refresh verified where possible (or explicit limitations);
-- visual QA when presentation matters;
+- visual QA when presentation matters; for supplied references, identify and reverse unexplained changes in cell fills, fonts, borders, conditional formatting and layout;
 - no extra visible parameters, criteria, debug notes, technical legends, abandoned cells or default process sheets unless needed by the intended recipient;
 - original/source remains recoverable;
 - exceptions/limitations disclosed;
@@ -335,6 +340,7 @@ Use `references/quality-gates.md`. `assets/evidence-manifest-template.yaml` is t
 - `references/native-excel-fidelity.md` — authentic PivotTables, Tables, slicers and other Excel objects with real interactions.
 - `references/spreadsheet-engineering.md`
 - `references/excel-compatibility.md` — cross-version formulas, limits, precision, date systems, and portability.
+- `references/template-fidelity.md` — reference workbook is the visual contract; no invented green/red status colors or cosmetic changes.
 - `references/visual-design-reporting.md`
 - `references/automation-performance.md`
 - `references/security-governance.md`
