@@ -16,11 +16,21 @@ A portable Agent Skill for professional work with **data analysis, Python, Excel
 - performance, idempotency, logging, security and reproducibility;
 - review of another analyst's work;
 - analytical writing without generic AI slop;
+- human-authored client/management reports without exposing internal execution logs, raw TXT paths, model names, or ceremonial AI sections;
+- proactive domain/source/template discovery, parallel independent agent research, and risk-based validation without ritual testing;
 - prompt/context engineering;
 - token, latency and tool-call economy;
 - prompt-injection / untrusted-content boundaries;
 - adaptive execution and independent assurance tiers;
 - AI coding discipline and minimal-diff workflows.
+
+## v9: human-authored delivery and analyst-speed orchestration
+
+v9 teaches agents to create the **actual report a capable analyst would hand in**, rather than a report *about how AI executed the work*. A business-facing artifact keeps normal headings, tables, language and source labels. Raw paths/TXT filenames, worker details and test logs belong in separate internal evidence when useful. Material gaps or failed coverage are still disclosed honestly in business terms.
+
+For substantial work, the agent proactively discovers distinct relevant context: inputs and missing sources, prior examples and periods, business definitions, authoritative rules and contradictions. When subagents/workers are supported, it delegates independent research or validation tracks in parallel, then synthesizes findings without duplicated work or simultaneous writes to the same file. It uses the smallest assurance-appropriate set of checks instead of excessive testing.
+
+See `references/human-deliverables.md` and `references/analyst-workflow-orchestration.md`. The policy cannot by itself enable subagent tools; actual availability depends on the running Codex/Claude/API environment.
 
 ## v8 architecture: measurable quality, drift, and compatibility
 
@@ -348,7 +358,7 @@ See `references/source-notes.md`.
 
 ## Version
 
-**v8.0.0 — Measurable Quality & Data Observability**
+**v9.0.0 — Human-First Analyst Delivery & Parallel Assurance**
 
 Canonical version: `VERSION`
 
