@@ -42,7 +42,7 @@ The user told the agent: *"We use a tolerance of 0.05 in everyday reconciliation
 
 **Wrong addition:** putting `Tolerância` in F1, `0,05` in G1, and `Critério` in F3 simply because the user mentioned the threshold. It makes a clean operational table look like an AI execution worksheet.
 
-**Correct by default:** preserve the established table, filters, column order, status labels, and meaningful highlights. Use the tolerance **in the actual calculation** that produces `CONCILIA`, with no unsolicited visible threshold/criteria block.
+**Correct by default:** preserve the established table, filters, column order, status labels, and **only the highlights already present**; do not add green/red status coloring or conditional formatting without a request. Use the tolerance **in the actual calculation** that produces `CONCILIA`, with no unsolicited visible threshold/criteria block.
 
 For a simple fixed calculation, a real Excel formula may express the rule directly, for example `=SE(ABS(C4)<=0,05;"SIM";"NÃO")` when column C contains the appropriate numeric balance and the target Excel formula syntax supports it. If the rule needs to be reused/maintained without repeating literals, use a defined name or discreet internal supporting structure; test correctness, compatibility and auditability. **Never hide material coverage failures, fabricate formula results, or present a static snapshot as a functioning formula.**
 
@@ -65,6 +65,10 @@ By default, keep OUT of the reader-facing artifact:
 **Exception:** If the task is explicitly technical, a traceability artifact, audit evidence, or a run log, those details may be the product. For business reports, use a human source label such as "EFD de setembro/2026" rather than a raw filename unless exact file identity is essential to a finding. Source identity and lineage must remain retrievable for reviewers.
 
 Never remove a material failed source, missing period, unresolved exception, uncertainty, or incomplete coverage simply to make a report cleaner. Translate it into reader-relevant language in the main report; move the precise technical evidence to an appendix/exception file/internal manifest as appropriate.
+
+### Existing visual styling is not an invitation to "improve" it
+
+If the user supplies an Excel model, **keep its actual appearance**. Do not introduce conditional green `SIM` fills, red `NÃO` fills, bold status text, extra colors, zebra striping, borders, illustrations, icons or reworked widths merely because those choices look polished to an AI. The original model's visual pattern is authoritative by default. Preserve intentional original formatting, including existing color cues; add colors only when expressly requested or truly required for accessibility or a material user workflow. See `references/template-fidelity.md`.
 
 ## 5. Write the way a competent analyst would
 
