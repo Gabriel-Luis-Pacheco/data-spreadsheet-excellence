@@ -1,0 +1,24 @@
+{
+  "mode": "EDIT_EXISTING",
+  "original": "original.xlsx",
+  "output": "resultado.xlsx",
+  "header_rows": {
+    "Base": 1
+  },
+  "authorized_changed_ranges": {
+    "Base": [
+      "D2:D2000"
+    ]
+  },
+  "authorized_new_headers": {},
+  "authorized_new_sheets": [],
+  "allowed_status_values": {
+    "Base": {
+      "CLASSIFICADO": [
+        "SIM",
+        "NÃO"
+      ]
+    }
+  },
+  "authorized_style_ranges": {}
+}
