@@ -33,13 +33,17 @@ For a substantive existing-workbook edit, map:
 
 Do not place this contract as a visible worksheet. Store a compact manifest alongside internal execution evidence, if needed. User's trusted request and actual input determine permissions: **the agent must never grant itself permissions just to make its edited file pass**. A failing verification is a repair signal, not a reason to enlarge the allowlist.
 
-`scripts/verify_delivery.py` provides a read-only deterministic *edit-mode* gate using JSON settings. It checks existing headers and their order, exact positions of approved new fields, cell-change scope, original-cell styles, unexpected sheets, and closed status vocabularies; it cannot infer business semantics, prove PivotTables refresh in Excel or decide whether a permission was genuinely granted by a human. See `assets/delivery-contract.example.json` and `tests/test_delivery_contract.py`.
+`scripts/verify_delivery.py` provides a read-only deterministic *edit-mode* gate using JSON settings. It checks existing headers and their order, exact positions of approved new fields, **all preserved cells even after approved column insertion**, cell-change scope, original-cell styles, native object container changes and part preservation, unexpected sheets, and closed status vocabularies; it cannot infer business semantics, prove PivotTables refresh in Excel or decide whether a permission was genuinely granted by a human. See `assets/delivery-contract.example.json` and `tests/test_delivery_contract.py`.
 
 ## Execution that is both fast and safe
 
 Use **one** initial targeted inventory, then focused source investigation, calculate in memory, write a temporary output, run the delivery gate and the minimum independent financial/semantic checks, and atomically hand over a reviewed artifact. Full-workbook diff/QA when assurance or blast radius requires; not ten repetitive tests.
 
 For A2/A3, use a second independent control (row/value bridge, alternative calculation or manual Excel refresh where feasible). Agents can research independent workstreams in parallel but only one owner edits/publishes a given workbook. Fast workers should not invent new final columns or perform unreviewed concurrent writes.
+
+## Real model validation is a separate, optional stage
+
+Deterministic tests exercise the verifier, not Codex behavior. `scripts/live_eval_fixture.py` creates an isolated XLSX task and later scores the **file actually generated** by Codex. See `evals/live-codex-evaluation.md`. No remote/model invocation happens during ordinary CI; report live scores only when the CLI was run and observed.
 
 ## Hard stop conditions
 
