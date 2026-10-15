@@ -2,7 +2,7 @@
 
 ## Non-negotiable contract
 
-**When the user asks for an Excel feature, deliver the actual editable, functional feature in the Excel workbook.** Producing a visually similar range, screenshot, static export, formula simulation, styled grid, image, or generic dropdown is NOT equivalent unless the user explicitly chooses that alternative.
+**When the user asks for an Excel feature, deliver the actual editable, functional feature in the Excel workbook, while preserving the original schema.** A real PivotTable does not authorize new source columns named `QTD`, `EMBARQUE` or `CONCILIA` unless they are expressly requested/approved. Use existing source fields, existing native objects, or separately authorized data support. Producing a visually similar range, screenshot, static export, formula simulation, styled grid, image, or generic dropdown is NOT equivalent unless the user explicitly chooses that alternative.
 
 "Make it like I manually built it in Excel" refers to the **result**: a normal workbook whose real Excel objects respond to the same clicks and operations a human-made workbook would. The creation process can absolutely be automated via Excel, Office Scripts, VBA, COM, or supported libraries. Do not perform repetitive mouse clicks for theater when a supported native API creates the same object.
 
@@ -55,6 +55,8 @@ For Google Sheets and other spreadsheet platforms, use **the platform's own nati
 
 ## 4. Conventional human spreadsheet experience
 
+For an **existing** workbook, keep its original names, fields, styles and sheet structure, even if a generic cleaner layout is possible. The examples below apply to **newly designed artifacts or explicitly authorized redesigns**, not automatic alterations of the user's file.
+
 Build as a careful real Excel user would:
 - direct, ordinary sheet names (for example, `Base`, `Resumo`, `Tabela Dinâmica`), easy-to-find objects, standard Excel behavior;
 - filters in genuine Tables, sensible freeze panes, clean columns, usable formats and print settings;
@@ -74,7 +76,7 @@ Use **two complementary layers**:
 
 Do not run elaborate UI sequences for every trivial formatting edit. Test **one representative interaction per required native feature**, more only if assurance, errors, or multiple dependencies warrant it.
 
-**PivotTable suggested test:** create a normal source Excel Table, create real PivotTable from that source, configure values/rows/filter correctly, save, reopen, check its field list, alter/add controlled source data and refresh, verify updated pivot totals against an independent aggregation, restore actual data if testing on a copy, and confirm no broken cache/relationship.
+**PivotTable suggested test:** first reuse the original source/PivotTable when available. For a specifically requested **new** native PivotTable, configure it using valid existing or approved source fields, save/reopen, inspect fields, refresh after a controlled change on a test copy, reconcile independent totals, and restore the original data. Do not auto-create new helper columns/sheets or transform the original into a Ctrl+T Table merely because an example workflow does so.
 
 **Editing existing workbooks:** inventory important native objects before and after; preserve the original; do not assert F3 preservation from a successful `openpyxl.save()` or ZIP comparison alone. If real Excel cannot be run, mark interaction as **not verified**, even when structural parts exist.
 
@@ -90,6 +92,8 @@ python scripts/inspect_native_excel.py workbook.xlsx --require excel_table --pre
 This checks expected OOXML parts and, for PivotTables, a worksheet-to-PivotTable relationship and a PivotTable-to-cache relationship. It is **not** a certification that Excel can open, configure, refresh, or preserve the feature. Keep full interactive verification separate and appropriate to F3 risk. A structural positive alone is not completion evidence.
 
 ## 6. Acceptance and truthful delivery
+
+Check the native feature AND the preservation of the original workbook's allowed sheets/headers with `references/source-schema-contract.md`; real Excel interactivity and source-schema fidelity are **both** required.
 
 **Definition of done for a native request:** the saved file contains the correct native object; recipient can use it through normal Excel UI; source update/refresh/calculation behavior works where required; content and style fit the user's actual workflow. The requested native object is a requirement, not an optional polish item.
 
