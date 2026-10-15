@@ -10,7 +10,7 @@ Identify whether the artifact is an operational table, review/audit workbook, ma
 
 The first view should answer: where am I, what period/entity am I seeing, what matters most, what changed, what requires action, and where is the detail?
 
-Use size, position, whitespace, grouping, and typography before strong color.
+Use size, position, whitespace, grouping, and typography before strong color. **Do not fill spare worksheet cells with criteria, tolerance values, parameters, workflow explanations or extra KPI blocks just to use space.** Blank space is often the natural result of a compact human-made working table.
 
 ## 3. Color
 
@@ -61,7 +61,7 @@ Do not use blank to hide every undesirable state.
 
 Use tables when readers need exact lookup or row-level action.
 
-Good operational tables have descriptive titles, period/source notes, stable columns, clear units, meaningful sort, filters/freeze panes only when useful, and exception/status fields near the relevant row.
+Good operational tables have stable columns, clear units, meaningful sort, filters/freeze panes only when useful, and exception/status fields near the relevant row. Add titles, period/source notes or definitions only when the reader actually needs them or the established template includes them; do not append them mechanically.
 
 Avoid unrelated tables mashed together, decorative blank rows inside machine-readable data, merged cells inside datasets, and arbitrary color schemes.
 
@@ -149,6 +149,8 @@ For published work:
 - accessibility checker plus manual review.
 
 ## 16. Visual QA
+
+Before ordinary visual polish, do a **content-surface sweep**: scan every populated cell to the right/above/below the actual table, every extra tab and the print area. Flag lone metadata such as `Tolerância 0,05`, `Critério`, `Método`, `Data de execução` or process notes that the user mentioned only as operational context. Remove unsupported additions while retaining functioning source/formulas and required disclosure. See `references/human-deliverables.md`.
 
 When presentation matters:
 1. render/open workbook;
