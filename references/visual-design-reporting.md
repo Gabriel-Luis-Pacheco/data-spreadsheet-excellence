@@ -2,6 +2,10 @@
 
 A beautiful spreadsheet is not a colorful spreadsheet. It is an information interface with hierarchy, clarity, and deliberate emphasis.
 
+## 0. Existing reference overrides default design advice
+
+If there is an original workbook or template, this guide's recommendations do **not** authorize extra colors, headings, borders or formatting changes. **Match the model first.** The absence of green on `SIM` or red on `NÃO` is not a flaw; a plain textual classification can be complete. Do not add conditional-format rules where none existed unless specifically asked or narrowly necessary. See `references/template-fidelity.md`. When producing a new workbook from scratch or explicitly redesigning, use the following principles.
+
 ## 1. Design from the user task
 
 Identify whether the artifact is an operational table, review/audit workbook, management report, executive dashboard, financial model, published statistical table, or ad hoc analysis. Each needs a different density and interaction model.
@@ -14,7 +18,7 @@ Use size, position, whitespace, grouping, and typography before strong color. **
 
 ## 3. Color
 
-Use a restrained semantic system:
+**For new designs or explicitly authorized changes only**, use a restrained semantic system:
 - neutral base;
 - one primary emphasis color;
 - warning/error colors only for real status meaning;
@@ -130,7 +134,9 @@ Do not present a point estimate as certainty when uncertainty drives the decisio
 
 ## 14. Conditional formatting
 
-Use for threshold breach, risk, aging, missing action, or exception severity.
+Only add conditional formatting **when requested or demonstrably required**, not reflexively because a value is a status. In existing templates, preserve the original conditional-formatting definitions. If the model has plain `SIM/NÃO` values, keep plain `SIM/NÃO` values.
+
+When in scope, use for threshold breach, risk, aging, missing action, or exception severity.
 
 Avoid color scales on IDs, excessive icon sets, inconsistent meanings, and red/green-only encoding.
 
@@ -150,7 +156,7 @@ For published work:
 
 ## 16. Visual QA
 
-Before ordinary visual polish, do a **content-surface sweep**: scan every populated cell to the right/above/below the actual table, every extra tab and the print area. Flag lone metadata such as `Tolerância 0,05`, `Critério`, `Método`, `Data de execução` or process notes that the user mentioned only as operational context. Remove unsupported additions while retaining functioning source/formulas and required disclosure. See `references/human-deliverables.md`.
+Before ordinary visual polish, compare the existing template to the proposed output and remove unrequested fills, font colors, status highlights, CF rules, borders, banding and layout shifts. Do a **content-surface sweep**: scan every populated cell to the right/above/below the actual table, every extra tab and the print area. Flag lone metadata such as `Tolerância 0,05`, `Critério`, `Método`, `Data de execução` or process notes that the user mentioned only as operational context. Remove unsupported additions while retaining functioning source/formulas and required disclosure. See `references/human-deliverables.md`.
 
 When presentation matters:
 1. render/open workbook;
