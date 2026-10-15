@@ -12,7 +12,7 @@ Correctness and native Excel behavior can be improved without inventing a new lo
 - Keep original header colors (for example, existing light-blue headers); do not replace or supplement the palette just to look "consistent" with an AI-generated theme.
 - Never color `SIM` cells green or `NÃO` cells red merely because their meaning *could* be semantically colored. Native text/status is often enough. If the original used no highlights, keep no highlights.
 - Do not add green background, colored type, bold statuses, data bars, icons, traffic lights, conditional formatting, borders, alternating-row fills, callouts, legends, cards or dashboards absent from the supplied model. Do not assume the absence of color is a design deficiency.
-- New columns/rows should inherit the nearest relevant existing style **only as necessary** for continuity, without inventing a new color scheme.
+- **Do not add new columns/rows** unless specifically authorized; if an authorized new column is required, inherit the nearest relevant style without inventing a new color scheme.
 - Preserve original recipient-facing layout and avoid unsolicited parameter/criterion notes elsewhere (see `references/human-deliverables.md`).
 - A native Excel Table or PivotTable may introduce application-defined presentation. Use the least disruptive compatible style and keep the workbook's existing visual conventions; preserve real native interactivity. If an unavoidable visible change is material, explain it in a short handoff (not as an execution report inside the sheet).
 
@@ -37,11 +37,11 @@ If a difference affects a decision, preserve the underlying numeric/status evide
 
 ### Example: reconciliation from existing user worksheet
 
-The reference contains the header `EMBARQUE | Quantidade | Saldo | CONCILIA`, plain `SIM/NÃO` cells, the original colored header and no green/red status fills. The user says the tolerance is `0,05` and requests a reconciliation.
+The **original** workbook has `CLASSIFICADO` (`SIM/NÃO`), but lacks `CONCILIA`, `QTD` and `EMBARQUE`. The task asks for reconciliation/classification using a tolerance of `0,05`. Its header styling must also remain unchanged.
 
-**Correct result:** retain the existing header and status-cell styles, place genuine formulas/results in the appropriate existing columns, apply the tolerance to logic, retain filters and row count, and keep the same overall first-screen appearance.
+**Correct result:** identify the existing meaning of `CLASSIFICADO`; apply the tolerance to internal calculations and update only an existing semantically appropriate authorized result field. Do not manufacture helper columns or additional statuses. Retain original styles, filters, row count and first-screen appearance.
 
-**Wrong result:** add green fills to `SIM`, red fills to `NÃO`, a new conditional-format rule, colored font, a `Tolerância: 0,05` box, a `Critério` label, or a separate `QA` sheet purely as a "helpful improvement".
+**Wrong result:** append `CONCILIA`, `QTD` and `EMBARQUE` for convenience; replace the meaning of `CLASSIFICADO` without checking; add green/red status fills, a `Tolerância: 0,05` box, a `Critério` label or an unsolicited `QA` sheet.
 
 If the user **explicitly** asks for colored exception highlighting, then the new coloring is in scope. An internal QA check is not the same as authorization to redesign.
 
