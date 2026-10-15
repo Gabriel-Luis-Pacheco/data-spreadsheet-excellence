@@ -1,5 +1,7 @@
 # Reconciliation Summary
 
+**Internal analytical worksheet/template only unless expressly requested as a deliverable.** Do NOT append its metrics, headings, rule criteria or QA sections into an original customer workbook. A source workbook with `CLASSIFICADO` must not gain `CONCILIA`, `EMBARQUE`, `QTD` or extra sheets merely to fit this template; computed quantities can remain internal.
+
 ## Scope
 - Source A:
 - Source B:
