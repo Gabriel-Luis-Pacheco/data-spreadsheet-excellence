@@ -63,6 +63,7 @@ def main() -> int:
         "coding_policy",
         "recurring_data_policy",
         "compatibility_policy",
+        "native_feature_policy",
         "evidence_policy",
         "output_policy",
     ):
