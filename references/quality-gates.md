@@ -61,6 +61,7 @@ Choose gates by **assurance tier**, not by ritual. High consequence can require 
 - [ ] formulas/tables/names preserved as required
 - [ ] number formats correct
 - [ ] inputs/outputs/checks clear
+- [ ] native Tables (Ctrl+T), formulas, validation and filters are real when requested, not merely visually mimicked
 - [ ] external links/macros/queries inventoried
 - [ ] before/after semantic diff reviewed when preservation matters
 - [ ] target Excel version/channel compatibility considered when recipients differ from authoring environment
@@ -79,6 +80,10 @@ Choose gates by **assurance tier**, not by ritual. High consequence can require 
 - [ ] macro/security behavior understood
 - [ ] formulas recalculated if required
 - [ ] refresh completed/verified if required
+- [ ] requested native objects actually exist (PivotTable is not a static groupby grid; Excel Table is not just a colored range)
+- [ ] PivotTable cache, source, fields and refresh function through the real Excel UI where available
+- [ ] requested slicers/charts/dropdowns/conditional formats/macros/controls pass the relevant user interaction
+- [ ] unsupported or unverified native features are not silently replaced or claimed complete
 - [ ] pivots/connections/objects behave as expected
 - [ ] application state restored after automation
 
