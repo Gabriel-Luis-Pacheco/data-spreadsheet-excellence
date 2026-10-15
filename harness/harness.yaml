@@ -78,7 +78,7 @@ defaults:
     existing_sheet_names_headers_positions_and_order_preserved: true
     internal_derived_columns_do_not_leak_to_output: true
     no_unsolicited_concilia_qtd_embarque_or_summary_sheets: true
-    existing_classificado_meaning_must_not_be_repuposed: true
+    existing_classificado_meaning_must_not_be_repurposed: true
     unknown_output_semantics_are_not_license_to_mutate: true
     require_authorization_for_visible_structural_changes: true
     compare_original_to_final_header_sheet_inventory: true
