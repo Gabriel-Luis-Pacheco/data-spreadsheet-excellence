@@ -32,6 +32,8 @@ REQUIRED_TAGS = {
     "surface-discipline",
     "visual-fidelity",
     "status-contract",
+    "schema-fidelity",
+    "semantic-fidelity",
     "context",
     "parallelism",
     "no-ritual",
