@@ -172,7 +172,7 @@ cases:
     must_not:
       - report vague style criticism as a material defect
 
-- id: human-report-no-execution-trace
+  - id: human-report-no-execution-trace
     title: Human-authored Brazilian business report
     prompt: >
       Use my existing Portuguese report style to create the September ICMS
