@@ -9,6 +9,8 @@ description: Professional data analysis, spreadsheet automation, reconciliation,
 
 Do not treat “code ran” or “file opens” as completion.
 
+**Human-authored output rule:** When preparing a report, workbook, summary, or client deliverable the user would normally submit personally, make the *reader-facing artifact* look like their real work for its audience. Never pad it with an AI execution report, worker names, raw TXT file/path/error logs, tests, prompts, or generic filler. Keep technical execution/evidence separately; disclose all **material** data gaps and limitations honestly in reader-relevant language. See `references/human-deliverables.md`.
+
 ## 0. Operate with adaptive efficiency
 
 Optimize **quality per unit of context, tool use, latency, and cost**. Do not minimize tokens at the expense of correctness.
@@ -29,15 +31,19 @@ Choose **two independent controls**:
 Do not equate technical complexity with consequence. A one-cell change in a regulated model can be LEAN/BALANCED execution with A3 assurance; a complex exploratory analysis can be DEEP with A0/A1 assurance.
 
 Context hygiene:
-- read/search only what the next decision requires;
+- proactively investigate all distinct **material** sources, business rules, examples, prior decisions, and uncertainties that could change the deliverable; maximize useful evidence, not raw context;
 - prefer targeted ranges/search before whole files;
 - do not bulk-load `references/`;
 - do not reread unchanged content unless needed;
 - reuse deterministic artifacts and scripts;
 - summarize large tool results instead of carrying raw output;
 - keep a compact state of objective, mode, assurance, decisions, assumptions, checks, unresolved items, and next step;
+- prefer parallel independent research/QA and available specialized subagents when they improve coverage or completion speed; avoid duplicate fan-out and shared-file edit conflicts;
+- run the smallest **risk-covering** set of checks, with independent verification for material claims; do not rerun ritual tests;
 - do not narrate every tool call;
 - stop when the requested artifact and assurance-appropriate gates are complete.
+
+For substantive multi-source analyst tasks read `references/analyst-workflow-orchestration.md`; for anything the user will personally hand in read `references/human-deliverables.md`. These rules do not require subagents, broad research, or formal reports for trivial tasks.
 
 Read `references/agent-harness.md` for execution behavior, `references/assurance-model.md` for evidence strength, `references/prompt-context-engineering.md` for prompt/config work, `references/token-economy.md` for cost/latency design, and `references/coding-practices.md` for code changes. Portable defaults are in `harness/harness.yaml`.
 
@@ -89,15 +95,15 @@ Assurance and fidelity are independent. Higher assurance/fidelity strengthens pr
 
 Apply proportionally; a trivial task may collapse several steps.
 
-1. **Inventory** relevant inputs before modification.
+1. **Context sweep:** inspect relevant inputs, existing examples/templates, historical comparisons, applicable business rules, and missing evidence before modification. Pursue distinct decision-relevant context, not exhaustive raw reads.
 2. **Profile** schema, types, nulls, duplicates, keys, dates, ranges, distributions, and control totals as needed.
 3. **Define** metric contracts, join cardinality, exclusions, tolerances, and assumptions. For recurring feeds, also define data-contract/freshness/drift expectations.
 4. **Choose** tools based on data size, fidelity, environment, and delivery requirements.
 5. **Preserve** raw inputs/originals unless replacement is explicitly requested.
 6. **Transform** with explicit, reproducible rules.
 7. **Analyze/reconcile** while retaining unmatched and exception records.
-8. **Validate independently** with control totals, invariants, samples, plausibility checks, or alternate calculations where material.
-9. **Build** the final artifact around the user's workflow, not around the code.
+8. **Validate independently and efficiently** using the minimum risk-covering combination of control totals, invariants, samples, plausibility checks, or alternate calculations; extend tests only when failures, consequence, or blast radius demand it.
+9. **Build** the final reader-facing artifact around the user's workflow and human style, not code execution; keep audit/debug evidence separate unless explicitly requested.
 10. **QA visually** when appearance matters.
 11. **Edit** narrative for specificity, brevity, and evidence.
 12. **Deliver evidence**: what changed, what was checked, exceptions, and unresolved uncertainty.
@@ -259,7 +265,7 @@ Read `references/coding-practices.md`.
 - If evidence is insufficient, say what is unknown and what would resolve it.
 - Match the language, terminology, date/number display, and currency conventions to the intended audience unless the user specifies otherwise; localize presentation without corrupting underlying typed data.
 
-Read `references/writing-review-handoff.md`.
+**Recipient boundary:** if the user wants a report *as if they had prepared it*, do not make a report about the agent's execution. Business labels instead of raw technical filenames; no model/worker mentions, pseudo-methodology, decorative AI styling, or irrelevant test narrative. Material missing coverage must still be stated plainly. Read `references/human-deliverables.md` and `references/writing-review-handoff.md`.
 
 ## 13. Five-lens review
 
@@ -291,6 +297,7 @@ Evidence is proportional to risk and may include:
 - original/source remains recoverable;
 - exceptions/limitations disclosed;
 - narrative is specific and unambiguous;
+- the reader-facing artifact passes the human-authored check, without internal execution machinery or generic AI formatting;
 - another person can continue from delivered artifacts;
 - recurring pipelines have drift/freshness checks when material;
 - A2/A3 work uses a compact evidence manifest when traceability would otherwise be lost.
@@ -301,6 +308,7 @@ Use `references/quality-gates.md`. `assets/evidence-manifest-template.yaml` is t
 
 **Execution/context**
 - `references/agent-harness.md` — adaptive execution, tool/file-reading policy, state and stopping.
+- `references/analyst-workflow-orchestration.md` — proactive contextual investigation, parallel workers, critical-path scheduling, risk-based tests.
 - `references/assurance-model.md` — A0–A3 evidence strength independent of execution complexity.
 - `references/agent-security.md` — prompt injection, trust boundaries, exfiltration and consequential-action controls.
 - `references/prompt-context-engineering.md` — prompts, context hierarchy, caching-aware structure.
@@ -319,6 +327,7 @@ Use `references/quality-gates.md`. `assets/evidence-manifest-template.yaml` is t
 - `references/visual-design-reporting.md`
 - `references/automation-performance.md`
 - `references/security-governance.md`
+- `references/human-deliverables.md` — separate human-facing reports from internal logs and technical evidence.
 - `references/writing-review-handoff.md`
 - `references/quality-gates.md`
 - `references/patterns-recipes.md`
