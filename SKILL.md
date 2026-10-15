@@ -9,6 +9,8 @@ description: Professional data analysis, spreadsheet automation, reconciliation,
 
 Do not treat “code ran” or “file opens” as completion.
 
+**Native-feature authenticity rule:** When the user requests a PivotTable, Excel Table (Ctrl+T), chart, slicer, dropdown, conditional format, formula, Power Query, macro, or interactive control, deliver the **real Excel-native editable object**, not a visual imitation, frozen result, fake control or screenshot. A PivotTable must really expose fields/source/cache and refresh through Excel. Supported automation counts as authentic creation; literal mouse clicking is not required. Select tools by actual feature support, test normal Excel behavior when possible, and never silently substitute or falsely claim unsupported native functionality. Read `references/native-excel-fidelity.md`.
+
 **Human-authored output rule:** When preparing a report, workbook, summary, or client deliverable the user would normally submit personally, make the *reader-facing artifact* look like their real work for its audience. Never pad it with an AI execution report, worker names, raw TXT file/path/error logs, tests, prompts, or generic filler. Keep technical execution/evidence separately; disclose all **material** data gaps and limitations honestly in reader-relevant language. See `references/human-deliverables.md`.
 
 ## 0. Operate with adaptive efficiency
@@ -87,7 +89,7 @@ Use the lightest execution process that is safe, but choose assurance from conse
 - **F0 — Data:** values/schema only.
 - **F1 — Structure:** sheets, formulas, tables, names, basic formatting.
 - **F2 — Visual:** layout, charts, printing, spacing, visual fidelity.
-- **F3 — Excel behavior:** macros, pivots, Power Query, external links, objects, calculation/refresh behavior, application-specific features.
+- **F3 — Excel behavior:** macros, real PivotTables/caches, slicers, Power Query, links, native objects, calculation/refresh and application-specific interaction; static lookalikes do not satisfy F3.
 
 Assurance and fidelity are independent. Higher assurance/fidelity strengthens preservation and validation; it does not automatically require loading more irrelevant context.
 
@@ -121,7 +123,8 @@ Choose the smallest safe stack.
 | Spreadsheet ingestion | `pandas.read_excel()` with appropriate engine |
 | New polished `.xlsx` | `XlsxWriter` |
 | Ordinary existing `.xlsx` edit | `openpyxl` after preservation-risk inspection |
-| Installed Excel / F3 behavior | `xlwings` or Windows COM |
+| Native Excel / F3 work | real Excel via `xlwings`/Windows COM or supported Office Scripts/Excel APIs, according to object and environment |
+| Actual PivotTable creation | compatible Excel native PivotTable API; `pandas.pivot_table()` output is not a PivotTable |
 | Google Sheets | Sheets API with batched operations |
 | Microsoft 365 web automation | Office Scripts / Power Automate |
 | Fuzzy entity matching | deterministic rules → `RapidFuzz` |
@@ -172,8 +175,10 @@ Read `references/reconciliation-matching.md`.
 
 ## 7. Spreadsheet engineering
 
-Treat a workbook as an information product, not a decorated grid.
+Treat a workbook as an information product, not a decorated grid. Native functionality is a requirement, not cosmetic polish.
 
+- If asked for a PivotTable, create a genuine Excel PivotTable (source/cache/fields/refresh); if asked for an Excel Table, create a native Table/ListObject. Never confuse them or substitute a styled range.
+- Requested charts, slicers, drop-downs, native filters, formulas, conditional formatting, Power Query or controls must use actual Excel objects and behavior, not fake widgets or screenshots.
 - Make purpose/output obvious.
 - Separate inputs, calculations, outputs, checks, and raw/staging data when useful.
 - Keep assumptions/editable cells discoverable.
@@ -182,10 +187,10 @@ Treat a workbook as an information product, not a decorated grid.
 - Preserve formulas, names, macros, links, queries, objects, formatting, and calculation behavior according to required fidelity.
 - Formula written ≠ formula accepted ≠ formula recalculated ≠ cached result current.
 - Do not use `openpyxl` as a universal Excel round-trip engine.
-- For F3 work, validate in the target Excel environment when possible.
+- For F3 work, verify object existence AND the relevant user action in a target Excel runtime when possible. ZIP/OOXML structure is not full functional proof. If native authoring or validation is unavailable, disclose it rather than silently downgrade.
 - When recipients may use different Excel versions/channels or legacy formats, design against the oldest supported target rather than the author's environment.
 
-Read `references/spreadsheet-engineering.md`. For cross-version/portable workbooks, also read `references/excel-compatibility.md`.
+Read `references/spreadsheet-engineering.md` and `references/native-excel-fidelity.md` whenever native features or interaction are requested. For cross-version/portable workbooks, also read `references/excel-compatibility.md`.
 
 ## 8. Visual design and reporting
 
@@ -293,6 +298,7 @@ Evidence is proportional to risk and may include:
 - joins have matched/unmatched evidence;
 - formulas checked at the correct layer;
 - recalculation verified in a real compatible engine when required;
+- each required native feature is an actual Excel object with meaningful interaction/refresh verified where possible (or explicit limitations);
 - visual QA when presentation matters;
 - original/source remains recoverable;
 - exceptions/limitations disclosed;
@@ -322,6 +328,7 @@ Use `references/quality-gates.md`. `assets/evidence-manifest-template.yaml` is t
 - `references/data-analysis-quality.md`
 - `references/data-contracts-observability.md` — contracts, freshness, semantic/schema/unit drift for recurring data.
 - `references/reconciliation-matching.md`
+- `references/native-excel-fidelity.md` — authentic PivotTables, Tables, slicers and other Excel objects with real interactions.
 - `references/spreadsheet-engineering.md`
 - `references/excel-compatibility.md` — cross-version formulas, limits, precision, date systems, and portability.
 - `references/visual-design-reporting.md`
