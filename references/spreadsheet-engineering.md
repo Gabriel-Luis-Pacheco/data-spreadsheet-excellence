@@ -51,7 +51,11 @@ Default:
 
 For business-critical files, retain a source checksum or immutable copy.
 
-## 4. Functional authenticity versus lookalikes
+## 4. Output data validity: permitted values are a contract
+
+If the original worksheet uses only `SIM/NÃO` in `CONCILIA`, preserve that vocabulary: no spontaneous `REVISAR`, `PENDENTE` or other status. Unknown/invalid key is not a failure verdict; only eligible, identified, evaluated groups may receive `NÃO` for rule failure. Excluded records remain traceable and are not silently discarded from raw sources; investigate available alternative identifier fields first. A real PivotTable or filter that displays an invented status still violates the workbook contract. Use `references/closed-status-reconciliation.md` and `scripts/check_status_values.py` where applicable.
+
+## 5. Functional authenticity versus lookalikes
 
 If a user asks for a PivotTable, the workbook must contain a real Excel PivotTable (with cache, source and field configuration). A `pandas.pivot_table()` export, SUMIFS grid or grouped range is not a PivotTable. A styled range is not automatically a native Excel Table (ListObject); a chart screenshot is not a chart; colorful shapes do not constitute a slicer. Use a compatible native authoring host/API before implementation. Automated creation is fine; it is the result's native behavior that must match a careful human user's workbook.
 
