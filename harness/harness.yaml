@@ -1,4 +1,4 @@
-version: 3
+version: 4
 name: data-spreadsheet-excellence-harness
 purpose: adaptive high-quality execution with minimal wasted context, tool calls, and output
 
@@ -10,6 +10,9 @@ defaults:
   quality_floor: correctness_and_security_over_token_savings
   response_style: concise_by_default
   context_policy:
+    proactive_material_context_sweep: true
+    include_templates_prior_periods_and_domain_rules_when_relevant: true
+    cover_distinct_evidence_before_stopping: true
     progressive_disclosure: true
     search_before_full_read: true
     avoid_bulk_reference_loading: true
@@ -25,6 +28,8 @@ defaults:
   tool_policy:
     prefer_deterministic_scripts: true
     batch_independent_calls: true
+    parallelize_distinct_research_and_qa_when_beneficial: true
+    schedule_work_by_dependencies: true
     keep_result_ranges_bounded: true
     use_minimal_relevant_toolset: true
     stop_when_evidence_sufficient: true
@@ -33,6 +38,8 @@ defaults:
     follow_existing_patterns: true
     avoid_unnecessary_dependencies: true
     targeted_tests_first: true
+    no_ritual_or_duplicate_tests: true
+    minimum_risk_covering_checks: true
     broaden_tests_by_blast_radius: true
   recurring_data_policy:
     contract_and_drift_checks_when_applicable: true
@@ -45,7 +52,17 @@ defaults:
   evidence_policy:
     a2_manifest_when_traceability_would_be_lost: true
     a3_provenance_and_change_control: true
+  delegation_policy:
+    evaluate_parallel_workers_for_distinct_material_tracks: true
+    only_use_available_worker_types: true
+    bounded_scope_and_stop_condition: true
+    no_concurrent_edits_of_same_file: true
+    integrate_evidence_not_worker_transcripts: true
   output_policy:
+    human_authored_artifact_by_default_for_user_submitted_reports: true
+    reader_facing_artifact_separate_from_execution_log: true
+    no_unnecessary_raw_paths_or_internal_filenames: true
+    preserve_material_limitations_in_business_language: true
     no_prompt_restatement: true
     no_tool_call_narration: true
     lead_with_result: true
@@ -70,7 +87,7 @@ execution_modes:
       - multi_file_clear_scope
     planning: brief
     initial_reference_load: 1_to_3
-    subagents: only_if_separable
+    subagents: prefer_when_distinct_parallel_tracks_benefit_speed_or_coverage
     verbosity: moderate
 
   deep:
@@ -83,7 +100,7 @@ execution_modes:
       - multi_system_architecture
     planning: explicit
     initial_reference_load: only_needed_no_arbitrary_cap
-    subagents: only_for_distinct_context_or_parallel_value
+    subagents: proactively_use_for_distinct_context_or_parallel_value_when_available
     verbosity: proportional_to_evidence
 
 assurance_tiers:
