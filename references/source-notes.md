@@ -175,6 +175,23 @@ Provider-specific details change. The skill keeps durable principles portable an
 
 ## Spreadsheet practice
 
+### Native Excel object capability sources (reviewed 2026-10-15)
+
+- Microsoft Excel VBA — PivotCaches.Create / PivotCache.CreatePivotTable:
+  https://learn.microsoft.com/en-us/office/vba/api/excel.pivotcaches.create
+  https://learn.microsoft.com/en-us/office/vba/api/excel.pivotcache.createpivottable
+  - creates real PivotCache / PivotTable objects, unlike pre-aggregated cells.
+- Microsoft Office Scripts — PivotTable interface, create and refresh:
+  https://learn.microsoft.com/en-us/javascript/api/office-scripts/excelscript/excelscript.pivottable?view=office-scripts
+  https://learn.microsoft.com/en-us/javascript/api/office-scripts/excelscript/excelscript.workbook?view=office-scripts
+  - native pivot hierarchies, workbook.addPivotTable, refresh and slicer APIs are exposed where supported.
+- openpyxl — Pivot Tables:
+  https://openpyxl.readthedocs.io/en/3.1/pivot.html
+  - read/preserve support, not intended as a general create-new-pivot API.
+- XlsxWriter — Native Excel Tables:
+  https://xlsxwriter.readthedocs.io/working_with_tables.html
+  - worksheet.add_table creates an Excel Table/ListObject, not a PivotTable.
+
 - ICAEW, 20 Principles for Good Spreadsheet Practice (2024):
   https://www.icaew.com/technical/technology/excel-community/20-principles-for-good-spreadsheet-practice-2024-edition
 - Government Analysis Function accessibility guidance:
