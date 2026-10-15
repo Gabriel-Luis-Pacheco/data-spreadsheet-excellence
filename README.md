@@ -29,6 +29,14 @@ A portable Agent Skill for professional work with **data analysis, Python, Excel
 - adaptive execution and independent assurance tiers;
 - AI coding discipline and minimal-diff workflows.
 
+## v11.1: Second Review, Stronger Gate & Real-Codex Evaluation Path
+
+After reviewing the first-pass v11 verifier, we found a material bypass: an **authorized new column** disabled other cell/style checks for that sheet. v11.1 fixes that by mapping original columns through authorized insertions and continuing to inspect original cells. The gate now also compares source and output worksheet objects (conditional formatting, tables, filters, merged ranges, validations, chart/image counts) and checks for **loss of native Excel OOXML parts** such as PivotTables/caches, slicers, charts and Tables. Static native-part evidence never replaces opening the workbook in Excel for field editing and refresh.
+
+New tests cover that bypass, inserted-column position, conditional formatting edits, colored empty cells and Excel source-column preservation. A separate `scripts/live_eval_fixture.py` workflow enables a **real Codex-generated workbook** to be independently scored. See `evals/live-codex-evaluation.md`. This live step is opt-in and is **not** run by GitHub Actions; no live model performance claim is made without recorded runs.
+
+The release keeps the skill's root contract shorter and avoids turning routine one-cell edits into expensive validation campaigns. For material existing-workbook edits, run the gate once against the original, repair deviations and rerun focused checks.
+
 ## v11.0: From Instructions to Executable Delivery Contracts
 
 v11 introduces a **task-mode contract**: EDIT_EXISTING, CREATE_NEW, DERIVED_REPORT or EXPLICIT_REDESIGN. The mode determines whether the original layout is binding, instead of applying preservation rules blindly to a requested new report.
@@ -430,7 +438,7 @@ See `references/source-notes.md`.
 
 ## Version
 
-**v11.0.0 — Universal Delivery Contract & Executable Verification**
+**v11.1.0 — Insertion-Safe Delivery Gate & Live-Eval Workflow**
 
 Canonical version: `VERSION`
 
