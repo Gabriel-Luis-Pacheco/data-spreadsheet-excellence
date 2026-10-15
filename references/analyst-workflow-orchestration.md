@@ -47,7 +47,11 @@ Make a compact task dependency graph before an expensive job:
 
 Make the **first usable result** promptly, then improve only if needed to meet the requested assurance. Avoid elaborate planning, redesign cycles, unrequested features and multiple style variants when the user asked for one deliverable.
 
-## 4. Evidence-based tests, not ritual
+## 4. Reconciliation closure and false-final prevention
+
+When a task includes allowed statuses such as `SIM/NÃO`, investigate eligibility/key coverage before declaring a confirmed final count. Check all material candidate columns, including alternate ID-bearing fields when present, rather than concluding missing records from one searched column. Verify `NÃO` represents evaluated failures; do not conflate excluded, missing-key or malformed references with a negative verdict. Preserve source-to-eligible/excluded count and amount bridge, and don't turn an internal exception label into an unauthorized workbook status. Run the focused `scripts/check_status_values.py` checker if useful, plus a targeted semantic sample. See `references/closed-status-reconciliation.md`.
+
+## 5. Evidence-based tests, not ritual
 
 Select the **minimum set of independent checks that covers plausible costly failures**. Tests exist to answer risk questions.
 
@@ -62,7 +66,7 @@ Run focused tests first; broaden only for failing results, changed dependencies,
 
 Avoid: gratuitous full test suites, testing unchanged components repeatedly, endless test/write/test loops, reporting every test command to a business reader, or claiming correctness solely because an artifact opens.
 
-## 5. Fast quality checklist
+## 6. Fast quality checklist
 
 For substantial analyst work:
 - [ ] Important sources, conventions and rules were actively checked.
@@ -75,7 +79,7 @@ For substantial analyst work:
 
 **Practical rule:** spend effort on understanding before fabrication, computation before speculation, independent validation before confidence, and delivery before polish theater.
 
-## 6. Handoff for the human author
+## 7. Handoff for the human author
 
 Deliver the usable file(s) first, with a short plain-language summary if helpful. Mention genuine material limitations or failed coverage, but do not append internal run commentary to the document. Link evidence separately when the recipient needs an audit trail.
 
