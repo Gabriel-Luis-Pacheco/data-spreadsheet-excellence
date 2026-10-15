@@ -1,4 +1,4 @@
-version: 8
+version: 9
 name: data-spreadsheet-excellence-harness
 purpose: adaptive high-quality execution with minimal wasted context, tool calls, and output
 
@@ -73,6 +73,15 @@ defaults:
     visual_changes_require_user_request_or_narrow_functional_need: true
     compare_visual_style_differences_from_original_when_possible: true
     new_workbooks_can_use_restrained_authoring_style: true
+  original_schema_policy:
+    actual_original_workbook_is_primary_contract: true
+    existing_sheet_names_headers_positions_and_order_preserved: true
+    internal_derived_columns_do_not_leak_to_output: true
+    no_unsolicited_concilia_qtd_embarque_or_summary_sheets: true
+    existing_classificado_meaning_must_not_be_repuposed: true
+    unknown_output_semantics_are_not_license_to_mutate: true
+    require_authorization_for_visible_structural_changes: true
+    compare_original_to_final_header_sheet_inventory: true
   business_status_policy:
     user_defined_status_vocabulary_is_closed: true
     disallow_unrequested_review_pending_or_error_status: true
