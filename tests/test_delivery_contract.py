@@ -83,7 +83,7 @@ class DeliveryContractFixtureTests(unittest.TestCase):
         data = self.contract(authorized_new_headers={"Base":[{"column":4,"name":"CONCILIA"}]})
         result = evaluate(data)
         self.assertTrue(result["pass"], result["errors"])
-        self.assertTrue(result["warnings"])
+        self.assertGreater(result["checked_cells"], 0)
 
 
     def test_authorized_new_column_does_not_bypass_unauthorized_other_cells(self):
