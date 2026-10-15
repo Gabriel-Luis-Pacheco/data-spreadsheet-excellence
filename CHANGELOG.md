@@ -1,5 +1,23 @@
 # Changelog
 
+## 9.0.0 — 2026-10-15 — Human-First Analyst Delivery & Parallel Assurance
+
+### Added
+- `references/human-deliverables.md`: distinguish finished client/management reports from AI execution traces, raw technical filenames and logs; preserve honest disclosure of material source failures.
+- `references/analyst-workflow-orchestration.md`: proactive search for all distinct material context, templates and rules; bounded delegation to available subagents/workers; parallel scheduling and minimal risk-covering tests.
+- machine-readable harness controls for author-style delivery, context discovery, bounded delegation, critical-path parallelism and non-ritual QA.
+- agent behavior evaluations covering reader-facing output, missing sources, parallel research and fast low-risk tasks.
+
+### Improved
+- skill core now routes material analyst tasks to contextual investigation and reader-ready human deliverables without turning routine tasks into research projects.
+- agent/provider guidance clarifies that Codex/Claude worker names are runtime dependent; this skill does not grant missing delegation capabilities.
+- writing, handoff and QA gates distinguish evidence retained internally from what belongs in a business report.
+- README and prompt template explain style, audience and source-example discovery.
+
+### Integrity rule
+Human-looking output must never fabricate validation or conceal unresolved material differences, missing sources, mandatory AI disclosure, or audit evidence.
+
+
 ## 8.0.0 — 2026-09-21 — Measurable Quality & Data Observability
 
 Audit-driven release focused on gaps between strong written guidance and executable evidence.
