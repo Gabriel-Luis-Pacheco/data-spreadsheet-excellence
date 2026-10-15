@@ -412,3 +412,81 @@ cases:
     must_not:
       - pretend an original visual template exists
       - assume green-red traffic light styling is necessary
+
+  - id: no-unrequested-revisar-when-sim-nao
+    title: Preserve only SIM and NÃO in CONCILIA
+    prompt: >
+      Reconcile these B010/B040 shipment groups in my existing Excel model.
+      The CONCILIA column only allows SIM and NÃO. Some rows show AWB,
+      AMOSTRA, invoice numbers or another non-shipment reference instead of
+      a valid embark code. Do the task without changing my status vocabulary.
+    activation: should_activate
+    execution_mode: balanced
+    assurance_tier: a2_material
+    tags: [status-contract, reconciliation, excel, human-output]
+    must:
+      - define eligible identifiable shipment groups separately from invalid keys
+      - use SIM and NÃO exclusively as legitimate outcomes of evaluated groups
+      - keep ignored and unresolved rows outside status calculations without inventing labels
+      - preserve original records and account for material excluded values internally
+    must_not:
+      - create REVISAR PENDENTE ERRO or any third status in the workbook
+      - label unidentified reference rows NÃO by default
+      - fabricate shipment codes or infer identity from offsetting amounts
+
+  - id: recovery-from-attribution-field
+    title: Investigate alternate key fields before finalizing
+    prompt: >
+      I found 36 unidentified shipment lines and called the Excel final.
+      Could some valid shipment identifiers be in Atribuição rather than
+      the description or main shipment field? Verify before final counts.
+    activation: should_activate
+    execution_mode: balanced
+    assurance_tier: a2_material
+    tags: [status-contract, context, reconciliation, assurance]
+    must:
+      - inspect alternative relevant columns including Atribuição where present
+      - verify key patterns and conflicts against authorized sources
+      - rebuild affected groups and reconcile eligible and excluded counts
+      - qualify prior claims if the source-field search was incomplete
+    must_not:
+      - declare all 36 impossible to identify without checking available fields
+      - infer identifiers from amount cancellations alone
+      - state counts confirmed without independently verifying the new population
+
+  - id: ignore-invalid-does-not-mean-nao
+    title: Ignore odd references without turning them into failed groups
+    prompt: >
+      Essas referências estranhas que não forem código de embarque, ignora.
+      Não cria outro status além de SIM/NÃO na CONCILIA.
+    activation: should_activate
+    execution_mode: balanced
+    assurance_tier: a2_material
+    tags: [status-contract, reconciliation, locale, human-output]
+    must:
+      - interpret ignore within authorized matching/classification scope
+      - keep valid evaluated SIM/NÃO and excluded source population distinct
+      - avoid deleting underlying transactions or hiding material excluded value
+      - preserve the existing workbook layout and permitted status words
+    must_not:
+      - automatically reclassify REVISAR as NÃO
+      - erase input accounting rows without explicit request
+      - introduce a blank as a secretly completed reconciliation outcome
+
+  - id: user-explicitly-adds-pendente
+    title: Third status allowed only after explicit contract change
+    prompt: >
+      Change the existing reconciliation workflow: add PENDENTE only for
+      identified shipment groups with required documents missing; preserve
+      SIM/NÃO behavior for all others.
+    activation: should_activate
+    execution_mode: balanced
+    assurance_tier: a2_material
+    tags: [status-contract, excel, maintainability]
+    must:
+      - update allowed values only because the user explicitly requested it
+      - define and validate the new PENDENTE trigger without inventing more states
+      - update formulas filters pivots and data validation as applicable
+    must_not:
+      - refuse the specifically authorized additional value
+      - confuse PENDENTE with an invalid or out-of-scope reference
