@@ -9,17 +9,19 @@ description: Professional data analysis, spreadsheet automation, reconciliation,
 
 Do not treat “code ran” or “file opens” as completion.
 
-**Original-schema contract (highest priority for existing files):** The ORIGINAL workbook's **actual** sheet names, existing headers, column count/order, existing field meanings and status labels are the baseline. Do **not** invent/append/rename `CONCILIA`, `QTD`, `EMBARQUE` or any other user-facing field because grouping/calculation would be convenient. If `CLASSIFICADO` already exists, investigate its **business meaning**; only reuse it for the result it actually represents. Compute derived keys/counts internally. A different required result needs a **genuinely authorized destination**, not a new column or a repurposed existing field chosen by the agent. Compare original vs final sheet/header schemas and block unjustified differences. Earlier AI-generated files/examples are NOT evidence of the original schema. Read `references/source-schema-contract.md`.
+## The non-negotiable delivery contract
 
-**Closed business-status contract (critical):** When an existing template or user instruction allows only `SIM`/`NÃO` (or any defined vocabulary), **do not invent `REVISAR`, `PENDENTE`, `ERRO`, new categories or additional pivot states**. `NÃO` means an identified, eligible group **failed** the specified reconciliation rule; an irrelevant or unidentified key is **not** a failed group and must not be relabeled `NÃO` just to eliminate `REVISAR`. If instructed to ignore non-shipment references, exclude them from relevant matching/aggregation without inventing IDs or deleting source data; keep included/excluded counts and material value impact traceable. Search all relevant key-bearing fields (including `Atribuição` when available) before claiming a key is missing or declaring final totals. Never claim Excel/native feature checks you did not perform. Read `references/closed-status-reconciliation.md`.
+**First identify the task mode:** EDIT_EXISTING, CREATE_NEW, DERIVED_REPORT, or EXPLICIT_REDESIGN. Editing an existing workbook is not permission to redesign it; creating an independent report allows a new structure. Read `references/delivery-contract.md`.
 
-**Original-template fidelity rule (critical):** When the user supplies a workbook, screenshot or established model, **preserve its original appearance by default**. Populating cells, reconciling data, automating formulas, and making a workbook professionally usable do NOT authorize invented green `SIM` fills, red `NÃO` fills, colored fonts, conditional formatting, borders, banding, dashboards, extra labels, or other visual embellishments. Do not change any existing formatting unless the user requested it or a narrowly justified functional, accessibility, or mandatory-disclosure need requires it. Inherit original formatting for new required cells; review **unexpected visual diffs** against the source and remove them. No-source new designs and explicit redesign tasks may use purposeful styling. Read `references/template-fidelity.md`.
+For **EDIT_EXISTING**, make the actual ORIGINAL source—not a previous AI version—the baseline. Preserve existing sheets, field names/order, original meanings, status vocabularies, formulas, native objects, visible formatting and untouched values. **Do not add columns, tabs, criteria panels, status labels or colors merely because they help the agent.** Internal helper data stays in memory or separate technical evidence. Only changes authorized by the task belong in the delivered workbook. If an existing field has a different business meaning, do not hijack it as an output slot. Read `references/source-schema-contract.md` and `references/template-fidelity.md`.
 
-**Native-feature authenticity rule:** When the user requests a PivotTable, Excel Table (Ctrl+T), chart, slicer, dropdown, conditional format, formula, Power Query, macro, or interactive control, deliver the **real Excel-native editable object**, not a visual imitation, frozen result, fake control or screenshot. A PivotTable must really expose fields/source/cache and refresh through Excel. Supported automation counts as authentic creation; literal mouse clicking is not required. Select tools by actual feature support, test normal Excel behavior when possible, and never silently substitute or falsely claim unsupported native functionality. Read `references/native-excel-fidelity.md`.
+**Keep internal logic out of the reader's report.** Business tolerances, QA checks, intermediate filenames and worker execution are instructions/evidence, not visible content by default. Material limitations must still be disclosed. Read `references/human-deliverables.md`.
 
-**Instruction-versus-deliverable rule (critical):** A user's stated tolerance, criterion, validation procedure, work habit, file-processing instruction, or internal assumption tells the agent **how to work**, not necessarily **what to print in Excel**. Do not turn this background context into unsolicited visible `Tolerância`, `Critério`, `Parâmetros`, `QA`, `Método`, `Execução` fields, detached cells, explanatory blocks or extra sheets. Keep the existing human workbook surface unless the recipient needs an adjustable control, accurate interpretation, or required disclosure. Apply calculation rules behind the result; keep maintenance/audit details appropriately separate. Before delivery, inspect **all visible cells outside the intended data/report area** and remove unjustified metadata without breaking formulas. See `references/human-deliverables.md`.
+**Preserve classification truth.** Closed business vocabularies remain closed; missing/ineligible keys are not automatically failed records. Search all materially relevant source fields before claiming missing identifiers. Read `references/closed-status-reconciliation.md` when applicable.
 
-**Human-authored output rule:** When preparing a report, workbook, summary, or client deliverable the user would normally submit personally, make the *reader-facing artifact* look like their real work for its audience. Never pad it with an AI execution report, worker names, raw TXT file/path/error logs, tests, prompts, or generic filler. Keep technical execution/evidence separately; disclose all **material** data gaps and limitations honestly in reader-relevant language. See `references/human-deliverables.md`.
+**Build real native features.** Requested PivotTables, tables, charts, slicers, formulas, validations and queries must be actual supported Excel features, not visual imitations. Check real application behavior where feasible. Read `references/native-excel-fidelity.md`.
+
+**Validate before handing over.** Use a small trusted change contract and `scripts/verify_delivery.py` on substantive existing-workbook edits; use appropriate independent business totals and native-Excel checks. A passing static check never proves field semantics or Excel interaction. Never self-authorize a change solely to make a test pass.
 
 ## 0. Operate with adaptive efficiency
 
@@ -184,6 +186,8 @@ Read `references/reconciliation-matching.md` and `references/closed-status-recon
 
 ## 7. Spreadsheet engineering
 
+For material edits to supplied workbooks, derive a compact *internal* change contract from the trusted task and use `scripts/verify_delivery.py --contract <path>` before declaring success; do not insert this contract in the Excel output. **If gate fails, fix the artifact, not the permission list.**
+
 Treat a workbook as an information product, not a decorated grid. Native functionality is a requirement, not cosmetic polish.
 
 - If asked for a PivotTable, create a genuine Excel PivotTable (source/cache/fields/refresh); if asked for an Excel Table, create a native Table/ListObject. Never confuse them or substitute a styled range.
@@ -345,6 +349,7 @@ Use `references/quality-gates.md`. `assets/evidence-manifest-template.yaml` is t
 - `references/tool-selection.md`
 - `references/data-analysis-quality.md`
 - `references/data-contracts-observability.md` — contracts, freshness, semantic/schema/unit drift for recurring data.
+- `references/delivery-contract.md` — short task-mode contract, original-first invariants, mandatory delivery gate.
 - `references/source-schema-contract.md` — source-first preservation of original fields, sheet schema, semantics and no invented helper columns.
 - `references/closed-status-reconciliation.md` — no invented `REVISAR`, no invalid key forced to `NÃO`, full key search and traceable eligibility.
 - `references/reconciliation-matching.md`
@@ -361,6 +366,7 @@ Use `references/quality-gates.md`. `assets/evidence-manifest-template.yaml` is t
 - `references/patterns-recipes.md`
 
 **Deterministic QA utilities**
+- `scripts/verify_delivery.py` — fail-closed user-output QA for existing Excel workbooks with trusted change contract.
 - `scripts/check_workbook_schema.py` — flag unauthorized sheet and header changes versus the original workbook.
 - `scripts/tabular_diff.py` — privacy-conscious before/after semantic diff for tabular data.
 - `scripts/workbook_diff.py` — before/after semantic workbook diff.
