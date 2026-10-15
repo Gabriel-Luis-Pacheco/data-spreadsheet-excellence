@@ -16,6 +16,8 @@ Small workbooks do not need a worksheet for every layer; many finished reports s
 
 ## 2. Inventory before round-trip editing
 
+A supplied workbook is both the **data source** and the **visual baseline**. Inventory its fills, font colors, conditional-formatting rules, borders, alignments, widths, heights and table styles before editing. Retain them unless the actual task requires a precise change. Do not recolor `SIM/NÃO` or invent conditional formatting simply because the agent likes status cues. See `references/template-fidelity.md`.
+
 Inspect:
 - file extension;
 - worksheets and visibility;
@@ -260,6 +262,7 @@ After editing:
 - compare formula counts or hashes where meaningful;
 - compare key styles/print settings for F2;
 - validate macro container presence for `.xlsm`;
+- compare original vs output visual styling and flag unexplained additions of color, fonts, borders, conditional formatting and widths;
 - visually inspect;
 - open in Excel for F3.
 
@@ -270,7 +273,8 @@ After editing:
 - declaring a workbook valid because the ZIP structure opens;
 - using Excel COM for a task that only needs CSV aggregation;
 - mixing raw data and manual reporting cells in the same uncontrolled range;
-- hiding errors with `IFERROR(...,"")` everywhere.
+- hiding errors with `IFERROR(...,"")` everywhere;
+- adding green `SIM` backgrounds, red `NÃO` backgrounds or other decorative status highlights absent from the user's reference.
 
 ## 20. Before/after preservation evidence
 
