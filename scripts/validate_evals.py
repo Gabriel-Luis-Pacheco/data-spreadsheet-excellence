@@ -30,6 +30,7 @@ REQUIRED_TAGS = {
     "review",
     "human-output",
     "surface-discipline",
+    "visual-fidelity",
     "context",
     "parallelism",
     "no-ritual",
