@@ -21,12 +21,28 @@ A portable Agent Skill for professional work with **data analysis, Python, Excel
 - strict visible-content discipline: operational tolerances, criteria, validation rules and instructions do not become unsolicited Excel cells, panels or tabs;
 - reference-first visual fidelity: preserve the supplied spreadsheet's styles; no invented green/red statuses or formatting just because it looks better;
 - strict business-status vocabularies: no unsolicited REVISAR, no invalid/ignored identifiers forced into NÃO, traceable classification eligibility and investigated alternate key fields;
+- original-schema fidelity: original fields/semantics/worksheet structure are authoritative, no invented CONCILIA/QTD/EMBARQUE additions or repurposed CLASSIFICADO;
 - proactive domain/source/template discovery, parallel independent agent research, and risk-based validation without ritual testing;
 - prompt/context engineering;
 - token, latency and tool-call economy;
 - prompt-injection / untrusted-content boundaries;
 - adaptive execution and independent assurance tiers;
 - AI coding discipline and minimal-diff workflows.
+
+## v10.0: Source-First Schema Contract — Preserve Original Columns and Their Meaning
+
+**Most important correction:** the original Excel had a field named `CLASSIFICADO` with `SIM/NÃO`. Earlier versions of this skill used an AI-created `CONCILIA` as the example and thereby encouraged the very mistake they were meant to prevent. **If the source does not contain `CONCILIA`, `QTD` or `EMBARQUE`, the agent must not add them on its own.** Even when `CLASSIFICADO` already holds `SIM/NÃO`, its business meaning must be verified before writing results into it; a classification flag need not be a reconciliation verdict.
+
+**Source-first behavior:** inventory original worksheets, exact header row/positions, original field definitions, formulas and native objects BEFORE designing calculations. Prefer in-memory dataframes/helpers for parsed shipment identifiers and grouped quantities. Preserve the original sheet/header schema, visuals, rows, business semantics and native Excel behavior. Structural changes require explicit authorization and minimal scope; an earlier AI-generated version is **not** the original baseline. Extra sheets, status fields or notes are not implicit requirements of a reconciliation task.
+
+New `references/source-schema-contract.md` documents allowed changes and how to handle different meanings or missing destination fields without silently overwriting or adding columns. The read-only `scripts/check_workbook_schema.py` flags added/removed/renamed/moved headers and new/reordered/removed sheets against the original; use explicit `--header SHEET:ROW` selectors, with approvals for legitimate additions:
+
+```bash
+python scripts/check_workbook_schema.py original.xlsx resultado.xlsx --header B010:3 --header B040:3 --pretty
+python scripts/check_status_values.py resultado.xlsx --sheet B010 --header-row 3 --column CLASSIFICADO --allowed SIM --allowed NÃO
+```
+
+The schema checker validates structure, not whether the business meaning of `CLASSIFICADO` was preserved; the analyst must check this separately. The skill also adds deterministic tests and behavior evaluations for unauthorized `CONCILIA/QTD/EMBARQUE`, wrongly repurposed `CLASSIFICADO`, prior AI outputs used as false baselines, and requested PivotTables that should not mutate source columns.
 
 ## v9.4: No Invented Business Statuses or False Negatives
 
@@ -398,7 +414,7 @@ See `references/source-notes.md`.
 
 ## Version
 
-**v9.4.0 — Closed Status Contracts & Accurate Reconciliation Scope**
+**v10.0.0 — Original-Schema Preservation & Authorized Structural Changes**
 
 Canonical version: `VERSION`
 
