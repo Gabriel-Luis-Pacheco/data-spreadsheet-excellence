@@ -4,7 +4,7 @@ Reconciliation quality is determined by the exceptions you can explain, not by h
 
 ## 1. Closed output vocabulary and eligibility precede matching
 
-**Important:** Internal matching/audit categories are NOT automatically permitted statuses in the delivered workbook. If `CONCILIA` has only `SIM`/`NÃO`, never add `REVISAR`, `PENDENTE`, `AMBIGUOUS` or `INVALID` to that field. `NÃO` means a **validly identified, eligible group** failed the reconciliation rule, not an invalid identifier or excluded record. If a user says to ignore non-shipment references, exclude them from matching/aggregation as authorized and preserve source records and material excluded totals; do not recast them as `NÃO`. Investigate all relevant columns for legitimate keys (e.g., `Atribuição` if present) before claiming they cannot be identified. See `references/closed-status-reconciliation.md`.
+**Important:** Internal matching/audit categories are NOT automatically permitted statuses or columns in the delivered workbook. Read the real source headers first. If `CLASSIFICADO` already exists, preserve it and its meaning; do not invent a separate `CONCILIA` field or simply replace `CLASSIFICADO` values with reconciliation outcomes. If an existing authorized result field allows only `SIM`/`NÃO`, never add `REVISAR`, `PENDENTE`, `AMBIGUOUS` or `INVALID` to it. `NÃO` means a **validly identified, eligible group** failed the reconciliation rule, not an invalid identifier or excluded record. If a user says to ignore non-shipment references, exclude them from matching/aggregation as authorized and preserve source records and material excluded totals; do not recast them as `NÃO`. Investigate all relevant columns for legitimate keys (e.g., `Atribuição` if present) before claiming they cannot be identified. See `references/closed-status-reconciliation.md`.
 
 ## 2. Start with the reconciliation contract
 
@@ -23,7 +23,7 @@ Define:
 
 ## 2. Normalize conservatively
 
-Keep original fields and create normalized versions.
+Keep original fields **unchanged**; create normalized versions **internally**, not as unsolicited appended output columns.
 
 Possible normalization:
 - trim/collapse whitespace;
@@ -178,5 +178,7 @@ Persist normalization rules, matching rules, thresholds, candidate blocking, sof
 Manual review is part of the model and must be traceable.
 
 ## 16. Final workbook follows the user's real workflow
+
+**There is no mandatory tab or column checklist.** A reconciliation is not permission to create `EMBARQUE`, `QTD`, `CONCILIA` or other helper/output fields if they were not in the original/user-authorized layout. These derived measures may be computed privately. `CLASSIFICADO` cannot be repurposed unless its existing business meaning matches the requested result. See `references/source-schema-contract.md`.
 
 **There is no mandatory tab checklist.** Prefer the user's actual supplied sheets, columns and status vocabulary. Do not add `Ambiguous`, `QA_Checks`, `Rules_&_Definitions`, `Revisar` or a dashboard merely because this guide discusses internal reconciliation QA. Extra exception/evidence tabs belong only if explicitly requested or needed for actionable material exceptions or required audit disclosure. Internal logs can remain separate from the finished workbook. Preserve source rows, scoped totals and valid native Excel features.
