@@ -13,6 +13,7 @@ from pathlib import Path
 
 from openpyxl import load_workbook
 from openpyxl.utils.cell import column_index_from_string, range_boundaries
+from inspect_native_excel import inspect as inspect_native_parts
 
 
 def _load(path):
@@ -185,6 +186,27 @@ def evaluate(contract, max_cells=400_000):
                             break
                 if formula_count:
                     warnings.append(f"{sheet}.{header}: {formula_count} formula results need independent Excel recalc verification")
+        # OOXML check: native part preservation is necessary, never sufficient.
+        parts_before, parts_after = inspect_native_parts(original), inspect_native_parts(output)
+        key_map = {
+            "pivot_table": "verified_pivot_structure_count",
+            "excel_table": "linked_excel_table_count",
+            "chart": "chart_parts",
+            "slicer": "slicer_parts",
+            "connection": "connections_part",
+        }
+        for title, attr in key_map.items():
+            original_count = parts_before["objects"].get(attr, 0)
+            actual_count = parts_after["objects"].get(attr, 0)
+            if actual_count < original_count:
+                errors.append(f"Native Excel object lost: {title} {original_count} => {actual_count}")
+        for native in contract.get("required_native_objects", []):
+            if native not in key_map:
+                raise ValueError(f"Unsupported required_native_objects entry: {native}")
+            if parts_after["objects"].get(key_map[native], 0) == 0:
+                errors.append(f"Required native Excel structure absent: {native}")
+        if contract.get("required_native_objects"):
+            warnings.append("OOXML native object structure found, but Excel UI/refresh remains unverified")
         if allowed_sheets:
             warnings.append("Authorized new worksheets not compared for cell-level scope")
         return {
@@ -194,6 +216,7 @@ def evaluate(contract, max_cells=400_000):
             "warnings": sorted(set(warnings)),
             "verified": ["source_sheet_inventory", "original_header_order_and_approved_position",
                          "unchanged_cells_and_styles_including_insertions", "sheet_objects",
+                         "native_object_part_preservation",
                          "literal_closed_status_values"],
             "not_verified": ["semantic_field_meaning", "Excel_native_F3_interactivity",
                              "calculated_formula_results", "authorization_of_contract_permissions"],
