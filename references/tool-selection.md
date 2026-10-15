@@ -6,7 +6,7 @@ Choose tools from the requirements backward. The best library is the one that sa
 
 1. Is the source tabular data or an application-rich workbook?
 2. Is the task read-only, create-new, or round-trip edit?
-3. Must macros, pivots, queries, links, shapes, names, or chart behavior survive?
+3. Are real PivotTables/caches, Tables (ListObjects), slicers, connections, macros, queries, links, formulas, or charts needed? Must these objects be **created**, not just preserved?
 4. Does recalculation need to be current?
 5. How large is the data?
 6. Is Excel installed? Windows? headless Linux? cloud?
@@ -83,7 +83,13 @@ Choose based on format and features, not habit.
 
 Reading an Excel file successfully does not imply you can safely round-trip it with the same engine.
 
-## 7. XlsxWriter
+## 7. Route by actual native feature support
+
+Do not choose a familiar library then downgrade requested functionality. **Native PivotTable creation** requires a compatible Excel host/API such as Excel COM/VBA or supported Office Scripts/Excel JavaScript. `openpyxl` documents pivot preservation but not regular authoring from scratch; `pandas.pivot_table()` only computes values. XlsxWriter creates genuine Excel Tables and charts, but must not be assumed to create pivots or every F3 object. A native Table/ListObject (`Ctrl+T`) is not a PivotTable. When feature creation or target-Excel interaction verification is unavailable, disclose the gap; do not pass off a polished static sheet as functional.
+
+Computer/UI interaction is optional if a supported native API exists. What matters is that the saved file behaves like a manually created Excel workbook. Use `references/native-excel-fidelity.md` for tool routing and acceptance checks.
+
+## 8. XlsxWriter
 
 Excellent for creating new `.xlsx` files with:
 - polished formats;
