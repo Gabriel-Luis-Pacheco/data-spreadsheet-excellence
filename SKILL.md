@@ -9,6 +9,8 @@ description: Professional data analysis, spreadsheet automation, reconciliation,
 
 Do not treat “code ran” or “file opens” as completion.
 
+**Closed business-status contract (critical):** When an existing template or user instruction allows only `SIM`/`NÃO` (or any defined vocabulary), **do not invent `REVISAR`, `PENDENTE`, `ERRO`, new categories or additional pivot states**. `NÃO` means an identified, eligible group **failed** the specified reconciliation rule; an irrelevant or unidentified key is **not** a failed group and must not be relabeled `NÃO` just to eliminate `REVISAR`. If instructed to ignore non-shipment references, exclude them from relevant matching/aggregation without inventing IDs or deleting source data; keep included/excluded counts and material value impact traceable. Search all relevant key-bearing fields (including `Atribuição` when available) before claiming a key is missing or declaring final totals. Never claim Excel/native feature checks you did not perform. Read `references/closed-status-reconciliation.md`.
+
 **Original-template fidelity rule (critical):** When the user supplies a workbook, screenshot or established model, **preserve its original appearance by default**. Populating cells, reconciling data, automating formulas, and making a workbook professionally usable do NOT authorize invented green `SIM` fills, red `NÃO` fills, colored fonts, conditional formatting, borders, banding, dashboards, extra labels, or other visual embellishments. Do not change any existing formatting unless the user requested it or a narrowly justified functional, accessibility, or mandatory-disclosure need requires it. Inherit original formatting for new required cells; review **unexpected visual diffs** against the source and remove them. No-source new designs and explicit redesign tasks may use purposeful styling. Read `references/template-fidelity.md`.
 
 **Native-feature authenticity rule:** When the user requests a PivotTable, Excel Table (Ctrl+T), chart, slicer, dropdown, conditional format, formula, Power Query, macro, or interactive control, deliver the **real Excel-native editable object**, not a visual imitation, frozen result, fake control or screenshot. A PivotTable must really expose fields/source/cache and refresh through Excel. Supported automation counts as authentic creation; literal mouse clicking is not required. Select tools by actual feature support, test normal Excel behavior when possible, and never silently substitute or falsely claim unsupported native functionality. Read `references/native-excel-fidelity.md`.
@@ -145,6 +147,7 @@ Read `references/tool-selection.md` when the stack is not obvious. Do not mount/
 - Treat identifiers as text unless arithmetic is meaningful; when Excel is involved, never store long numeric identifiers as numbers merely because they contain only digits.
 - Preserve source values before normalization.
 - Define critical metrics: formula, unit, population, denominator, period, source, null treatment, exclusions.
+- Treat user/template status labels as a **closed enumeration**. Invalid/ineligible/unresolved input is distinct from an eligible record that fails a rule; never invent an output label or force a non-evaluated record into `NÃO`.
 - Distinguish zero, blank, missing, not applicable, suppressed, and error states.
 - Validate locale-sensitive dates, decimals, currencies, percentages, and time zones.
 - For financial exactness, choose fixed-point/Decimal/integer-minor-unit logic and explicit tolerances deliberately; do not inherit binary-float behavior accidentally.
@@ -173,9 +176,9 @@ Escalate:
 6. probabilistic linkage when warranted;
 7. manual review for unresolved material cases.
 
-A professional reconciliation reports source counts/totals, matched and unmatched count/value, duplicate/ambiguous keys, method/confidence, material exceptions, net difference **and** gross unmatched amounts.
+A professional reconciliation must internally account for source counts/totals, eligible and excluded populations, identified/unidentified keys, matched and unmatched count/value, duplicate/ambiguous keys, material exceptions, net difference **and** gross unmatched amounts. Include **only reader-required** information in the actual workbook; do not create unsolicited statuses or tabs.
 
-Read `references/reconciliation-matching.md`.
+Read `references/reconciliation-matching.md` and `references/closed-status-reconciliation.md` for reconciliation classification, closed status values and ignored/unidentified keys.
 
 ## 7. Spreadsheet engineering
 
@@ -304,6 +307,8 @@ Evidence is proportional to risk and may include:
 - expected sheets/tables/files exist;
 - schemas/keys/control totals reconcile;
 - joins have matched/unmatched evidence;
+- allowed final status vocabulary is preserved exactly; excluded/unidentified records are not falsely labeled as evaluated failures;
+- candidate key fields and material classification exclusions have been examined before calling totals final;
 - formulas checked at the correct layer;
 - recalculation verified in a real compatible engine when required;
 - each required native feature is an actual Excel object with meaningful interaction/refresh verified where possible (or explicit limitations);
@@ -336,6 +341,7 @@ Use `references/quality-gates.md`. `assets/evidence-manifest-template.yaml` is t
 - `references/tool-selection.md`
 - `references/data-analysis-quality.md`
 - `references/data-contracts-observability.md` — contracts, freshness, semantic/schema/unit drift for recurring data.
+- `references/closed-status-reconciliation.md` — no invented `REVISAR`, no invalid key forced to `NÃO`, full key search and traceable eligibility.
 - `references/reconciliation-matching.md`
 - `references/native-excel-fidelity.md` — authentic PivotTables, Tables, slicers and other Excel objects with real interactions.
 - `references/spreadsheet-engineering.md`
