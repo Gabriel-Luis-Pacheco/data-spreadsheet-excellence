@@ -106,7 +106,9 @@ def sheet_snapshot(ws, max_cells: int) -> dict[str, Any]:
     conditional_rules = []
     for region in ws.conditional_formatting:
         for rule in ws.conditional_formatting[region]:
-            conditional_rules.append(f"{region.sqref}\t{repr(rule)}")
+            conditional_rules.append(
+                f"{region.sqref}\t{repr(rule)}\t{repr(getattr(rule, 'dxf', None))}"
+            )
 
     tables = []
     try:
