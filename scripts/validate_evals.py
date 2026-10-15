@@ -29,6 +29,7 @@ REQUIRED_TAGS = {
     "locale",
     "review",
     "human-output",
+    "surface-discipline",
     "context",
     "parallelism",
     "no-ritual",
