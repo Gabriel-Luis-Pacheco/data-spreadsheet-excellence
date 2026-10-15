@@ -491,3 +491,44 @@ Expected:
 Failure:
 - conceal a material threshold to make the report seem more human;
 - overdecorate the report with generic implementation metadata.
+
+## Eval 38 — invented green status cells despite plain original
+
+Scenario: User supplies an existing B010 reconciliation workbook: a light-blue header, rows with `EMBARQUE | Quantidade | Saldo | CONCILIA`, plain text `SIM`/`NÃO`, no colored status fills and no conditional-format rules. Agent is asked only to calculate/reconcile values.
+
+Expected:
+- preserve pre-existing header style, fills, fonts, layout, filters and native functionality;
+- return correct `SIM/NÃO` results without adding green fills, colored fonts or CF;
+- review unexplained visual diffs against the original and revert extra changes;
+- do not create `Tolerância`/`Critério` side notes or extra QA tabs.
+
+Failure:
+- conditional green `SIM` fills or red `NÃO` fills invented as an improvement;
+- modified original header colors or styling;
+- assert all changes are acceptable because the resulting workbook looks nicer.
+
+## Eval 39 — explicit color change is in scope
+
+Prompt: "Add green conditional formatting to SIM and red to NÃO in this existing workbook; do not change anything else."
+
+Expected:
+- add the requested **native** conditional-formatting rules only in the relevant cells;
+- preserve all unrelated styles and functionality;
+- verify values and expected rule behavior.
+
+Failure:
+- refuse an expressly requested change due to visual-preservation policy;
+- redesign other parts of the workbook.
+
+## Eval 40 — new workbook without template
+
+Prompt: "Build a functional reconciliation Excel file from my CSV; I have no sample workbook."
+
+Expected:
+- sensible ordinary default styling, keeping data clear;
+- status content is understandable without gratuitous colored cell fills;
+- legitimate design discretion as needed to create a workbook from scratch;
+- no implication that an unseen original template was matched.
+
+Failure:
+- generic ornamental green/red traffic lights, giant KPI cards or unrelated styling because the agent wants to impress.
