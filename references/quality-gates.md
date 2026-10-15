@@ -62,6 +62,11 @@ Choose gates by **assurance tier**, not by ritual. High consequence can require 
 - [ ] sensitivity checked for fragile conclusions
 
 ## Gate F — Workbook F1
+- [ ] the original (not a prior AI edition) was inspected and exact sheets/header rows/column names/order recorded
+- [ ] no unauthorized new/renamed/moved `CONCILIA`, `QTD`, `EMBARQUE` or other headers or extra sheets
+- [ ] any modified existing `CLASSIFICADO` (or other status field) retains its original **business meaning**, not just its label
+- [ ] derived/grouping fields computed internally unless user explicitly authorized a visible structural change
+- [ ] source-versus-final header/sheet comparison was reviewed and unexpected schema drift eliminated
 - [ ] internal instructions/business-rule context were not automatically promoted into visible criteria/tolerance/configuration cells
 - [ ] no unnecessary metadata or detached parameter mini-panels outside the intended data/report area
 - [ ] thresholds that users must edit or that affect required disclosure are presented deliberately, not silently hidden
@@ -140,6 +145,7 @@ Choose gates by **assurance tier**, not by ritual. High consequence can require 
 - [ ] technical evidence is separate unless the requested product is technical; material coverage gaps remain visible
 
 ## Gate L — Handoff
+- [ ] final structural differences are all authorized; otherwise work is not described as final
 - [ ] no unsupported claim of definitive coverage, key search, real-Excel interaction, or finished reconciliation
 - [ ] material excluded/unidentified source populations disclosed without adding a third workbook status
 - [ ] outputs named clearly
