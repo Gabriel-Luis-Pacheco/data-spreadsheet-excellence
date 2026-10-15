@@ -31,7 +31,11 @@ python scripts/validate_evals.py
 
 This catches structural regressions but does **not** pretend to execute an LLM.
 
-## 3. Behavioral agent evals
+## 3. Actual artifact-scored Codex evaluations
+
+Use the opt-in workflow in `live-codex-evaluation.md`: `scripts/live_eval_fixture.py prepare` makes an isolated original.xlsx and prompt; the user runs the installed Codex CLI against the fixture; `scripts/live_eval_fixture.py score` independently checks the produced output.xlsx against the original and required values. Repeat each configuration on clean fixtures. **GitHub Actions does not call an AI model**, does not require API credentials and cannot claim the installed Codex behavior is proven.
+
+## 4. Behavioral agent evals
 
 `../EVALS.md` contains richer scenarios that require an AI agent/harness.
 
