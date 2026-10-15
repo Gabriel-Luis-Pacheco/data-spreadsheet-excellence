@@ -1,5 +1,22 @@
 # Changelog
 
+## 11.1.0 — 2026-10-15 — Second-Pass Audit, Gate Closure and Codex Live Eval
+
+### Fixed after critical review
+- Closed a high-risk gap in `verify_delivery.py`: formerly an authorized new column skipped all existing-cell inspection on the same sheet. Validation is now insertion-aware and checks original values and styling even with authorized columns.
+- Position-specific authorized headers now have targeted positive and negative regression tests.
+- Detect unwanted changes to Excel sheet objects, conditional-format definitions, layout metadata, and loss of important native OOXML objects/relationships; static detection still cannot certify Excel UI behavior.
+- Fail when an unrequested style is applied to a formerly empty cell outside the original used range.
+
+### Added
+- `scripts/live_eval_fixture.py` and `evals/live-codex-evaluation.md`: opt-in isolated workbook fixture, actual Codex output scoring and repeated version-comparison protocol.
+- `tests/test_live_eval_fixture.py`: deterministic tests proving scoring rejects a wrong result even when structural checks pass, and rejects a fabricated output column even if result values are right.
+- Regression tests for hidden changes elsewhere after a legitimate insertion, changed conditional formats, bad header positions and permitted inserts.
+
+### Limits and next evidence
+- CI verifies Python/OOXML checks and generated fixtures; it does NOT call Codex, establish the user's permission for each allowed change, infer business meaning, or prove Excel refresh. Real behavior claims require actual installed Codex runs in an isolated test environment.
+
+
 ## 11.0.0 — 2026-10-15 — Executable Delivery Contract (first improvement pass)
 
 ### Added
