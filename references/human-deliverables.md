@@ -38,13 +38,13 @@ Do not assume all business parameters should be hidden: when the intended user m
 
 ### Exact failure from an ordinary reconciliation workbook
 
-The user told the agent: *"We use a tolerance of 0.05 in everyday reconciliation."* A spreadsheet shows `EMBARQUE | Quantidade | Saldo | CONCILIA` with `SIM/NÃO` results.
+The user told the agent: *"We use a tolerance of 0.05 in everyday reconciliation."* The **actual original** workbook uses a `CLASSIFICADO` column with `SIM/NÃO`; `EMBARQUE`, `QTD` and `CONCILIA` were **not present**. First verify the meaning of `CLASSIFICADO`, rather than assuming it means reconciliation.
 
 **Wrong addition:** putting `Tolerância` in F1, `0,05` in G1, and `Critério` in F3 simply because the user mentioned the threshold. It makes a clean operational table look like an AI execution worksheet.
 
-**Correct by default:** preserve the established table, filters, column order, status labels, and **only the highlights already present**; do not add green/red status coloring or conditional formatting without a request. Use the tolerance **in the actual calculation** that produces `CONCILIA`, with no unsolicited visible threshold/criteria block.
+**Correct by default:** preserve actual headers, sheet structure, field meanings, filters and original styles. Apply the tolerance during analysis without inventing `CONCILIA`/`QTD`/`EMBARQUE`. Update `CLASSIFICADO` only when the requested decision matches its established meaning. No unsolicited threshold/criteria blocks or colored statuses.
 
-For a simple fixed calculation, a real Excel formula may express the rule directly, for example `=SE(ABS(C4)<=0,05;"SIM";"NÃO")` when column C contains the appropriate numeric balance and the target Excel formula syntax supports it. If the rule needs to be reused/maintained without repeating literals, use a defined name or discreet internal supporting structure; test correctness, compatibility and auditability. **Never hide material coverage failures, fabricate formula results, or present a static snapshot as a functioning formula.**
+A real formula may implement the rule **only in an authorized field with the matching business meaning**. Otherwise calculate in memory or in separately authorized output; do not overwrite a different existing classification just because it also uses `SIM/NÃO`. If reused logic needs controlled parameters, prefer internal support over unexplained visible columns. Test correctness, compatibility and auditability. **Never hide material coverage failures, fabricate formula results, or present a static snapshot as a functioning formula.**
 
 If the user instead asks to *change the tolerance inside Excel*, an intentionally visible, labeled input cell may be necessary. This is a different deliverable requirement.
 
@@ -56,7 +56,7 @@ When an existing example is supplied, preserve the user's working surface as the
 
 ### Business status labels are also part of the author's original deliverable
 
-For a supplied `CONCILIA` column with only `SIM/NÃO`, do not add `REVISAR` merely because the agent could not identify some shipment references. The user's instruction to ignore strange codes is about matching **scope**, not permission to mark them `NÃO`: an unclassified/ineligible item is not equivalent to a valid group failing its tolerance. Do not add a new category in a cell, pivot filter, extra tab or visual legend. Search alternate authorized key fields first; retain out-of-scope records in source evidence and account for exclusions. See `references/closed-status-reconciliation.md`.
+For a verified existing status field (e.g. `CLASSIFICADO`) with only `SIM/NÃO`, do not add `REVISAR` merely because the agent could not identify some shipment references. **Also never invent a new `CONCILIA` column.** The user's instruction to ignore strange codes is about matching **scope**, not permission to mark them `NÃO`: an unclassified/ineligible item is not equivalent to a valid group failing its tolerance. Do not add a new category in a cell, pivot filter, extra tab or visual legend. Search alternate authorized key fields first; retain out-of-scope records in source evidence and account for exclusions. See `references/closed-status-reconciliation.md`.
 
 ## 4. The reader never needs the orchestration transcript
 
@@ -73,6 +73,10 @@ Never remove a material failed source, missing period, unresolved exception, unc
 ### Existing visual styling is not an invitation to "improve" it
 
 If the user supplies an Excel model, **keep its actual appearance**. Do not introduce conditional green `SIM` fills, red `NÃO` fills, bold status text, extra colors, zebra striping, borders, illustrations, icons or reworked widths merely because those choices look polished to an AI. The original model's visual pattern is authoritative by default. Preserve intentional original formatting, including existing color cues; add colors only when expressly requested or truly required for accessibility or a material user workflow. See `references/template-fidelity.md`.
+
+### Final-file header and sheet audit
+
+Compare the actual source to the final output: any new `EMBARQUE`, `QTD`, `CONCILIA`, other helper column or unrequested sheet is an error even if the values are correct. User-supplied original labels such as `CLASSIFICADO` should be preserved **without changing their meaning**. See `references/source-schema-contract.md`.
 
 ## 5. Write the way a competent analyst would
 
