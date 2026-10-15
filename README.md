@@ -20,12 +20,27 @@ A portable Agent Skill for professional work with **data analysis, Python, Excel
 - human-authored client/management reports without exposing internal execution logs, raw TXT paths, model names, or ceremonial AI sections;
 - strict visible-content discipline: operational tolerances, criteria, validation rules and instructions do not become unsolicited Excel cells, panels or tabs;
 - reference-first visual fidelity: preserve the supplied spreadsheet's styles; no invented green/red statuses or formatting just because it looks better;
+- strict business-status vocabularies: no unsolicited REVISAR, no invalid/ignored identifiers forced into NÃO, traceable classification eligibility and investigated alternate key fields;
 - proactive domain/source/template discovery, parallel independent agent research, and risk-based validation without ritual testing;
 - prompt/context engineering;
 - token, latency and tool-call economy;
 - prompt-injection / untrusted-content boundaries;
 - adaptive execution and independent assurance tiers;
 - AI coding discipline and minimal-diff workflows.
+
+## v9.4: No Invented Business Statuses or False Negatives
+
+**`CONCILIA` must respect the company's existing classification vocabulary.** If only `SIM/NÃO` are authorized, do **not** add `REVISAR`, `PENDENTE` or an improvised state just because a source identifier was hard to find. More importantly, ignoring invalid/out-of-scope references is **not** the same as rating those entries `NÃO`: a failure verdict only applies to valid identified and evaluated shipment groups.
+
+The skill now explicitly separates **eligibility**, **association of valid shipment codes** and **the final numerical reconciliation result**. It requires searching relevant alternate fields (such as `Atribuição` when present) before declaring identifiers missing, preserving raw accounting rows, and bridging in-scope and excluded counts/values for material work. Internal exception categories are not automatically exposed as worksheet statuses or new tabs. An explicit user request can change the permitted status vocabulary.
+
+Added `references/closed-status-reconciliation.md`, a read-only `scripts/check_status_values.py` Excel status-enum checker and focused tests, plus behavior evaluations. Example:
+
+```bash
+python scripts/check_status_values.py conciliacao.xlsx --sheet B010 --header-row 3 --column CONCILIA --allowed SIM --allowed NÃO
+```
+
+The checker detects unexpected labels and unavailable formula caches; it cannot prove whether an individual `NÃO` is semantically correct. Independent key coverage, exclusions and balance checks remain necessary.
 
 ## v9.3: Template Fidelity — No Unrequested Colors
 
@@ -383,7 +398,7 @@ See `references/source-notes.md`.
 
 ## Version
 
-**v9.3.0 — Original Template Fidelity & Visual Regression QA**
+**v9.4.0 — Closed Status Contracts & Accurate Reconciliation Scope**
 
 Canonical version: `VERSION`
 
