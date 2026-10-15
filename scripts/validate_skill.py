@@ -135,7 +135,7 @@ def main() -> int:
     if not workflow_files:
         errors.append("no GitHub Actions workflow found")
 
-    action_ref_re = re.compile(r"^[^@\\s]+@([0-9a-fA-F]{40})$")
+    action_ref_re = re.compile(r"^[^@\s]+@([0-9a-fA-F]{40})$")
     for workflow_path in workflow_files:
         workflow_text = workflow_path.read_text(encoding="utf-8")
 
@@ -167,7 +167,7 @@ def main() -> int:
 
     ci_requirements = ROOT / "requirements-ci.txt"
     if ci_requirements.exists():
-        pin_re = re.compile(r"^[A-Za-z0-9_.-]+==[^=<>!~\\s]+$")
+        pin_re = re.compile(r"^[A-Za-z0-9_.-]+==[^=<>!~\s]+$")
         for raw_line in ci_requirements.read_text(encoding="utf-8").splitlines():
             line = raw_line.strip()
             if not line or line.startswith("#"):
