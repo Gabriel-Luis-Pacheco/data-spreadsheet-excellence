@@ -1,6 +1,6 @@
 # Spreadsheet Engineering
 
-This reference covers workbook structure, preservation, formulas, and application behavior. Visual design is covered separately.
+This reference covers workbook structure, preservation, formulas, and application behavior. Visual design is covered separately. For native Excel interaction requests, read `references/native-excel-fidelity.md`.
 
 ## 1. Workbook as a system
 
@@ -49,7 +49,13 @@ Default:
 
 For business-critical files, retain a source checksum or immutable copy.
 
-## 4. Fidelity levels
+## 4. Functional authenticity versus lookalikes
+
+If a user asks for a PivotTable, the workbook must contain a real Excel PivotTable (with cache, source and field configuration). A `pandas.pivot_table()` export, SUMIFS grid or grouped range is not a PivotTable. A styled range is not automatically a native Excel Table (ListObject); a chart screenshot is not a chart; colorful shapes do not constitute a slicer. Use a compatible native authoring host/API before implementation. Automated creation is fine; it is the result's native behavior that must match a careful human user's workbook.
+
+For F3 acceptance, validate the object and its relevant interaction in the real Excel environment when available; no unsupported library may silently degrade the request. See `references/native-excel-fidelity.md`.
+
+## 5. Fidelity levels
 
 **F0:** data values/schema.
 **F1:** structure/formulas/tables/names.
