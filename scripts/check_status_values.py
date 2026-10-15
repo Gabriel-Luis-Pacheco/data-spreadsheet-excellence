@@ -3,7 +3,7 @@
 
 Example:
  python scripts/check_status_values.py book.xlsx --sheet B010 --header-row 3 \
-   --column CONCILIA --allowed SIM --allowed NÃO
+   --column CLASSIFICADO --allowed SIM --allowed NÃO
 """
 from __future__ import annotations
 
@@ -95,7 +95,7 @@ def check_status(
             "errors": errors,
             "limitation": (
                 "Checks vocabulary and available formula caches only; it cannot prove "
-                "whether SIM/NÃO was assigned to the correct eligible shipment, or "
+                "whether the existing field has the business meaning claimed or whether SIM/NÃO was assigned to the correct eligible record, or "
                 "whether ignored records were excluded appropriately. Count/value "
                 "bridge and key-field investigation are separately required."
             ),
@@ -109,7 +109,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("workbook", type=Path)
     parser.add_argument("--sheet", required=True)
-    parser.add_argument("--column", default="CONCILIA")
+    parser.add_argument("--column", required=True, help="Exact existing header from the ORIGINAL workbook; never assume CONCILIA.")
     parser.add_argument("--header-row", type=int, default=1)
     parser.add_argument("--allowed", action="append", default=None)
     parser.add_argument("--require-populated", action="store_true")
