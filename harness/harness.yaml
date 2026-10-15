@@ -1,4 +1,4 @@
-version: 6
+version: 7
 name: data-spreadsheet-excellence-harness
 purpose: adaptive high-quality execution with minimal wasted context, tool calls, and output
 
@@ -65,6 +65,14 @@ defaults:
     bounded_scope_and_stop_condition: true
     no_concurrent_edits_of_same_file: true
     integrate_evidence_not_worker_transcripts: true
+  visual_fidelity_policy:
+    supplied_workbook_is_primary_visual_contract: true
+    retain_existing_colors_fonts_fills_borders_layout_and_cf: true
+    no_unsolicited_green_red_status_highlights: true
+    no_automatic_conditional_formatting_for_statuses: true
+    visual_changes_require_user_request_or_narrow_functional_need: true
+    compare_visual_style_differences_from_original_when_possible: true
+    new_workbooks_can_use_restrained_authoring_style: true
   artifact_surface_policy:
     internal_instructions_are_not_auto_visible_content: true
     unrequested_tolerance_and_criteria_cells_disallowed_by_default: true
