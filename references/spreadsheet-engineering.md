@@ -1,22 +1,16 @@
 # Spreadsheet Engineering
 
-This reference covers workbook structure, preservation, formulas, and application behavior. Visual design is covered separately. For native Excel interaction requests, read `references/native-excel-fidelity.md`.
+This reference covers workbook structure, preservation, formulas, and application behavior. Visual design is covered separately. For existing files, the source schema (original header names/order/meaning) is a strict contract; read `references/source-schema-contract.md`. For native Excel interaction requests, read `references/native-excel-fidelity.md`.
 
 ## 1. Workbook as a system
 
-A serious workbook has layers:
-- input/raw;
-- staging/normalization;
-- calculation/business logic;
-- outputs;
-- checks;
-- documentation/control.
+A serious analytical *process* may have input, staging, calculations, output, checks and controls. **These are conceptual/internal layers, not a mandatory set of delivered worksheets or new columns.**
 
-Small workbooks do not need a worksheet for every layer; many finished reports should have **only the required operational sheet(s)**. Internal checks, technical provenance and intermediate calculations can exist in the production workflow or separately, without automatically adding visible tabs/blocks. Never confuse conceptual architecture with mandatory recipient-facing worksheet furniture.
+Existing workbooks usually need **only their existing authorized sheets and headers**. No new helper `QTD`, `EMBARQUE`, `CONCILIA`, `Resumo` or `QA` by default. Internal checks, technical provenance and intermediate calculations can exist in the production workflow or separately, without automatically adding visible tabs/blocks. Never confuse conceptual architecture with mandatory recipient-facing worksheet furniture.
 
 ## 2. Inventory before round-trip editing
 
-A supplied workbook is both the **data source** and the **visual baseline**. Inventory its fills, font colors, conditional-formatting rules, borders, alignments, widths, heights and table styles before editing. Retain them unless the actual task requires a precise change. Do not recolor `SIM/NÃO` or invent conditional formatting simply because the agent likes status cues. See `references/template-fidelity.md`.
+A supplied workbook is a **data, schema, semantics, native-object and visual baseline**. Before modifying, inventory exact header names/rows/positions, formula/status meanings, and original sheet names; never infer schema from prior AI output. Use `scripts/check_workbook_schema.py` to catch unauthorized header/sheet changes. Inventory its fills, font colors, conditional-formatting rules, borders, alignments, widths, heights and table styles before editing. Retain them unless the actual task requires a precise change. Do not recolor `SIM/NÃO` or invent conditional formatting simply because the agent likes status cues. See `references/template-fidelity.md`.
 
 Inspect:
 - file extension;
@@ -53,7 +47,7 @@ For business-critical files, retain a source checksum or immutable copy.
 
 ## 4. Output data validity: permitted values are a contract
 
-If the original worksheet uses only `SIM/NÃO` in `CONCILIA`, preserve that vocabulary: no spontaneous `REVISAR`, `PENDENTE` or other status. Unknown/invalid key is not a failure verdict; only eligible, identified, evaluated groups may receive `NÃO` for rule failure. Excluded records remain traceable and are not silently discarded from raw sources; investigate available alternative identifier fields first. A real PivotTable or filter that displays an invented status still violates the workbook contract. Use `references/closed-status-reconciliation.md` and `scripts/check_status_values.py` where applicable.
+If the original worksheet uses `SIM/NÃO` in a **verified existing field** (for example `CLASSIFICADO`), preserve that field's original vocabulary **and meaning**. Do not invent a `CONCILIA` column. For genuine reconciliation result fields, preserve the permitted outcomes: no spontaneous `REVISAR`, `PENDENTE` or other status. Unknown/invalid key is not a failure verdict; only eligible, identified, evaluated groups may receive `NÃO` for rule failure. Excluded records remain traceable and are not silently discarded from raw sources; investigate available alternative identifier fields first. A real PivotTable or filter that displays an invented status still violates the workbook contract. Use `references/closed-status-reconciliation.md` and `scripts/check_status_values.py` where applicable.
 
 ## 5. Functional authenticity versus lookalikes
 
@@ -145,7 +139,7 @@ Do not save immediately after `RefreshAll` and assume data finished refreshing.
 
 **Inputs to the agent are not automatically labels/parameters to print.** If a user says a balance is reconciled within a tolerance of 0,05, apply that business rule in the actual formulas/calculation; **do not add `Tolerância` / `0,05` / `Critério` outside the working table by default.** Similarly, do not manufacture `Aba de Critérios`, `QA`, `README`, `Parâmetros`, source lists, run timestamps, test summaries or hidden explanatory columns just because the agent used those internally.
 
-Before adding a visible cell, tab, label, formula helper or note, test whether it is (a) requested, (b) a necessary recipient control, (c) a normal element in the user's example, or (d) essential to avoid misleading interpretation/meet disclosure. **If none applies, leave it out.** Avoid creating detached mini-panels in free space beside the table. Match the footprint and hierarchy of the original work when provided.
+Before adding a visible cell, tab, label, **header/column**, formula helper or note, test whether it is (a) **explicitly requested/authorized as a structural addition**, (b) indispensable for a requested native feature and authorized, or (c) mandatory to avoid materially misleading interpretation or meet disclosure. Favor an internal computation or separate optional analysis over mutating the delivered workbook. **If none applies, leave it out.** Avoid creating detached mini-panels in free space beside the table. Match the footprint and hierarchy of the original work when provided.
 
 **Parameter placement according to actual use:**
 - One-off fixed criterion: keep the value within the required calculation/formula or a scope-appropriate defined constant; no unsolicited display cell. Numeric rule remains inspectable in normal Excel formulas and validation records.
@@ -159,20 +153,11 @@ Before adding a visible cell, tab, label, formula helper or note, test whether i
 
 Use sheet names that describe function.
 
-Good examples:
-- `README`
-- `Inputs`
-- `Raw_ERP`
-- `Calc`
-- `Summary`
-- `Exceptions`
-- `QA`
-
-Avoid `Sheet1`, `Final_Final2`, or ambiguous abbreviations.
+**For an existing workbook, keep all original sheet names**, including `Sheet1` if that is what the user supplied. Do not rename for aesthetics. For a genuinely **new** workbook, choose simple function-oriented sheet names; names such as `README`, `QA` or `Summary` are not obligatory and should only exist when the user actually needs them.
 
 For recurring processes, **consider** ownership, period, source, version and refresh instructions **only where the intended user or compliance workflow actually needs them**. Store execution timestamps, file manifests and run details separately by default; do not create metadata panels or README sheets automatically.
 
-## 11. Tables and ranges
+## 12. Tables and ranges
 
 Use structured tables when they improve:
 - filtering;
