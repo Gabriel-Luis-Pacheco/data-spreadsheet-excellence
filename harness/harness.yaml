@@ -1,4 +1,4 @@
-version: 10
+version: 11
 name: data-spreadsheet-excellence-harness
 purpose: adaptive high-quality execution with minimal wasted context, tool calls, and output
 
@@ -79,6 +79,9 @@ defaults:
     run_deterministic_artifact_gate_before_final_handoff: true
     repair_output_not_whitelist_when_gate_fails: true
     never_claim_semantics_or_excel_ui_verified_by_static_checks: true
+    structural_edits_never_skip_existing_cell_verification: true
+    verify_original_native_object_parts_not_lost: true
+    provide_opt_in_live_agent_artifact_evaluations: true
   original_schema_policy:
     actual_original_workbook_is_primary_contract: true
     existing_sheet_names_headers_positions_and_order_preserved: true
