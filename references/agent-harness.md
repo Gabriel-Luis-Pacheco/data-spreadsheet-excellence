@@ -6,7 +6,7 @@ This reference defines how an AI agent should execute the skill efficiently. The
 
 Remove duplicated instructions, irrelevant references, repeated reads, unnecessary tool schemas, redundant subagents, verbose narration, speculative work, and low-value tests.
 
-Keep context that changes a decision, prevents a material error, or is required to validate the result.
+Keep context that changes a decision, prevents a material error, or is required to validate the result. **Actively seek distinct relevant business context, source evidence, prior examples, rules and contradictions** rather than accepting the first convenient answer. Maximum *useful* context is not maximum raw file reads.
 
 ## 2. Use two independent controls
 
@@ -51,7 +51,7 @@ Behavior:
 - explicit completion criteria;
 - broader but still selective evidence;
 - deeper architecture/research;
-- subagents only for genuinely separable work;
+- proactively consider subagents for 2+ independent research, source-inspection, or verification tracks when supported and likely to improve coverage or wall-clock time;
 - no arbitrary context cap when additional evidence is necessary.
 
 ### Assurance: A0–A3
@@ -70,10 +70,11 @@ Examples:
 Use progressive disclosure.
 
 1. Read the task and core skill.
-2. Identify the specific unknown blocking the next decision.
-3. Load the smallest reference/file range that resolves it.
-4. Act or validate.
-5. Load more only if a new material uncertainty appears.
+2. Build a compact map of the material questions and where evidence might live: source files/tabs, definitions, prior templates/periods, official rules, people/process conventions, and likely exceptions.
+3. Identify the specific unknown blocking the next decision.
+4. Load the smallest reference/file range that resolves it; cover distinct evidence branches rather than repeat similar sources.
+5. Act or validate.
+6. Expand if material coverage is insufficient, a contradiction appears, or another source could change the decision.
 
 Prefer:
 - search/find before full reads;
@@ -166,7 +167,7 @@ Before a tool call ask: **what decision will this result change?**
 Use a tool when it retrieves unavailable evidence, executes deterministic computation, validates a claim, creates/edits an artifact, or performs an authorized action.
 
 Efficiency rules:
-- batch independent calls when supported;
+- batch independent calls when supported; overlap parallel investigation with non-overlapping implementation or drafting;
 - run dependent calls sequentially;
 - prefer precise queries over broad repeated searches;
 - use domain-specific tools when available;
@@ -214,13 +215,23 @@ In custom harnesses:
 
 ## 12. Subagent economy
 
+Proactively evaluate parallel subagents when two or more meaningful, independent tracks exist and the runtime supports delegation; parallel fact-finding and independent review can improve coverage and speed. Do not invent agent availability or claim delegation that did not happen.
+
 Use subagents when subtasks are genuinely independent, need separate expertise/context, or parallelism has clear value.
 
 Avoid them when they would inspect the same files, duplicate tools, or require expensive synthesis.
 
-Give each subagent: objective, minimal relevant context, constraints, expected return, stop condition, and trust/security boundary.
+Give each subagent: objective, authorized sources, minimal relevant context, constraints, expected return with evidence/uncertainties, stop condition, and trust/security boundary. Use fast/low-cost capable workers for scoped inventory/extraction, stronger reasoning for synthesis. Avoid concurrent writes to the same file; the main agent integrates results. Do useful work while agents run; do not repeatedly wait on them.
 
-## 13. Stop conditions
+## 13. Risk-proportional validation and the critical path
+
+Choose checks from concrete failure hypotheses. For a small CSV edit, confirm counts/schema and sampled values; for reconciliation, verify totals, keys and unmatched evidence; for A2/A3, add a genuinely independent check and traceability. Do not run full suites, repeat unchanged checks, or generate test sections just for ceremony. Escalate on a failure, changed dependency, high-risk consequence, or actual blast radius.
+
+Parallelize independent inspections and preparation; serialize dependent calculations and final integration. Deliver a usable first result without lengthy speculative enhancements. The lead agent is responsible for the final correctness and reader fit.
+
+Read `references/analyst-workflow-orchestration.md` for the full analyst workflow.
+
+## 14. Stop conditions
 
 Stop when:
 - requested artifact exists;
@@ -231,9 +242,11 @@ Stop when:
 
 Do not keep iterating just because context remains.
 
-## 14. Communication economy
+## 15. Communication economy
 
 Status updates should communicate a material finding, approach change, blocker, or phase completion — not narrate every tool call.
+
+Never insert an internal execution handoff into a business-facing document. For user-submitted artifacts, follow `references/human-deliverables.md`: natural author voice, no gratuitous logs/paths/worker names, honest reader-relevant limitations.
 
 Final answer priority:
 1. result;
@@ -241,7 +254,7 @@ Final answer priority:
 3. material exceptions/limitations;
 4. files/links/next action.
 
-## 15. Quality floor
+## 16. Quality floor
 
 Efficiency must never justify:
 - skipping a material reconciliation check;
