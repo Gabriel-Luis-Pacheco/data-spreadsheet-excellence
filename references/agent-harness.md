@@ -189,9 +189,9 @@ For code:
 For data:
 1. inspect actual original output schema and field semantics when editing an existing workbook; any unapproved added/renamed sheet/header is a delivery blocker;
 2. schema/profile;
-2. inspect exceptions/representative samples;
-3. aggregate with code;
-4. keep bulk rows out of model context.
+3. inspect exceptions/representative samples;
+4. aggregate with code;
+5. keep bulk rows out of model context.
 
 For long documents:
 1. search;
