@@ -87,6 +87,8 @@ Choose gates by **assurance tier**, not by ritual. High consequence can require 
 - [ ] pivots/connections/objects behave as expected
 - [ ] application state restored after automation
 
+**For native-feature requests:** the structural inspector is only a fast negative check; the intended Excel application must recognize the object and allow the requested action/refresh when feasible. Avoid repeated exhaustive UI checks when one representative interaction suffices.
+
 ## Gate I — Automation/code
 - [ ] minimal relevant diff
 - [ ] idempotency considered
