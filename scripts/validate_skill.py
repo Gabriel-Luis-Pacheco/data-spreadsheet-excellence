@@ -122,6 +122,8 @@ def main() -> int:
         "scripts/check_status_values.py",
         "scripts/check_workbook_schema.py",
         "scripts/verify_delivery.py",
+        "scripts/live_eval_fixture.py",
+        "tests/test_live_eval_fixture.py",
         "tests/test_delivery_contract.py",
         "assets/delivery-contract.example.json",
         "tests/test_schema_contract.py",
