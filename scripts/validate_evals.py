@@ -31,6 +31,7 @@ REQUIRED_TAGS = {
     "human-output",
     "surface-discipline",
     "visual-fidelity",
+    "status-contract",
     "context",
     "parallelism",
     "no-ritual",
