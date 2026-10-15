@@ -57,6 +57,9 @@ Choose gates by **assurance tier**, not by ritual. High consequence can require 
 - [ ] sensitivity checked for fragile conclusions
 
 ## Gate F — Workbook F1
+- [ ] internal instructions/business-rule context were not automatically promoted into visible criteria/tolerance/configuration cells
+- [ ] no unnecessary metadata or detached parameter mini-panels outside the intended data/report area
+- [ ] thresholds that users must edit or that affect required disclosure are presented deliberately, not silently hidden
 - [ ] expected sheets exist
 - [ ] formulas/tables/names preserved as required
 - [ ] number formats correct
@@ -101,6 +104,8 @@ Choose gates by **assurance tier**, not by ritual. High consequence can require 
 - [ ] failure leaves recoverable state
 
 ## Gate J — Visual/reporting
+- [ ] first screen and entire used range contain only justified content; no orphan `Critério` labels or decorative empty areas
+- [ ] extra sheets/notes/legends have a clear recipient use rather than existing for the agent's convenience
 - [ ] primary message obvious
 - [ ] units/period/source visible
 - [ ] chart type suits question
@@ -120,6 +125,7 @@ Choose gates by **assurance tier**, not by ritual. High consequence can require 
 - [ ] recommendations executable
 - [ ] no unsupported causal claims
 - [ ] human-facing document uses the author's known conventions or a restrained audience-appropriate default
+- [ ] author-provided operational conventions are applied correctly but not displayed merely because they were mentioned
 - [ ] no gratuitous AI/worker/process narration, raw paths/TXT names, stack traces, or decorative filler in the reader-facing artifact
 - [ ] technical evidence is separate unless the requested product is technical; material coverage gaps remain visible
 
