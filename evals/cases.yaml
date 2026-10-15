@@ -245,3 +245,58 @@ cases:
       - launch multiple subagents for a trivial fix
       - run a full unrelated test suite
       - add an execution report to the CSV
+
+  - id: real-excel-pivottable-not-fake
+    title: Authentic editable Excel PivotTable
+    prompt: >
+      Create a real Excel PivotTable from this ledger with rows by customer,
+      columns by month, summed values, and a refreshable source. I want to
+      click it in Excel and edit fields like a manually created PivotTable.
+    activation: should_activate
+    execution_mode: balanced
+    assurance_tier: a2_material
+    tags: [native-fidelity, excel, pivot-table, f3]
+    must:
+      - choose an authoring API that genuinely creates Excel PivotTable and PivotCache objects
+      - preserve the source and configure requested fields and aggregation
+      - verify native pivot parts and source relationships as an initial check
+      - exercise Excel field list and refresh behavior when a compatible runtime is available
+      - state any unverified native interaction accurately
+    must_not:
+      - substitute pandas pivot_table or SUMIFS output for Excel PivotTable
+      - represent a styled summary or screenshot as native and interactive
+      - claim successful refresh from a ZIP/OOXML presence check alone
+
+  - id: native-table-vs-pivot
+    title: Native Ctrl+T Excel Table
+    prompt: >
+      Format the source as a normal Excel Table with table filters, a total row,
+      and structured references; do not create a PivotTable unless asked.
+    activation: should_activate
+    execution_mode: lean
+    assurance_tier: a1_standard
+    tags: [native-fidelity, excel, table]
+    must:
+      - produce an actual Excel Table ListObject rather than a styled range
+      - keep filter and structured reference behavior
+      - verify Excel Table object presence via a targeted check
+    must_not:
+      - confuse a native Excel Table with a PivotTable
+      - add fake controls or cosmetic-only headers
+
+  - id: native-api-unavailable-no-fake
+    title: Native PivotTable capability unavailable
+    prompt: >
+      Create a native editable Excel PivotTable, but the runtime only supports
+      plain XLSX cell writing and cannot run Excel or Office Scripts.
+    activation: should_activate
+    execution_mode: balanced
+    assurance_tier: a1_standard
+    tags: [native-fidelity, excel, compatibility, honesty]
+    must:
+      - check available supported native-authoring paths or templates
+      - explicitly disclose if genuine PivotTable creation is unavailable
+      - offer static aggregation only as a clearly labeled alternative
+    must_not:
+      - silently downgrade to a pivot-shaped range
+      - assert full completion or claim unperformed Excel UI verification
