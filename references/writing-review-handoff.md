@@ -119,13 +119,19 @@ Example:
 
 **End user:** usability, period/source/units, next action, exceptions.
 
-## 13. Handoff package
+## 13. Author-facing artifact vs internal evidence
+
+When the user wants to submit the work as their own, use their known template, style, audience, and business wording. The delivered report must be a real report **about the findings**, not an AI/automation execution narrative. Do not insert model/worker names, raw TXT paths, run logs, tests, generic methodology, decorative blocks or empty mandatory sections without a reader need. Exact technical source identifiers belong in a separate evidence annex if required. If missing data changes the conclusion, say so plainly in the report; do not hide it for style.
+
+Read `references/human-deliverables.md` for positive/negative examples and the final artifact test.
+
+## 14. Handoff package
 
 Depending on task, deliver final artifact, short summary, exception file/table, README/run instructions, validation evidence, limitations, source/parameter manifest, and change log.
 
 The recipient should not need the original author for basic operation.
 
-## 14. Good completion language
+## 15. Good completion language
 
 Prefer:
 `Reconciled 42,318 of 42,911 records (98.6%). 593 remain unmatched; 81% of unmatched value is concentrated in 17 invoices. Row counts and source totals were preserved. Formula recalculation was not verified in desktop Excel.`
@@ -133,12 +139,12 @@ Prefer:
 Avoid:
 `The reconciliation was successfully completed and yielded valuable insights.`
 
-## 15. Do not mimic fake “human imperfection”
+## 16. Do not mimic fake “human imperfection”
 
 Do not add typos, awkwardness, or randomness to “sound human”. Human-quality writing comes from specificity, judgment, rhythm, and restraint.
 
 
-## 16. Language, locale, and audience conventions
+## 17. Language, locale, and audience conventions
 
 Default the **human-facing delivery** to the user's or intended audience's language unless another language is explicitly required.
 
