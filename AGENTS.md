@@ -26,6 +26,7 @@ This repository defines the `data-spreadsheet-excellence` Agent Skill.
 - Preserve text identifiers by default in profiling/ingestion utilities unless inference is explicitly requested.
 - Do not add production dependencies unless benefit is clear and documented.
 - Keep utilities read-only by default unless mutation is the explicit purpose.
+- When modifying an existing workbook, inspect the actual source header/schema and field meanings first; do not introduce `CONCILIA`, `QTD`, `EMBARQUE`, `README` or other fields/tabs without explicit authorization. Use `references/source-schema-contract.md` and the schema checker, then assess native object and style preservation.
 
 ## Verify changes
 
