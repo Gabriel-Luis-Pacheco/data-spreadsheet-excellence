@@ -1,5 +1,22 @@
 # Changelog
 
+## 9.2.0 — 2026-10-15 — Reader-First Workbook Surface
+
+### Added
+- A strict contract distinguishing **what the user tells the agent to do** (tolerances, reconciliation rules, methodology, QA, workplace conventions) from **what the finished workbook should visibly contain**.
+- A concrete anti-pattern derived from a real reconciliation screenshot: `EMBARQUE | Quantidade | Saldo | CONCILIA` should not gain a detached `Tolerância 0,05` / `Critério` block merely because the user communicated the working rule.
+- A final used-range / visible-sheets sweep for stray parameters, metadata, labels, unnecessary controls and orphan notes.
+- Three behavioral evaluation cases: non-visible operational tolerance, explicitly user-editable tolerance, and mandatory threshold disclosure; harness and eval coverage updated.
+
+### Improved
+- Human-deliverables guide and Excel engineering default to the **recipient's actual working layout**. Internal calculation/verification is preserved without automatically creating `QA`, `Parâmetros`, `README` or methodology sheets.
+- Visual design and QA prioritize removing unsolicited outside-the-table information before purely cosmetic polish.
+- Agent default prompt explicitly refuses to turn internal operational context into visible workbook annotations.
+
+### Limits
+- Minimalism cannot hide a material decision rule when the recipient must understand it, an explicitly adjustable setting, incomplete coverage, or mandatory audit documentation. The skill improves behavior through guidance/evals and must still be used and verified on actual workbook tasks.
+
+
 ## 9.1.0 — 2026-10-15 — Native Excel Feature Authenticity
 
 ### Added
