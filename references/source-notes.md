@@ -2,7 +2,7 @@
 
 This skill distills practical guidance rather than reproducing any single framework. Re-check live documentation when behavior is version-sensitive.
 
-Research refresh: 2026-09-18.
+Research refresh: 2026-10-15 (multi-agent/delegation guidance); spreadsheet/domain source review unchanged.
 
 ## Agent Skills / Codex / prompt engineering
 
