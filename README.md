@@ -29,6 +29,22 @@ A portable Agent Skill for professional work with **data analysis, Python, Excel
 - adaptive execution and independent assurance tiers;
 - AI coding discipline and minimal-diff workflows.
 
+## v11.0: From Instructions to Executable Delivery Contracts
+
+v11 introduces a **task-mode contract**: EDIT_EXISTING, CREATE_NEW, DERIVED_REPORT or EXPLICIT_REDESIGN. The mode determines whether the original layout is binding, instead of applying preservation rules blindly to a requested new report.
+
+For material **EDIT_EXISTING** work, the agent uses a short trusted internal contract describing original, output, actual header rows, permitted changed cell ranges, authorized new fields (including exact positions), allowed status values, and optional permitted style changes. The new read-only `scripts/verify_delivery.py` blocks unapproved sheet/header edits, content outside the allowed ranges, invented status words, and unexpected existing-cell formatting. It **does not** prove business semantics, formula cached results, user authorization, or Excel's native PivotTable interaction.
+
+Example:
+
+```bash
+python scripts/verify_delivery.py --contract assets/delivery-contract.example.json --pretty
+```
+
+The agent must apply permissions from the trusted user request, not expand a whitelist to make an invalid result pass. Synthetic real-XLSX regression tests now exercise acceptable edits and errors previously encountered in practice: new columns, a QA sheet, green status fills, REVISAR, out-of-table tolerance, absent original and missing semantic verification.
+
+See `references/delivery-contract.md`, `assets/delivery-contract.example.json` and `tests/test_delivery_contract.py`.
+
 ## v10.0: Source-First Schema Contract — Preserve Original Columns and Their Meaning
 
 **Most important correction:** the original Excel had a field named `CLASSIFICADO` with `SIM/NÃO`. Earlier versions of this skill used an AI-created `CONCILIA` as the example and thereby encouraged the very mistake they were meant to prevent. **If the source does not contain `CONCILIA`, `QTD` or `EMBARQUE`, the agent must not add them on its own.** Even when `CLASSIFICADO` already holds `SIM/NÃO`, its business meaning must be verified before writing results into it; a classification flag need not be a reconciliation verdict.
@@ -414,7 +430,7 @@ See `references/source-notes.md`.
 
 ## Version
 
-**v10.0.0 — Original-Schema Preservation & Authorized Structural Changes**
+**v11.0.0 — Universal Delivery Contract & Executable Verification**
 
 Canonical version: `VERSION`
 
