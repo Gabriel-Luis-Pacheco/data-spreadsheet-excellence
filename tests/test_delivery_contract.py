@@ -86,5 +86,43 @@ class DeliveryContractFixtureTests(unittest.TestCase):
         self.assertTrue(result["warnings"])
 
 
+    def test_authorized_new_column_does_not_bypass_unauthorized_other_cells(self):
+        self.wb.active["D1"] = "CONCILIA"
+        self.wb.active["B2"] = 99999  # Original protected data tampered with.
+        self.wb.save(self.out)
+        data = self.contract(authorized_new_headers={"Base":[{"column":4,"name":"CONCILIA"}]})
+        result = evaluate(data)
+        self.assertFalse(result["pass"])
+        self.assertTrue(any("B2" in x for x in result["errors"]))
+
+    def test_wrong_column_position_is_not_authorized(self):
+        self.wb.active["D1"] = "CONCILIA"
+        self.wb.save(self.out)
+        data = self.contract(authorized_new_headers={"Base":[{"column":2,"name":"CONCILIA"}]})
+        result = evaluate(data)
+        self.assertFalse(result["pass"])
+
+    def test_modified_existing_conditional_format_is_detected(self):
+        from openpyxl.formatting.rule import CellIsRule
+        self.wb.active.conditional_formatting.add("C2:C3",
+            CellIsRule(operator="equal", formula=['"SIM"'], fill=PatternFill("solid",fgColor="00FF00")))
+        self.wb.save(self.out)
+        self.assertTrue(any("Excel object/layout" in x for x in evaluate(self.contract())["errors"]))
+
+    def test_extra_style_without_value_is_detected(self):
+        self.wb.active["F8"].fill = PatternFill("solid", fgColor="00FF00")
+        self.wb.save(self.out)
+        self.assertTrue(any("formatting" in x for x in evaluate(self.contract())["errors"]))
+
+    def test_explicitly_permitted_inserted_column_with_other_cells_intact(self):
+        ws = self.wb.active
+        ws.insert_cols(2)
+        ws["B1"] = "CONCILIA"
+        self.wb.save(self.out)
+        contract = self.contract(authorized_new_headers={"Base":[{"column":2,"name":"CONCILIA"}]})
+        result = evaluate(contract)
+        self.assertTrue(result["pass"], result["errors"])
+
+
 if __name__ == "__main__":
     unittest.main()
