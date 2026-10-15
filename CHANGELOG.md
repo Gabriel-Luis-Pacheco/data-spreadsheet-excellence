@@ -1,5 +1,21 @@
 # Changelog
 
+## 9.3.0 — 2026-10-15 — Original Template Fidelity & Visual Regression QA
+
+### Added
+- `references/template-fidelity.md`: a source workbook/screenshot is the default visual specification, not an invitation for AI redesign.
+- Behavioral evals for status cells that must remain uncolored, explicitly authorized color changes, and conservative new-workbook design.
+- Workbook-diff checks for changed cell visual styles (fills, fonts, borders, alignment) and changed conditional-formatting definitions, including rule changes with the same total count; targeted regression tests cover these cases.
+
+### Improved
+- Core skill, human deliverables, visual guide and engineering guidance now expressly prohibit **unsolicited green SIM/red NÃO styling**, colored fonts, borders, new CF rules and other cosmetic extras in existing templates.
+- The original light-blue header, normal cell styles, layout, filters and presentation are preserved by default while the requested calculations and real Excel features are implemented.
+- Harness v7 and evaluation coverage codify visual minimal-diff behavior.
+
+### Limits
+- Structural style hashes are **review signals**, not pixel-perfect Excel-renderer tests or proof a change was unauthorized; baseline screenshots cannot reveal all hidden styles/objects. Requested or necessary functional/accessibility/legal style changes remain permitted. Do not sacrifice correct calculations or native features to preserve looks.
+
+
 ## 9.2.0 — 2026-10-15 — Reader-First Workbook Surface
 
 ### Added
