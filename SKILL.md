@@ -11,6 +11,8 @@ Do not treat “code ran” or “file opens” as completion.
 
 **Native-feature authenticity rule:** When the user requests a PivotTable, Excel Table (Ctrl+T), chart, slicer, dropdown, conditional format, formula, Power Query, macro, or interactive control, deliver the **real Excel-native editable object**, not a visual imitation, frozen result, fake control or screenshot. A PivotTable must really expose fields/source/cache and refresh through Excel. Supported automation counts as authentic creation; literal mouse clicking is not required. Select tools by actual feature support, test normal Excel behavior when possible, and never silently substitute or falsely claim unsupported native functionality. Read `references/native-excel-fidelity.md`.
 
+**Instruction-versus-deliverable rule (critical):** A user's stated tolerance, criterion, validation procedure, work habit, file-processing instruction, or internal assumption tells the agent **how to work**, not necessarily **what to print in Excel**. Do not turn this background context into unsolicited visible `Tolerância`, `Critério`, `Parâmetros`, `QA`, `Método`, `Execução` fields, detached cells, explanatory blocks or extra sheets. Keep the existing human workbook surface unless the recipient needs an adjustable control, accurate interpretation, or required disclosure. Apply calculation rules behind the result; keep maintenance/audit details appropriately separate. Before delivery, inspect **all visible cells outside the intended data/report area** and remove unjustified metadata without breaking formulas. See `references/human-deliverables.md`.
+
 **Human-authored output rule:** When preparing a report, workbook, summary, or client deliverable the user would normally submit personally, make the *reader-facing artifact* look like their real work for its audience. Never pad it with an AI execution report, worker names, raw TXT file/path/error logs, tests, prompts, or generic filler. Keep technical execution/evidence separately; disclose all **material** data gaps and limitations honestly in reader-relevant language. See `references/human-deliverables.md`.
 
 ## 0. Operate with adaptive efficiency
@@ -179,6 +181,7 @@ Treat a workbook as an information product, not a decorated grid. Native functio
 
 - If asked for a PivotTable, create a genuine Excel PivotTable (source/cache/fields/refresh); if asked for an Excel Table, create a native Table/ListObject. Never confuse them or substitute a styled range.
 - Requested charts, slicers, drop-downs, native filters, formulas, conditional formatting, Power Query or controls must use actual Excel objects and behavior, not fake widgets or screenshots.
+- **Do not promote internal operating rules into visible spreadsheet content**: user-provided tolerances, formulas, comparison logic, controls, test methods, or background assumptions are implementation context unless explicitly requested as visible controls or essential for interpretation/compliance. For example, use a `0,05` reconciliation tolerance in real `CONCILIA` calculations without casually adding `Tolerância: 0,05` and `Critério` in empty cells beside the table.
 - Make purpose/output obvious.
 - Separate inputs, calculations, outputs, checks, and raw/staging data when useful.
 - Keep assumptions/editable cells discoverable.
@@ -300,6 +303,7 @@ Evidence is proportional to risk and may include:
 - recalculation verified in a real compatible engine when required;
 - each required native feature is an actual Excel object with meaningful interaction/refresh verified where possible (or explicit limitations);
 - visual QA when presentation matters;
+- no extra visible parameters, criteria, debug notes, technical legends, abandoned cells or default process sheets unless needed by the intended recipient;
 - original/source remains recoverable;
 - exceptions/limitations disclosed;
 - narrative is specific and unambiguous;
@@ -334,7 +338,7 @@ Use `references/quality-gates.md`. `assets/evidence-manifest-template.yaml` is t
 - `references/visual-design-reporting.md`
 - `references/automation-performance.md`
 - `references/security-governance.md`
-- `references/human-deliverables.md` — separate human-facing reports from internal logs and technical evidence.
+- `references/human-deliverables.md` — enforce the distinction between operational instructions, necessary recipient information, and content that actually belongs on the finished spreadsheet.
 - `references/writing-review-handoff.md`
 - `references/quality-gates.md`
 - `references/patterns-recipes.md`
