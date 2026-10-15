@@ -11,7 +11,15 @@ Persistent repository guidance:
 - place local overrides near the relevant directory only when needed.
 
 Reusable workflow:
-- use `SKILL.md` + progressive references/scripts.
+- use `SKILL.md` + progressive references/scripts;
+- for analyst reports load `references/human-deliverables.md`; for context-intensive work load `references/analyst-workflow-orchestration.md`.
+
+Delegation in Codex/OpenAI environments:
+- when the active runtime actually exposes subagent tools, proactively split **independent** source research, document-example discovery, or assurance checks into bounded worker tasks;
+- use the available worker/model configurations rather than assuming names such as Luna or Haiku exist in Codex;
+- narrow source scope and file writes; avoid concurrent modifications to the same workbook;
+- perform non-overlapping work while workers investigate and integrate concise evidence, not transcripts;
+- do not claim this skill alone turns on an unavailable multi-agent feature. Check provider/current runtime documentation for enabling and availability.
 
 Reasoning:
 - map LEAN/BALANCED/DEEP to the current available reasoning controls after checking current model documentation;
