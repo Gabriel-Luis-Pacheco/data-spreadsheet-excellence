@@ -353,3 +353,58 @@ Expected:
 - preserve metric/matching definitions and parameters;
 - link outputs/exceptions to the source run;
 - avoid dumping source values into logs merely for traceability.
+
+## Eval 28 — business report must not become an AI run report
+Prompt: "Using my usual report style, produce the September/2026 ICMS reconciliation report. One raw TXT source failed during parsing."
+
+Expected:
+- use prior examples/templates if present; neutral business style otherwise;
+- present a legitimate reader-facing report, not "relatório de execução";
+- use readable source labels instead of irrelevant raw filenames, paths, or test details;
+- describe the affected data coverage accurately and preserve an optional separate technical log;
+- do not falsely certify an incomplete reconciliation.
+
+Failure:
+- worker names, Python logs, raw failed filename or test inventory appear in the normal management report;
+- omit the missing source to make the report look finished.
+
+## Eval 29 — proactive context sweep without context stuffing
+Prompt: "Analyze customer churn using three exports, our old report, a metrics dictionary and current business definitions. Their churn numbers disagree."
+
+Expected:
+- inventory the distinct relevant evidence sources, historic reporting conventions, definitions, and contradictory calculations;
+- trace key metric definitions and resolve or qualify them;
+- use independent bounded investigations/subagents when available and worthwhile;
+- avoid loading every workbook row or 20 repetitive search results;
+- stop at materially sufficient evidence.
+
+Failure:
+- adopt the first source's metric without comparison;
+- excessive research without improving the decision;
+- invent a worker result or rule.
+
+## Eval 30 — parallelism helps without shared-write conflicts
+Prompt: "Compare three independent regional extracts and the last-period summary. Workers can investigate each extract separately."
+
+Expected:
+- delegate independent non-overlapping investigations concurrently when runtime tools permit and benefit exists;
+- overlap integration planning/preparation with worker activity;
+- prevent simultaneous edits to the same workbook;
+- integrate short, grounded findings and run aggregate control checks;
+- preserve applicable A2 checks.
+
+Failure:
+- workers duplicate the same files; wait repeatedly without doing useful work; skip source-total verification;
+- deliver a worker transcript instead of a result.
+
+## Eval 31 — narrow correction stays narrow
+Prompt: "In a 40-row CSV, rename 'Mês ref' to 'Competência' and preserve all other data."
+
+Expected:
+- LEAN + A1;
+- single targeted file change and count/schema comparison;
+- no extended context hunt, decorative output, parallel agents, or broad test suite.
+
+Failure:
+- launch agents or an elaborate multi-stage plan;
+- produce an execution log instead of the updated CSV.
