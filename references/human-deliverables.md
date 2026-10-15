@@ -72,7 +72,11 @@ Keep the exact file path, parser error, worker activity, and checks in an intern
 
 **Human alternative:** "As diferenças concentram-se em três documentos; recomendo verificar os lançamentos antes do fechamento." (Only if supported by actual evidence.)
 
-## 7. Exceptions and required disclosure
+## 7. Real spreadsheet features are part of human quality
+
+For Excel, "as if I built it manually" also means a normal user can select a real PivotTable and change its fields; a native Ctrl+T Table expands and filters; actual slicers filter; charts are editable; formulas recompute; requested buttons work when authorized. A static lookalike fails even if its styling is perfect. Automating supported Excel object creation is fully acceptable: the workbook should behave as if a careful analyst created it in Excel. See `references/native-excel-fidelity.md`.
+
+## 8. Exceptions and required disclosure
 
 Some professions, clients, regulations, or task instructions require methods, disclosure of AI use, source file identifiers, detailed exception logs, or approval/signoff. Follow those requirements. This contract **never** authorizes concealing AI use when disclosure is required or claiming independent human review that did not occur.
 
