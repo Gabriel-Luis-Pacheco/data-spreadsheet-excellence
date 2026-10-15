@@ -1,8 +1,12 @@
 # Closed-World Status Contracts and Reconciliation Eligibility
 
+## Rule: schema and status meanings come from the ORIGINAL workbook
+
+This guide governs eligibility and vocabulary **only after** actual sheet headers/field meanings have been inspected. Do not assume `CONCILIA` was in the original because earlier examples mention it. An original `CLASSIFICADO` field with `SIM/NÃO` is not automatically a reconciliation verdict; do not repurpose it without evidence. Read `references/source-schema-contract.md`.
+
 ## Rule: status values are governed by the user's workflow, not by an AI's taxonomy
 
-If the supplied workbook or task establishes a **closed set of status values**, use **only** those values, spelled exactly as the recipient expects. For a `CONCILIA` column defined as `SIM` and `NÃO`, **never introduce** `REVISAR`, `PENDENTE`, `INDEFINIDO`, `ERRO`, `N/A`, `OUTRO` or a synonymous color/emoji code in that column, unless the user explicitly revises the contract.
+If the supplied workbook or task establishes a **closed set of status values**, use **only** those values, spelled exactly as the recipient expects. For a **verified existing result column**, such as `CLASSIFICADO` if its documented meaning fits the task, defined as `SIM` and `NÃO`, **never introduce** `REVISAR`, `PENDENTE`, `INDEFINIDO`, `ERRO`, `N/A`, `OUTRO` or a synonymous color/emoji code in that column, unless the user explicitly revises the contract.
 
 Do not copy internal exception categories from audit methodology into recipient-facing status fields, sheets, pivot filters, legends, formula outputs, chart labels, or new columns. Inherited legitimate values in the original source are data, not permission to invent new classifications.
 
@@ -15,8 +19,7 @@ Do not copy internal exception categories from audit methodology into recipient-
 3. **Outcome** — For a sufficiently identified and eligible group, do the validated amounts meet the specified tolerance or business conditions?
 
 These are **not interchangeable**:
-- `SIM`: only an eligible, properly identified group that meets the actual reconciliation rule.
-- `NÃO`: only an eligible, properly identified group that has been evaluated and does **not** meet that rule.
+- For a verified **reconciliation** verdict field, `SIM` means an eligible identified group meets the actual rule and `NÃO` means it fails. A field called `CLASSIFICADO` may have a **different purpose** (e.g., whether someone classified a record): verify before applying these interpretations. Do not replace that meaning merely because values happen to be `SIM/NÃO`.
 - **Invalid/irrelevant/unidentified identifier:** *not classified as either verdict* unless a **trusted, explicit business rule** defines its treatment.
 
 Do not force a third-state record into `NÃO` merely because the display accepts only `SIM/NÃO`. A two-value contract does not magically make every source line eligible. Also do not turn unmatched or missing evidence into `SIM` because sums cancel.
@@ -58,7 +61,7 @@ If exact excluded rows must be communicated to the user to avoid a misleading fi
 
 ## Minimal acceptance checks
 
-- **Allowed-value check:** every populated final `CONCILIA` result belongs to the exact permitted vocabulary.
+- **Allowed-value check:** every populated final **verified original status field** belongs to its exact permitted vocabulary. No invented `CONCILIA` column is needed.
 - **Meaning check:** sample `NÃO` rows and confirm they are valid identified groups failing the rule, *not* merely missing/ignored references.
 - **Eligibility check:** excluded/ignored row population is separate from evaluated `SIM/NÃO`; source-to-result count/value bridge where material.
 - **Source completeness:** relevant key-bearing columns were examined; no easily recoverable identifiers remain "missing".
@@ -73,7 +76,7 @@ Use fast deterministic validations, not an elaborate testing ritual. If a source
 
 **Incorrect:** "Retirei REVISAR e transformei os 20 registros em NÃO." This wrongly treats absence of a valid shipment as a failed reconciliation.
 
-**Correct behavior:** "Desconsiderei as referências fora do padrão na identificação dos embarques, sem incluí-las nos grupos conciliados nem criar um terceiro status. Mantive os lançamentos originais e conferi a quantidade e os valores excluídos da apuração. Na coluna CONCILIA, preservei somente os resultados legítimos SIM/NÃO." Say this only after actually executing and verifying those steps; do not invent findings or counts.
+**Correct behavior:** "Desconsiderei as referências fora do padrão na identificação dos embarques, sem incluí-las nos grupos conciliados, criar um terceiro status ou acrescentar colunas como CONCILIA, QTD e EMBARQUE. Mantive os lançamentos originais e conferi a quantidade e os valores excluídos da apuração. Na coluna CONCILIA, preservei somente os resultados legítimos SIM/NÃO." Say this only after actually executing and verifying those steps; do not invent findings or counts.
 
 **User explicitly changes the contract:** "Inclui também PENDENTE para embarques identificados, mas com documento faltante."
 
