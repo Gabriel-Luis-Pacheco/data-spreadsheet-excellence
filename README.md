@@ -18,12 +18,21 @@ A portable Agent Skill for professional work with **data analysis, Python, Excel
 - review of another analyst's work;
 - analytical writing without generic AI slop;
 - human-authored client/management reports without exposing internal execution logs, raw TXT paths, model names, or ceremonial AI sections;
+- strict visible-content discipline: operational tolerances, criteria, validation rules and instructions do not become unsolicited Excel cells, panels or tabs;
 - proactive domain/source/template discovery, parallel independent agent research, and risk-based validation without ritual testing;
 - prompt/context engineering;
 - token, latency and tool-call economy;
 - prompt-injection / untrusted-content boundaries;
 - adaptive execution and independent assurance tiers;
 - AI coding discipline and minimal-diff workflows.
+
+## v9.2: Reader-First Workbook Surface — Instructions Are Not Labels
+
+The user telling an agent an internal rule does **not** automatically mean the rule belongs in the reader's finished worksheet. For example, a reconciliation workbook may use a tolerance of **0,05** to compute `CONCILIA = SIM/NÃO` while the actual delivered sheet simply has the existing `EMBARQUE | Quantidade | Saldo | CONCILIA` table. Adding `Tolerância` in F1 and `Critério` in F3 just because the user mentioned the internal rule is **not** normal human reporting and fails this skill.
+
+New behavior: keep the known report layout, avoid extra `Parâmetros`/`QA`/`README` sheets, check stray visible cells outside the working table, and store internal QA/provenance separately. The exception is when the recipient actually needs to adjust the threshold, understand a materially decision-changing assumption, or satisfy mandatory reporting/audit requirements. Do not sacrifice correct formulas, verifiable totals or genuine Excel features for minimalism.
+
+See `references/human-deliverables.md`, `references/spreadsheet-engineering.md` and the new cases in `evals/cases.yaml`.
 
 ## v9.1: Native Excel Objects — Real Functionality, Not Lookalikes
 
@@ -367,7 +376,7 @@ See `references/source-notes.md`.
 
 ## Version
 
-**v9.1.0 — Native Excel Feature Authenticity**
+**v9.2.0 — Reader-First Workbook Surface & Operational-Context Discipline**
 
 Canonical version: `VERSION`
 
