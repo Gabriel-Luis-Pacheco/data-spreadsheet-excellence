@@ -32,6 +32,7 @@ REQUIRED_TAGS = {
     "context",
     "parallelism",
     "no-ritual",
+    "native-fidelity",
 }
 
 
