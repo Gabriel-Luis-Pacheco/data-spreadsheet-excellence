@@ -113,16 +113,9 @@ df = lf.collect()
 
 Sort explicitly if output ordering matters.
 
-## 8. XlsxWriter layout pattern
+## 8. XlsxWriter layout pattern (only for new workbooks)
 
-Typical workbook:
-- `README`
-- `Summary`
-- `Data`
-- `Exceptions`
-- `QA`
-
-Apply reusable format objects, intentional widths, and freeze/filter only where workflow benefits.
+If creating a **new, explicitly requested** workbook, choose only sheets necessary to the user's goal and use reusable formats/intentional widths. `README`, `Summary`, `Exceptions` and `QA` are not mandatory and should not be added reflexively. **Never use this new-workbook recipe to rebuild an existing client sheet** or append `EMBARQUE`, `QTD`, `CONCILIA` to its actual source data. For edits, use a preservation-aware workflow and `references/source-schema-contract.md`.
 
 ## 9. openpyxl safe-edit pattern
 
@@ -196,7 +189,7 @@ Resolution: aggregate the right table to one row/customer or use the intended co
 
 ## 14. Workbook inventory checklist
 
-Before editing inspect extension, sheet visibility, formulas, merged ranges, tables, names, charts/drawings, VBA, pivots, queries/connections, external links, protection, and print settings.
+Before editing inspect the **actual original file**, exact sheet/header/column schema and meanings first, then extension, sheet visibility, formulas, merged ranges, tables, names, charts/drawings, VBA, pivots, queries/connections, external links, protection and print settings. Never infer absent columns from an AI-generated intermediate.
 
 Use `scripts/inspect_workbook.py` for a first-pass inventory, then inspect high-risk features with target application/tooling.
 
