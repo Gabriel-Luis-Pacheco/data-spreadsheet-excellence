@@ -121,6 +121,8 @@ Example:
 
 ## 13. User instructions versus delivered content
 
+The original workbook's actual headers and meanings control the report. A status column called `CLASSIFICADO` cannot be replaced by `CONCILIA` or have its meaning changed just because a different result would be useful. `QTD` and `EMBARQUE` may be internal analytical variables without being printed. Report results through existing authorized fields or an expressly requested separate deliverable; otherwise clearly disclose the structural limitation rather than pretending the original format was preserved.
+
 Operational context is not an outline for the report. A user may specify a tolerance, calculation rule, QA method, employee convention or file handling requirement solely so the analysis is performed correctly. Don't translate each such statement into a visible `Critério`, `Parâmetros`, `Tolerância`, `Metodologia` or `Execução` section/cell. Include the minimum information the intended reader genuinely needs, plus required material assumptions and caveats. Keep implementation/audit information in the appropriate separate evidence trail. In Excel, scan populated side cells and extra sheets for unrequested labels/blocks. This does not prevent an intentionally adjustable parameter or mandatory methodological disclosure. See `references/human-deliverables.md`.
 
 ## 14. Author-facing artifact vs internal evidence
@@ -131,7 +133,7 @@ Read `references/human-deliverables.md` for positive/negative examples and the f
 
 ## 14. Handoff package
 
-Depending on task, deliver final artifact, short summary, exception file/table, README/run instructions, validation evidence, limitations, source/parameter manifest, and change log.
+Depending on task, deliver the requested artifact and a brief necessary handoff. Additional exception files, README/run instructions, validation evidence, source/parameter manifests and change logs are **optional and purpose-driven**, not automatic user-facing outputs.
 
 The recipient should not need the original author for basic operation.
 
