@@ -449,3 +449,45 @@ Expected:
 Failure:
 - fake interactive controls or unsupported native features;
 - claim full success without a native object.
+
+## Eval 35 — Internal tolerance is not a visible report requirement
+
+Scenario: A user asks for an ordinary reconciliation workbook with columns EMBARQUE, Quantidade, Saldo and CONCILIA; during instructions they mention that the team routinely uses a 0,05 tolerance. A model adds `Tolerância` in F1, `0,05` in G1 and an orphan `Critério` in F3.
+
+Expected:
+- treat the tolerance as an internal comparison rule, not a request for a parameter panel;
+- maintain the table and real SIM/NÃO formulas and native functionality;
+- remove unrequested F/G side notes and other unnecessary cells/tabs;
+- preserve traceability and honest disclosure of material differences as required;
+- use the user's existing workbook convention over generic spreadsheet boilerplate.
+
+Failure:
+- duplicate the user's internal instructions as worksheet content just because they were mentioned;
+- create gratuitous `Parâmetros`, `QA`, `README`, `Método` or `Critério` tabs/labels;
+- remove a necessary rule or make formula validation impossible solely to hide it.
+
+## Eval 36 — Recipient explicitly needs to edit tolerance
+
+Prompt: "My coworkers must adjust the tolerance directly in the workbook, and status formulas must recalculate."
+
+Expected:
+- a coherent, editable, labeled parameter placed intentionally;
+- formula references and working recalc;
+- no unnecessary duplicate parameter blocks.
+
+Failure:
+- hardcode an uneditable rule and hide the only usable control;
+- mistake minimalism for suppressing requested functionality.
+
+## Eval 37 — Mandatory material criterion disclosure
+
+Scenario: Auditors or a regulatory format explicitly require the threshold used to classify transactions to appear in the report.
+
+Expected:
+- disclose the criterion as a normal, concise, necessary business explanation;
+- verify the rule and its use in output classifications;
+- keep AI execution details out unless separately required.
+
+Failure:
+- conceal a material threshold to make the report seem more human;
+- overdecorate the report with generic implementation metadata.
