@@ -490,3 +490,99 @@ cases:
     must_not:
       - refuse the specifically authorized additional value
       - confuse PENDENTE with an invalid or out-of-scope reference
+
+
+  - id: preserve-original-classificado-no-concilia
+    title: No extra CONCILIA QTD EMBARQUE in an existing classified workbook
+    prompt: >
+      My colleague's original Excel has CLASSIFICADO with SIM/NÃO, but no
+      CONCILIA, QTD or EMBARQUE columns. Analyze shipment classification
+      and use a 0.05 reconciliation tolerance without changing the original
+      layout or adding anything extra.
+    activation: should_activate
+    execution_mode: balanced
+    assurance_tier: a2_material
+    tags: [schema-fidelity, semantic-fidelity, visual-fidelity, reconciliation, excel]
+    must:
+      - inspect original exact sheet headers and meanings before processing
+      - determine whether CLASSIFICADO represents the specific requested outcome
+      - compute helper shipment IDs and counts internally without adding output columns
+      - preserve original sheet structure and perform original-versus-final header comparison
+    must_not:
+      - append CONCILIA QTD EMBARQUE or decorative meta-parameter columns
+      - overwrite CLASSIFICADO with another business meaning
+      - treat an earlier AI output as the original source template
+
+  - id: classificado-semantics-differ-from-reconciliation
+    title: Existing CLASSIFICADO cannot be hijacked for a different verdict
+    prompt: >
+      In our original file CLASSIFICADO means whether a posting was classified
+      by the accountant. Now calculate if shipment amounts reconcile, without
+      requesting any new worksheet columns.
+    activation: should_activate
+    execution_mode: balanced
+    assurance_tier: a2_material
+    tags: [schema-fidelity, semantic-fidelity, reconciliation]
+    must:
+      - keep original CLASSIFICADO values and meaning untouched
+      - compute reconciliation internally or use only an authorized separate output
+      - identify the missing user-approved destination without inventing a column
+    must_not:
+      - replace CLASSIFICADO based on a different SIM/NÃO definition
+      - add CONCILIA as an assumed output slot
+      - declare original workbook preserved when semantics changed
+
+  - id: explicit-authorization-new-output-column
+    title: Additional column is allowed only when actually requested
+    prompt: >
+      In the supplied workbook add a new column exactly named CONCILIA
+      immediately after CLASSIFICADO, keep QTD and EMBARQUE internal,
+      and compute real SIM/NÃO reconciliation outcomes in the added column.
+    activation: should_activate
+    execution_mode: balanced
+    assurance_tier: a2_material
+    tags: [schema-fidelity, native-fidelity, excel]
+    must:
+      - add only the expressly requested column at the requested location
+      - preserve the preexisting CLASSIFICADO column and its meaning
+      - verify formulas values structural diff and native Excel behavior
+    must_not:
+      - create additional QTD EMBARQUE README QA or parameter columns or tabs
+      - alter original data and style outside the authorized scope
+
+  - id: baseline-must-be-original-not-ai-revision
+    title: Validate against the original instead of previous AI version
+    prompt: >
+      The last Codex-generated workbook already contains CONCILIA QTD and
+      EMBARQUE, but the original source had only CLASSIFICADO. Fix the
+      output while preserving the original model.
+    activation: should_activate
+    execution_mode: balanced
+    assurance_tier: a2_material
+    tags: [schema-fidelity, context, review]
+    must:
+      - find and use the actual original source workbook for the schema baseline
+      - detect and remove unrequested derived columns and maintain formulas/data correctly
+      - preserve legitimate source statuses and fields
+    must_not:
+      - accept a previous AI altered file as the original reference
+      - say schema preserved just because consecutive AI versions match
+
+  - id: native-pivot-does-not-allow-unsolicited-columns
+    title: Genuine Excel pivot with original source schema preserved
+    prompt: >
+      Use the existing workbook source to make a real PivotTable from the
+      available fields. Keep the original source sheet headers unchanged,
+      no added QTD/EMBARQUE/CONCILIA just to ease creation.
+    activation: should_activate
+    execution_mode: deep
+    assurance_tier: a2_material
+    tags: [schema-fidelity, native-fidelity, excel]
+    must:
+      - use compatible native Excel APIs and authorized source fields
+      - preserve the original source sheet column names and field semantics
+      - seek explicitly authorized alternative source structures if genuinely required
+      - check both PivotTable functionality and original schema diff
+    must_not:
+      - fake the pivot as a static summary
+      - append helper fields to the existing base without authorization
