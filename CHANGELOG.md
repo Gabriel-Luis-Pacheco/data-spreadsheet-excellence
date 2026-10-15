@@ -1,5 +1,22 @@
 # Changelog
 
+## 11.0.0 — 2026-10-15 — Executable Delivery Contract (first improvement pass)
+
+### Added
+- `references/delivery-contract.md`: task modes, five universal invariants, trusted change contract, distinct business-vs-native assurance.
+- `scripts/verify_delivery.py`: deterministic read-only existing-workbook gate for actual source versus output with explicit permitted cell ranges, headers, sheets, statuses and styles.
+- `tests/test_delivery_contract.py`: synthetic XLSX fixtures for original-vs-output edits and known bad outcomes.
+- `assets/delivery-contract.example.json`: reusable JSON contract example.
+
+### Improved
+- Condensed repeated specific anti-patterns at the top of SKILL.md into a universal contract with specialized references.
+- Agent and harness now prioritize actual execution of the gate over merely stating it was validated.
+- Separate editing existing workbooks from building a new derived analysis or intentional redesign.
+
+### Boundaries
+- This first-pass verifier checks the allowed structural/content/style scope, not actual human authorization, semantics, or target Excel UI behavior. Review and additional validation are still required for higher-assurance work.
+
+
 ## 10.0.0 — 2026-10-15 — Source-Schema Fidelity & Minimal Authorized Edits
 
 ### Critical correction
