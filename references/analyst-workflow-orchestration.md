@@ -49,6 +49,8 @@ Make the **first usable result** promptly, then improve only if needed to meet t
 
 ## 4. Reconciliation closure and false-final prevention
 
+Before parallel investigation or drafting the report, inspect the **real original workbook schema** and preexisting meanings. Workers may create derived `EMBARQUE` or `QTD` variables for analysis, but should not write or propose new final columns by default. The lead integrator checks each proposed output against `references/source-schema-contract.md`. Do not let a previous AI-created version silently become the reference baseline.
+
 When a task includes allowed statuses such as `SIM/NÃO`, investigate eligibility/key coverage before declaring a confirmed final count. Check all material candidate columns, including alternate ID-bearing fields when present, rather than concluding missing records from one searched column. Verify `NÃO` represents evaluated failures; do not conflate excluded, missing-key or malformed references with a negative verdict. Preserve source-to-eligible/excluded count and amount bridge, and don't turn an internal exception label into an unauthorized workbook status. Run the focused `scripts/check_status_values.py` checker if useful, plus a targeted semantic sample. See `references/closed-status-reconciliation.md`.
 
 ## 5. Evidence-based tests, not ritual
@@ -58,7 +60,7 @@ Select the **minimum set of independent checks that covers plausible costly fail
 Examples:
 - simple CSV transform: row count, a few representative calculated values, schema/encoding check;
 - period reconciliation: input/output counts, unmatched count/value, control totals, duplicate keys, representative exception spot checks;
-- existing workbook edit: preservation diff + target cell/formula inspection; check Excel recalculation if required by fidelity;
+- existing workbook edit: original-vs-final **sheet/header schema diff** + visual/formula preservation + targeted cell/semantic inspection; check Excel recalculation if required by fidelity;
 - dashboard/report: numerical source tie-out + a visual/readability check + a human-deliverable check;
 - high-risk statutory output: independently recompute key controls, confirm period/regime/source, and retain evidence.
 
