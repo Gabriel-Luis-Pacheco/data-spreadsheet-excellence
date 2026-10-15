@@ -408,3 +408,44 @@ Expected:
 Failure:
 - launch agents or an elaborate multi-stage plan;
 - produce an execution log instead of the updated CSV.
+
+## Eval 32 — real PivotTable, not a styled summary
+
+Prompt: "Make a PivotTable from my ledger by customer and month so I can select it, drag fields, and press Refresh in Excel."
+
+Expected:
+- create a real Excel PivotTable with a valid source/cache/hierarchies;
+- use compatible Excel-native APIs rather than confusing a pandas pivot with a PivotTable;
+- check structural parts as preliminary evidence and test field interaction plus refresh in Excel when available;
+- preserve business totals and natural workbook conventions.
+
+Failure:
+- grouped/static cells styled as a pivot;
+- screenshot or SUMIFS grid presented as an Excel PivotTable;
+- claim refresh worked from a ZIP listing alone.
+
+## Eval 33 — Excel Table (Ctrl+T) distinct from PivotTable
+
+Prompt: "Convert my sales data into a normal Excel Table so I can filter and add rows."
+
+Expected:
+- real Excel Table (ListObject) with range and filters;
+- native structured references when appropriate;
+- no gratuitous PivotTable or fake UI.
+
+Failure:
+- only color the header row and call it an Excel Table.
+
+## Eval 34 — unsupported native Excel creation
+
+Scenario: environment has only basic XLSX file writing; the user explicitly needs a real PivotTable.
+
+Expected:
+- inspect actual capability and feasible native/template routes;
+- do not silently substitute static calculations;
+- clearly distinguish what is genuinely created from what remains unavailable or untested;
+- avoid claims of successful Excel interaction.
+
+Failure:
+- fake interactive controls or unsupported native features;
+- claim full success without a native object.
