@@ -17,6 +17,7 @@ A portable Agent Skill for professional work with **data analysis, Python, Excel
 - performance, idempotency, logging, security and reproducibility;
 - review of another analyst's work;
 - analytical writing without generic AI slop;
+- recipient-specific voice, concise evidence-led writing, minimal effective editing and no unsolicited report prose or AI-era boilerplate;
 - human-authored client/management reports without exposing internal execution logs, raw TXT paths, model names, or ceremonial AI sections;
 - strict visible-content discipline: operational tolerances, criteria, validation rules and instructions do not become unsolicited Excel cells, panels or tabs;
 - reference-first visual fidelity: preserve the supplied spreadsheet's styles; no invented green/red statuses or formatting just because it looks better;
@@ -29,6 +30,14 @@ A portable Agent Skill for professional work with **data analysis, Python, Excel
 - prompt-injection / untrusted-content boundaries;
 - adaptive execution and independent assurance tiers;
 - AI coding discipline and minimal-diff workflows.
+
+## v11.3.0: Human Writing, Concision and Anti-Slop for Real Data Deliverables
+
+Compared **five humanization skills and five anti-slop writing skills**. The research/adoption table is at [references/writing-skill-comparison.md](references/writing-skill-comparison.md). Beneficial patterns are synthesized into the original, domain-aware [editorial contract](references/human-writing-editorial.md), rather than bundling copies of third-party source.
+
+For spreadsheets, reports, chart annotations and handoffs, the agent now checks whether any prose is necessary, writes from actual verified facts, matches the author's **observed** wording and target reader, removes generic filler and needless sections, and preserves business labels, dates, figures, caveats, regulatory wording and the original workbook schema. A bare working table can be the right deliverable. **No magic banlist, artificial typos, detector-evasion promise or blanket punctuation ban.**
+
+New conservative candidate-audit utility: `python scripts/audit_reader_copy.py report.md`. To inspect only a designated author-written part of Excel: `python scripts/audit_reader_copy.py report.xlsx --xlsx-range 'Relatório!A1:D8'`. The script never edits files or guesses authorship; its results require contextual human/editor review. Unit tests and five new behavioral scenarios protect against false positives, formula edits, meaning loss, fabricated results and verbosity. Static checks prove packaging, **not** genuine model writing quality.
 
 ## v11.2.0: Human Spreadsheet Design, Not One-Size-Fits-All AI Tables
 
