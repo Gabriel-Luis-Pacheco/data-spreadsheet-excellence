@@ -6,6 +6,12 @@ A beautiful spreadsheet is not a colorful spreadsheet. It is an information inte
 
 If there is an original workbook or template, this guide's recommendations do **not** authorize extra colors, headings, borders or formatting changes. **Match the model first.** The absence of green on `SIM` or red on `NÃO` is not a flaw; a plain textual classification can be complete. Do not add conditional-format rules where none existed unless specifically asked or narrowly necessary. See `references/template-fidelity.md`. When producing a new workbook from scratch or explicitly redesigning, use the following principles.
 
+## 0.1 Default-visual anti-slop gate for newly designed worksheets
+
+"Professional" is not an Excel palette. Do not automatically make every workbook a navy-header, aqua-banded table. This repetitive look can be distracting or artificial on routine finance/operations sheets, particularly when important text is clipped. For CREATE_NEW, DERIVED_REPORT and EXPLICIT_REDESIGN choose the visual structure from the user's actual use case, not a template preset. Use a plain, neutral, Excel-native appearance as the *fallback* for working ledgers and reconciliations; reserve colored bands and styled Tables for workflows where they actually help. Inspect meaningful description lengths, header widths, localized numeric formats, and the first viewport in the real result. **Never treat this as permission to recolor an existing source.** The source workbook's original design still wins unless a redesign was explicitly requested.
+
+See `references/human-spreadsheet-design.md` for layout archetypes, anti-patterns and artifact-level visual acceptance checks.
+
 ## 1. Design from the user task
 
 Identify whether the artifact is an operational table, review/audit workbook, management report, executive dashboard, financial model, published statistical table, or ad hoc analysis. Each needs a different density and interaction model.
