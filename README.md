@@ -20,6 +20,7 @@ A portable Agent Skill for professional work with **data analysis, Python, Excel
 - human-authored client/management reports without exposing internal execution logs, raw TXT paths, model names, or ceremonial AI sections;
 - strict visible-content discipline: operational tolerances, criteria, validation rules and instructions do not become unsolicited Excel cells, panels or tabs;
 - reference-first visual fidelity: preserve the supplied spreadsheet's styles; no invented green/red statuses or formatting just because it looks better;
+- human-first new spreadsheet design: avoid default AI-looking navy-and-cyan zebra tables, clipped descriptions, decorative dashboards and wrong-locale number display;
 - strict business-status vocabularies: no unsolicited REVISAR, no invalid/ignored identifiers forced into NÃO, traceable classification eligibility and investigated alternate key fields;
 - original-schema fidelity: original fields/semantics/worksheet structure are authoritative, no invented CONCILIA/QTD/EMBARQUE additions or repurposed CLASSIFICADO;
 - proactive domain/source/template discovery, parallel independent agent research, and risk-based validation without ritual testing;
@@ -28,6 +29,12 @@ A portable Agent Skill for professional work with **data analysis, Python, Excel
 - prompt-injection / untrusted-content boundaries;
 - adaptive execution and independent assurance tiers;
 - AI coding discipline and minimal-diff workflows.
+
+## v11.2: Human Spreadsheet Design, Not One-Size-Fits-All AI Tables
+
+For **new** reports and deliberate redesigns, the skill now explicitly rejects the repeated "dark navy header + bright aqua striped rows" preset as a default. Working ledgers, fiscal reconciliations, analytical reports and executive dashboards each require a different visual approach. Default operational sheets favor familiar, neutral Excel conventions over decorative dressing.
+
+A new anti-template contract checks header and description clipping, locale-correct **numeric** presentation (including Brazilian financial formats), justified visual emphasis, human-purposeful field placement, and actual workbook rendering. Crucially, this **does not overwrite a supplied original's colors or layout** during an ordinary edit. See `references/human-spreadsheet-design.md`, the extended F2 quality gates and three new artifact-scored evaluation scenarios. These policies have been implemented, but model-level visual quality is not proven until scored on genuine generated XLSX outputs.
 
 ## v11.1: Second Review, Stronger Gate & Real-Codex Evaluation Path
 
