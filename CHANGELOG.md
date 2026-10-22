@@ -1,5 +1,21 @@
 # Changelog
 
+## 11.3.0 — 2026-10-22 — Human Writing & Editorial Anti-Slop
+
+### Research and integration
+- Compared five humanizer skills and five anti-slop writing skills, with upstream links, useful patterns, adopted guidance and rejected overconstraints in `references/writing-skill-comparison.md`.
+- Added `references/human-writing-editorial.md` to specify audience voice, factual fidelity, natural PT-BR, minimal edits, legitimate uncertainty and criteria for omitting unnecessary prose entirely.
+- Applied the contract to the root skill, human deliverables, writing review, agent prompt and Gate K for substantive writing.
+
+### Optional text QA and regression coverage
+- Added `scripts/audit_reader_copy.py` for narrowly scoped, advisory phrase detection in written Markdown/text or **explicitly selected** XLSX prose regions. Never automatically rewrite source data. No AI authorship or detector-confidence claims.
+- Added `tests/test_reader_copy_audit.py`, five behavioral evaluation cases and their full descriptions, plus reference/utility presence checks.
+
+### Intentional constraints and remaining evidence
+- Did not copy vendor skill texts, import global banned-word lists, require fake personality or punctuation quotas, insert scores into reports, create extra spreadsheet sections, or claim detector evasion.
+- CI covers structural and deterministic behavior; actual quality must be measured on real model-produced workbook/report fixtures.
+
+
 ## 11.2.0 — 2026-10-22 — Human Spreadsheet Visual Design & Anti-Template QA
 
 ### Added
