@@ -81,11 +81,18 @@ Choose gates by **assurance tier**, not by ritual. High consequence can require 
 - [ ] original preserved
 
 ## Gate G — Workbook F2
+- [ ] for CREATE_NEW / DERIVED_REPORT / EXPLICIT_REDESIGN: selected a layout matching the reader's work, rather than an auto-applied dark-header/bright-zebra preset
+- [ ] for those modes: every essential header, ordinary description and representative long cell was checked for clipping in an opened/rendered real sheet
+- [ ] for those modes: color, boxes, merged banners and summary cards were added only when justified by actual information use
+- [ ] for pt-BR audiences: numeric cells remain numeric and use coherent thousands/decimal separators, dates and currency treatment; no US-style presentation by accident
+- [ ] for EDIT_EXISTING: none of these aesthetic preferences was used to overrule original style fidelity
+
 - [ ] original template styles/visual hierarchy retained unless a change was requested or materially necessary
 - [ ] no unsolicited green `SIM` cells, red `NÃO` cells, status font colors, banding, borders, decorative formatting or new CF rules
 - [ ] unexpected fills, fonts, conditional-formatting and layout differences from source reviewed/removed
 - [ ] opened/rendered for visual QA
 - [ ] widths/heights/wrap checked
+- [ ] human spreadsheet visual gate reviewed against `references/human-spreadsheet-design.md` when designing/redesigning
 - [ ] chart axes/labels/titles checked
 - [ ] visual hierarchy clear
 - [ ] print/PDF checked if relevant
