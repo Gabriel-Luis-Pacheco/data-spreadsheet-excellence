@@ -46,6 +46,10 @@ Ask:
 - is a table better than prose?
 - is the heading carrying its share?
 
+## 5.1. Voice and minimal-effective-edit gate
+
+A business label or one-sentence finding can be the entire writing task. Do not expand it into an executive report for the sake of polish. When rewriting an existing report, preserve its actual author voice, approved terminology, business meaning, exact figures and required caveats. A good line can remain unchanged. Distinguish **audit-only** (show observed issues and fixes) from **rewrite** (supply the revised copy). Do not expose an editorial scorecard to the intended spreadsheet/report reader. See `references/human-writing-editorial.md` for positive/negative cases, rhetorical-pattern warnings, and the word/formatting-preservation exceptions.
+
 ## 6. Anti-slop phrase watchlist
 
 Review phrases such as:
