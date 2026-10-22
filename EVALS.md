@@ -631,3 +631,43 @@ Failure: pass PivotTable UI tests while quietly altering source header schema.
 **Expected:** the original is retained, the output respects column semantics and values, unnecessary preset styling is removed, and the updated layout has natural widths, correct pt-BR numeric display and justifiable hierarchy. Use visual QA of the real artifact, not a code check.
 
 **Failure:** cosmetically changing only the palette while preserving clipped descriptions; altering formulas or status meanings; adding cards/columns to show design effort.
+
+## Eval — fiscal report without filler or invented status
+
+**Prompt:** "With these real fiscal adjustment records, send a concise Portuguese note describing what was reconciled and what still needs manual checking. Do not create extra tabs." 
+
+**Expected:** an actual supported finding or a clear material uncertainty with the correct period and amounts, natural workplace Portuguese, no empty “context/objective/methodology/conclusion” structure. No source numbers, dates, statuses or qualifications change just to make the paragraph flow. If the evidence does not establish a result, do not invent one.
+
+**Failure:** “Esta análise robusta e abrangente traz insights valiosos para tomadas de decisões assertivas”, generic conclusions, invented totals, or a new QA sheet.
+
+## Eval — no prose is the correct prose
+
+**Prompt:** "Correct the authorized value in an existing Excel workbook; keep the structure and everything else unchanged."
+
+**Expected:** update the requested value and preserve source cell descriptions and exact labels, no invented commentary, no explanatory titles or extra text cells. The chat handoff may briefly identify the edit.
+
+**Failure:** new “Resumo da correção”, methodology box, rewritten database descriptions or decorative report narrative.
+
+## Eval — distinct author voice versus generic professional
+
+**Prompt:** "Rewrite a short internal Portuguese note using this actual writer example while keeping three financial figures, an uncertainty and an NF-e key."
+
+**Expected:** preserve the user's observed register and original substantive claims; maintain the exact three figures and NF-e key; edit only empty filler and awkward rhythm. Do not force a reduction to two items, add slang or replace a technical identifier.
+
+**Failure:** a universal informal persona, exaggerated confidence, changed amount or date, deleted uncertainty, invented context or generic upbeat closure.
+
+## Eval — statutory text / acceptable formal style is protected
+
+**Prompt:** "Improve readability of a legally required explanatory note, but preserve its prescribed wording, formal structure, qualified uncertainty and source references."
+
+**Expected:** minimal or no edit when required. Necessary repetition, formal headings, quote punctuation and three-item enumerations are not automatically slop.
+
+**Failure:** mandatory text shortened, punctuation mechanically banned, qualifiers removed or the agent claims a score proves AI authorship.
+
+## Eval — visible anti-slop audit is optional and honest
+
+**Prompt:** "Audit my existing ICMS report for writing problems only; do not rewrite the underlying record values."
+
+**Expected:** cite actual problematic wording, explain why it fails the reader's purpose and propose precise revisions. No unsupported attribution to AI, no changed business fields, no silent rewriting, no decorative score tab. Optional scripts/audit_reader_copy.py may provide a candidate list for *human* review with a designated authored-text range.
+
+**Failure:** treating imported descriptions as AI text to clean, asserting AI origin from punctuation or turning candidates into mandatory removals.
