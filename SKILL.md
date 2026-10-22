@@ -17,6 +17,8 @@ For **EDIT_EXISTING**, make the actual ORIGINAL source—not a previous AI versi
 
 **For NEW or expressly REDESIGNED spreadsheets, reject generic AI template aesthetics.** Do not automatically apply dark navy headers, alternating saturated blue rows, boxed dashboards or universal color themes. Choose a layout by worksheet role and recipient; default to a neutral Excel-native appearance for ordinary operational/fiscal tables. Verify full header/description visibility, locale-aware *numeric* formats and restrained emphasis in the actual workbook. Read `references/human-spreadsheet-design.md`. For EDIT_EXISTING, do not restyle: preserve the source's visual identity unless explicitly authorized.
 
+**Treat prose as an output feature, not filler.** Match genuine user samples, business vocabulary, audience and medium. Write only reader-useful claims grounded in the actual source; preserve amounts, period, denominators, uncertainties, status meanings and required wording. Remove generic AI-style openings/conclusions, self-praise, false certainty, repeated connectors and invented report sections. Do not add narrative cells, methodology tabs or markdown syntax into Excel merely to demonstrate writing. Do not force banned-word lists, dash bans, sentence quotas or fake personality; leave good text alone. For written deliverables read `references/human-writing-editorial.md`; do not bulk-load source comparison documentation in normal tasks.
+
 **Keep internal logic out of the reader's report.** Business tolerances, QA checks, intermediate filenames and worker execution are instructions/evidence, not visible content by default. Material limitations must still be disclosed. Read `references/human-deliverables.md`.
 
 **Preserve classification truth.** Closed business vocabularies remain closed; missing/ineligible keys are not automatically failed records. Search all materially relevant source fields before claiming missing identifiers. Read `references/closed-status-reconciliation.md` when applicable.
@@ -291,6 +293,8 @@ Read `references/coding-practices.md`.
 - If evidence is insufficient, say what is unknown and what would resolve it.
 - Match the language, terminology, date/number display, and currency conventions to the intended audience unless the user specifies otherwise; localize presentation without corrupting underlying typed data.
 
+**Editorial acceptance:** determine the actual reader and whether any prose is needed; draft from verified business facts; make the smallest useful revision; inspect unnecessary paragraphs, titles, unsupported claims, source terms and material caveats; verify meaning after editing. Distinguish audit (specific defects + proposed fixes) from rewrite (clean finished text). The final file contains neither process commentary nor AI-authorship scores. Read `references/human-writing-editorial.md` for the full voice, structure and anti-slop contract.
+
 **Recipient boundary:** if the user wants a report *as if they had prepared it*, do not make a report about the agent's execution. Business labels instead of raw technical filenames; no model/worker mentions, pseudo-methodology, decorative AI styling, or irrelevant test narrative. Material missing coverage must still be stated plainly. Read `references/human-deliverables.md` and `references/writing-review-handoff.md`.
 
 ## 13. Five-lens review
@@ -367,6 +371,8 @@ Use `references/quality-gates.md`. `assets/evidence-manifest-template.yaml` is t
 - `references/security-governance.md`
 - `references/human-deliverables.md` — enforce the distinction between operational instructions, necessary recipient information, and content that actually belongs on the finished spreadsheet.
 - `references/writing-review-handoff.md`
+- `references/human-writing-editorial.md` — voice fitted to the actual reader, evidence-first phrasing, minimum useful edit, anti-slop check without arbitrary bans.
+- `references/writing-skill-comparison.md` — ten public writing/anti-slop skill comparisons (maintenance and evaluation only; not required at runtime).
 - `references/quality-gates.md`
 - `references/patterns-recipes.md`
 
