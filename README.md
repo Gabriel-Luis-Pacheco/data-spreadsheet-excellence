@@ -30,7 +30,7 @@ A portable Agent Skill for professional work with **data analysis, Python, Excel
 - adaptive execution and independent assurance tiers;
 - AI coding discipline and minimal-diff workflows.
 
-## v11.2: Human Spreadsheet Design, Not One-Size-Fits-All AI Tables
+## v11.2.0: Human Spreadsheet Design, Not One-Size-Fits-All AI Tables
 
 For **new** reports and deliberate redesigns, the skill now explicitly rejects the repeated "dark navy header + bright aqua striped rows" preset as a default. Working ledgers, fiscal reconciliations, analytical reports and executive dashboards each require a different visual approach. Default operational sheets favor familiar, neutral Excel conventions over decorative dressing.
 
