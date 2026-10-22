@@ -78,6 +78,10 @@ If the user supplies an Excel model, **keep its actual appearance**. Do not intr
 
 Compare the actual source to the final output: any new `EMBARQUE`, `QTD`, `CONCILIA`, other helper column or unrequested sheet is an error even if the values are correct. User-supplied original labels such as `CLASSIFICADO` should be preserved **without changing their meaning**. See `references/source-schema-contract.md`.
 
+### Written language is a visible surface, not an excuse for a new report
+
+For any author-generated title, caption, observation, recommendation, chart note or accompanying text, use `references/human-writing-editorial.md` and match the actual working context. Existing database descriptions and fixed fiscal status values must not be rewritten by a 'humanizer'. If the user asked only for numeric outputs, do not manufacture prose. Do not use ritual headings, boilerplate conclusions, forced upbeat summaries, decorative Markdown, or execution recap to make a brief result look comprehensive. Include required source scope and material exceptions when those change interpretation. A bare report is acceptable when bare content is what the recipient needs.
+
 ## 5. Write the way a competent analyst would
 
 - Use factual, natural, direct prose, appropriate for the author's language (for PT-BR, normal business Portuguese).
