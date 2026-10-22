@@ -138,6 +138,14 @@ Choose gates by **assurance tier**, not by ritual. High consequence can require 
 - [ ] exceptions easy to find
 
 ## Gate K — Writing
+- [ ] no prose added when user only asked for working data, existing cells or a calculation
+- [ ] reader-facing claims, figures, dates, names and qualifiers match underlying records; no invented evidence
+- [ ] established author voice/business terminology used where known, without fabricated personal style
+- [ ] no ceremonial opening, empty methodology, inflated benefit claims, formulaic conclusion, repeated transitions or incidental execution narrative
+- [ ] no gratuitous new spreadsheet notes, titles, legends, QA cells, Markdown markers, or prose-only tabs
+- [ ] significant uncertainty, coverage limits, mandatory technical/regulatory wording and necessary disclosures preserved
+- [ ] no universal word/punctuation bans or fake human typos; already-good text left unchanged
+- [ ] editor checked actual recipient-written text according to `references/human-writing-editorial.md`; do not treat static score as AI attribution
 - [ ] answer first where appropriate
 - [ ] claims tied to evidence
 - [ ] fact vs interpretation separated
