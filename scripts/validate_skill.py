@@ -84,6 +84,7 @@ def main() -> int:
         "references/native-excel-fidelity.md",
         "references/excel-compatibility.md",
         "references/visual-design-reporting.md",
+        "references/human-spreadsheet-design.md",
         "references/template-fidelity.md",
         "references/automation-performance.md",
         "references/security-governance.md",
