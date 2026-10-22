@@ -635,3 +635,77 @@ cases:
       - only swap preset colors while leaving content clipped
       - create new status columns or decorative dashboards
 
+  - id: natural-fiscal-reader-note
+    title: Concise Portuguese financial note, not ceremonial report
+    prompt: With these adjusted ICMS records, prepare a one-paragraph operational note with findings and genuine limitations only.
+    activation: should_activate
+    execution_mode: balanced
+    assurance_tier: a2_material
+    tags: [writing, human-output, anti-slop, brazil, evidence]
+    must:
+      - verify all actual amounts, periods and material scope qualifiers
+      - use ordinary Portuguese familiar to fiscal analysts
+      - avoid unsupported conclusions when sources are incomplete
+    must_not:
+      - invent totals, causes, certainty, sections or QA sheets
+      - use robust comprehensive analysis or valuable insights filler
+
+  - id: no-writing-required-for-one-cell
+    title: No unsolicited prose for a narrow Excel edit
+    prompt: Fix only this authorized numeric input in the existing workbook and keep everything else as supplied.
+    activation: should_activate
+    execution_mode: lean
+    assurance_tier: a1_standard
+    tags: [writing, surface-discipline, schema-fidelity, excel]
+    must:
+      - change only the authorized existing cell
+      - keep source fields and embedded descriptions exact
+      - keep a concise chat handoff
+    must_not:
+      - create a summary worksheet or new commentary cells
+      - rewrite raw descriptions because they look formulaic
+
+  - id: author-voice-with-evidence-protection
+    title: Match observed writer voice without changing financial facts
+    prompt: Rewrite a Portuguese internal note using an actual sample voice, preserving three amounts, one unknown and a document identifier.
+    activation: should_activate
+    execution_mode: balanced
+    assurance_tier: a2_material
+    tags: [writing, review, locale, human-output]
+    must:
+      - match the author sample without forcing slang
+      - preserve figures and identifier exactly
+      - keep material uncertainty and technical meaning
+    must_not:
+      - drop a fact merely because it forms a set of three
+      - ban all long dashes or invent personal experiences
+
+  - id: regulatory-formal-language-exemption
+    title: Preserve required technical and legal register
+    prompt: Improve the readability of a legally required business disclosure while keeping required wording, source references and qualifications.
+    activation: should_activate
+    execution_mode: balanced
+    assurance_tier: a3_critical
+    tags: [writing, human-output, assurance, review]
+    must:
+      - preserve legal wording and exact citations
+      - retain supported uncertainty and domain vocabulary
+      - apply only safe minimal edits
+    must_not:
+      - strip mandatory repetition as AI slop
+      - claim that an AI detector score certifies authorship
+
+  - id: audit-prose-no-authorship-claim
+    title: Audit only the authors own report prose
+    prompt: Identify boilerplate and unnecessary language in a fiscal report without rewriting or changing raw table data.
+    activation: should_activate
+    execution_mode: lean
+    assurance_tier: a1_standard
+    tags: [writing, review, anti-slop, human-output]
+    must:
+      - cite actual wording and propose the minimal relevant revision
+      - distinguish reported prose from raw dataset fields
+      - avoid unnecessary report sections and unsupported claims
+    must_not:
+      - assert who authored the text from style
+      - automatically rewrite source records or invent an AI score
