@@ -1,5 +1,22 @@
 # Changelog
 
+## 11.2.0 — 2026-10-22 — Human Spreadsheet Visual Design & Anti-Template QA
+
+### Added
+- `references/human-spreadsheet-design.md`: task-specific visual archetypes, neutral operational defaults, anti-preset warnings, clipping/locale checks and artifact-level visual acceptance.
+- Three new behavioral evals for a fresh fiscal ledger, preservation of an existing blue-styled source and an explicitly authorized redesign; corresponding machine-readable eval catalog coverage.
+
+### Changed
+- `SKILL.md` now explicitly routes new / derived / authorized redesign work through the human spreadsheet design contract and real workbook visual QA.
+- Expanded visual and F2 quality gates to flag clipped descriptions, artificial dark-blue/cyan zebra formatting, excessive decorations and Brazilian-number locale errors.
+- Existing workbook style fidelity remains authoritative unless the user explicitly requests or narrowly requires a change.
+- Skill validator now checks that the new design reference exists.
+
+### Evidence limits
+- This release updates policy and evaluation expectations. Static checks cannot prove future agent aesthetics or guarantee improvement over every no-skill run. Compare actual generated XLSX results under controlled eval prompts before claiming that.
+
+
+
 ## 11.1.0 — 2026-10-15 — Second-Pass Audit, Gate Closure and Codex Live Eval
 
 ### Fixed after critical review
