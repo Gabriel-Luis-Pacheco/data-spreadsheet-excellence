@@ -378,6 +378,7 @@ Use `references/quality-gates.md`. `assets/evidence-manifest-template.yaml` is t
 
 **Deterministic QA utilities**
 - `scripts/verify_delivery.py` — fail-closed user-output QA for existing Excel workbooks with trusted change contract.
+- `scripts/audit_reader_copy.py` — advisory detector of high-confidence filler and Markdown leakage in author-written prose; Excel scanning requires an explicitly designated range and does not rewrite source data.
 - `scripts/live_eval_fixture.py` — generate isolated XLSX task fixture and score actual Codex-produced output, without launching Codex in CI.
 - `scripts/check_workbook_schema.py` — flag unauthorized sheet and header changes versus the original workbook.
 - `scripts/tabular_diff.py` — privacy-conscious before/after semantic diff for tabular data.
