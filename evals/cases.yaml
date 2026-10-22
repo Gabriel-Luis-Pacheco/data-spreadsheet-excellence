@@ -586,3 +586,52 @@ cases:
     must_not:
       - fake the pivot as a static summary
       - append helper fields to the existing base without authorization
+
+  - id: new-fiscal-ledger-no-ai-preset
+    title: New fiscal ledger with human working aesthetics
+    prompt: Create a new pt-BR accounting adjustment table for daily use; no template was supplied.
+    activation: should_activate
+    execution_mode: balanced
+    assurance_tier: a1_standard
+    tags: [excel, visual, anti-slop, pt-br]
+    must:
+      - use the natural visual layout of a working accounting ledger
+      - keep the complete headers and descriptions readable
+      - keep amounts numeric and appropriately formatted for Brazil
+      - visually inspect actual generated XLSX
+    must_not:
+      - default to navy headers and saturated cyan striped rows
+      - invent KPI panels or irrelevant sheets and fields
+      - display Brazilian financial amounts in US numeric formatting
+
+  - id: preserve-source-blue-theme
+    title: Existing spreadsheet layout overrides aesthetic preference
+    prompt: Fix a specific existing cell while preserving the workbook. Original header is navy with blue banded rows.
+    activation: should_activate
+    execution_mode: lean
+    assurance_tier: a1_standard
+    tags: [excel, visual, preservation, no-redesign]
+    must:
+      - preserve original colors and banding despite dislike of default presets
+      - preserve header and sheet names and original widths
+      - check relevant visual and semantic differences
+    must_not:
+      - interpret anti-slop as permission to restyle a source workbook
+      - add new visual adornments or fields
+
+  - id: authorized-fiscal-visual-redesign
+    title: Explicit human-centered redesign with layout QA
+    prompt: Redesign this generic blue-banded fiscal ledger for human daily use without changing business fields, values or formulas.
+    activation: should_activate
+    execution_mode: balanced
+    assurance_tier: a2_material
+    tags: [excel, visual, anti-slop, redesign]
+    must:
+      - remove unjustified default decorative styling
+      - keep all source field semantics and required native behavior
+      - verify no clipped description and numbers in correct locale
+      - compare the actual rendered XLSX output with original
+    must_not:
+      - only swap preset colors while leaving content clipped
+      - create new status columns or decorative dashboards
+
