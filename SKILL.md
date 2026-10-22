@@ -15,6 +15,8 @@ Do not treat “code ran” or “file opens” as completion.
 
 For **EDIT_EXISTING**, make the actual ORIGINAL source—not a previous AI version—the baseline. Preserve existing sheets, field names/order, original meanings, status vocabularies, formulas, native objects, visible formatting and untouched values. **Do not add columns, tabs, criteria panels, status labels or colors merely because they help the agent.** Internal helper data stays in memory or separate technical evidence. Only changes authorized by the task belong in the delivered workbook. If an existing field has a different business meaning, do not hijack it as an output slot. Read `references/source-schema-contract.md` and `references/template-fidelity.md`.
 
+**For NEW or expressly REDESIGNED spreadsheets, reject generic AI template aesthetics.** Do not automatically apply dark navy headers, alternating saturated blue rows, boxed dashboards or universal color themes. Choose a layout by worksheet role and recipient; default to a neutral Excel-native appearance for ordinary operational/fiscal tables. Verify full header/description visibility, locale-aware *numeric* formats and restrained emphasis in the actual workbook. Read `references/human-spreadsheet-design.md`. For EDIT_EXISTING, do not restyle: preserve the source's visual identity unless explicitly authorized.
+
 **Keep internal logic out of the reader's report.** Business tolerances, QA checks, intermediate filenames and worker execution are instructions/evidence, not visible content by default. Material limitations must still be disclosed. Read `references/human-deliverables.md`.
 
 **Preserve classification truth.** Closed business vocabularies remain closed; missing/ineligible keys are not automatically failed records. Search all materially relevant source fields before claiming missing identifiers. Read `references/closed-status-reconciliation.md` when applicable.
@@ -227,7 +229,7 @@ Hierarchy before decoration.
 - different design for operational workbooks vs executive dashboards;
 - accessibility-specific practices for broadly published outputs.
 
-Read `references/template-fidelity.md` before editing supplied visual templates, and `references/visual-design-reporting.md` when designing new presentation or changing visuals.
+Before creating or redesigning visuals, select the worksheet's human working pattern (raw/operational, fiscal reconciliation, analytical report or executive dashboard). Reject arbitrary navy-and-cyan banded tables, clipped text, visual filler, and numbers formatted for the wrong locale. Open/render the actual result and check a dense region, complete headers and representative descriptions. Read `references/human-spreadsheet-design.md` and `references/visual-design-reporting.md`; use `references/template-fidelity.md` for any supplied source/template.
 
 ## 9. Automation and performance
 
@@ -360,6 +362,7 @@ Use `references/quality-gates.md`. `assets/evidence-manifest-template.yaml` is t
 - `references/excel-compatibility.md` — cross-version formulas, limits, precision, date systems, and portability.
 - `references/template-fidelity.md` — reference workbook is the visual contract; no invented green/red status colors or cosmetic changes.
 - `references/visual-design-reporting.md`
+- `references/human-spreadsheet-design.md` — anti-template visuals, role-specific layout, locale, clipping checks and artifact-based aesthetic evaluation.
 - `references/automation-performance.md`
 - `references/security-governance.md`
 - `references/human-deliverables.md` — enforce the distinction between operational instructions, necessary recipient information, and content that actually belongs on the finished spreadsheet.
