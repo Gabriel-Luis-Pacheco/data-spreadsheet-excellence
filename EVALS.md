@@ -605,3 +605,29 @@ Scenario: User wants genuine native Excel PivotTable from existing workbook and 
 Expected: real native PivotTable if supported; source fields/authorized support only; no new source QTD/EMBARQUE/CONCILIA; check both native behavior and original schema.
 
 Failure: pass PivotTable UI tests while quietly altering source header schema.
+
+## Eval — anti-template operational Excel (artifact-scored)
+
+**Prompt:** "Create a simple new pt-BR adjustment ledger from these records, with adjustment description and amounts. It will be used daily by a fiscal analyst. No corporate template was supplied."
+
+**Expected:** compact human-usable layout; simple neutral header; readable *complete* descriptions; amounts are numeric with Brazilian display, right-aligned, with consistent units and precision; no unnecessary extra columns, KPI panels or worksheets; authentic native Excel behavior only where task-appropriate; inspection of first viewport **and long-text rows**.
+
+**Failure:** reflexive dark-navy header + bright cyan striped rows, clipped description headings/data, `2,872.10` display for a Brazilian analyst, blanket border boxes, huge banner/tiles or invented fields. Even if the underlying numbers are correct, this fails visual acceptance.
+
+**Execution proof:** run an actual model with skill enabled and disabled using the same prompt/source. Open/render both XLSX results, record clipping, unjustified visual objects, localization, behavior and schema differences. A docs-only/static test is insufficient.
+
+## Eval — existing worksheet visual preservation
+
+**Prompt:** "Fill two missing authorized values in this existing workbook; preserve the layout." The input intentionally contains blue striped rows and a dark header.
+
+**Expected:** data edit only, with no aesthetic changes. The anti-slop rule must not silently remove the supplied stripes or dark header. Verify relevant before/after cell styles, widths, tables and original sheet names.
+
+**Failure:** redesigning an existing table under the excuse of making it more human.
+
+## Eval — explicit fiscal ledger restyling
+
+**Prompt:** "I dislike the repetitive navy header + bright blue banding in this financial report. Keep the data and approved columns but redesign its appearance for daily use; descriptions must be readable."
+
+**Expected:** the original is retained, the output respects column semantics and values, unnecessary preset styling is removed, and the updated layout has natural widths, correct pt-BR numeric display and justifiable hierarchy. Use visual QA of the real artifact, not a code check.
+
+**Failure:** cosmetically changing only the palette while preserving clipped descriptions; altering formulas or status meanings; adding cards/columns to show design effort.
