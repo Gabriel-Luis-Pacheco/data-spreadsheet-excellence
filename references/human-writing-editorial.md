@@ -103,6 +103,10 @@ Check **written output**, not inherited data:
 
 For an explicit **audit**, cite concrete text spans, explain risk and propose the smallest effective fix. Do not guess whether a human or an AI wrote it. For an explicit **rewrite**, deliver the actual revised text, not a lengthy scorecard unless requested. For ordinary spreadsheet creation, apply the editing silently; never add an AI-slop score tab.
 
+### Optional mechanical candidate scan
+
+For an authored Markdown/text report, use `python scripts/audit_reader_copy.py report.md` to flag a narrow set of high-confidence phrases. For Excel, use `python scripts/audit_reader_copy.py report.xlsx --xlsx-range 'Relatório!A1:D8'` **only when that bounded range contains agent-authored reader text**. Never sweep imported source tables or auto-rewrite cells. The tool prints advisory candidates, not a classifier verdict, and does not change files; `--strict` is opt-in. It is no substitute for fact/source review or human editorial judgment.
+
 ## 9. Cost-conscious execution
 
 LEAN: one silent pass for short text + fact check. BALANCED: drafting and a focused editorial/factual check for substantive text. DEEP/A2–A3: independent review only when risk justifies it. Do not load every source or spawn editors for a one-cell change.
