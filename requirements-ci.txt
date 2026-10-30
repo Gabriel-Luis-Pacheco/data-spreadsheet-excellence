@@ -1,6 +1,6 @@
 # Exact versions used by GitHub Actions for reproducible validation.
 # Dependabot monitors this file for updates.
-pandas==3.0.6
+pandas==3.1.0
 openpyxl==3.1.5
 PyYAML==6.0.3
 numpy==2.5.3
